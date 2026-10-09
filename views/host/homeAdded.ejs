@@ -1,0 +1,419 @@
+<%- include('../partials/head') %>
+  <style>
+    .publish-success-page {
+      min-height: calc(100vh - 160px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px 80px;
+      box-sizing: border-box;
+    }
+
+    .publish-modal-card {
+      width: 100%;
+      max-width: 580px;
+      background: #FFFFFF;
+      border: 1px solid #EBEBEB;
+      border-radius: 28px;
+      padding: 36px 32px;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.08);
+      box-sizing: border-box;
+      position: relative;
+      z-index: 1;
+      animation: popIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes popIn {
+      0% {
+        transform: scale(0.96) translateY(12px);
+        opacity: 0;
+      }
+
+      100% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .publish-celebrate-badge {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
+      border: 3px solid #A7F3D0;
+      color: #059669;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 20px;
+      box-shadow: 0 4px 16px rgba(5, 150, 105, 0.15);
+    }
+
+    .publish-pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #059669;
+      background: #ECFDF5;
+      border: 1px solid #A7F3D0;
+      padding: 5px 14px;
+      border-radius: 9999px;
+      margin-bottom: 12px;
+    }
+
+    .publish-heading {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: #111827;
+      letter-spacing: -0.025em;
+      margin: 0 0 8px;
+      line-height: 1.25;
+      text-align: center;
+    }
+
+    .publish-subtext {
+      font-size: 0.9rem;
+      color: #6B7280;
+      text-align: center;
+      margin: 0 auto 28px;
+      max-width: 440px;
+      line-height: 1.5;
+    }
+
+    /* Property Snapshot Preview Card */
+    .publish-snapshot-box {
+      background: #F9FAFB;
+      border: 1px solid #E5E7EB;
+      border-radius: 20px;
+      padding: 18px;
+      margin-bottom: 24px;
+      box-sizing: border-box;
+    }
+
+    .publish-snapshot-main {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .publish-snapshot-thumb {
+      width: 104px;
+      height: 80px;
+      border-radius: 14px;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: #E5E7EB;
+      border: 1px solid #E5E7EB;
+      display: block;
+    }
+
+    .publish-snapshot-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .publish-snapshot-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #111827;
+      margin: 0 0 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .publish-snapshot-loc {
+      font-size: 0.8rem;
+      color: #6B7280;
+      margin: 0 0 8px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .publish-snapshot-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .publish-snapshot-price {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #111827;
+    }
+
+    .publish-snapshot-rating {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #D97706;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .publish-snapshot-category {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #4B5563;
+      background: #E5E7EB;
+      padding: 2px 8px;
+      border-radius: 9999px;
+    }
+
+    /* Uploaded Photos Strip */
+    .publish-photos-strip {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid #E5E7EB;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .publish-photos-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #6B7280;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .publish-photos-list {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+    }
+
+    .publish-mini-photo {
+      width: 60px;
+      height: 44px;
+      border-radius: 8px;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1px solid #E5E7EB;
+      display: block;
+    }
+
+    /* Host Perks Unlocked */
+    .publish-perks-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .publish-perk-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.82rem;
+      color: #374151;
+    }
+
+    .publish-perk-item i {
+      width: 20px;
+      text-align: center;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+
+    /* Action Buttons */
+    .publish-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn-publish-primary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--airbnb-gradient, linear-gradient(90deg, #E61E4D 0%, #E31C5F 50%, #D70466 100%));
+      color: #FFFFFF;
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 14px 24px;
+      border-radius: 14px;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 14px rgba(230, 30, 77, 0.3);
+      text-align: center;
+    }
+
+    .btn-publish-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(230, 30, 77, 0.4);
+      color: #FFFFFF;
+    }
+
+    .btn-publish-secondary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #FFFFFF;
+      color: #111827;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 12px 24px;
+      border-radius: 14px;
+      border: 1px solid #D1D5DB;
+      text-decoration: none;
+      transition: background-color 0.2s ease;
+      text-align: center;
+    }
+
+    .btn-publish-secondary:hover {
+      background: #F9FAFB;
+      color: #111827;
+    }
+
+    .btn-publish-link {
+      text-align: center;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #6B7280;
+      text-decoration: none;
+      padding-top: 6px;
+      transition: color 0.2s ease;
+    }
+
+    .btn-publish-link:hover {
+      color: #E11D48;
+    }
+  </style>
+  </head>
+
+  <body>
+    <!-- Ambient Atmosphere -->
+    <div class="ambient-glow-1"></div>
+    <div class="ambient-glow-2"></div>
+    <div class="bg-grid-pattern"></div>
+
+    <!-- Airbnb Sticky Navigation -->
+    <%- include('../partials/nav') %>
+
+      <main class="publish-success-page">
+        <div class="publish-modal-card">
+
+          <!-- Celebration Icon -->
+          <div class="publish-celebrate-badge">
+            <i class="fa-solid fa-circle-check"></i>
+          </div>
+
+          <div style="text-align: center;">
+            <span class="publish-pill-badge">
+              <i class="fa-solid fa-sparkles"></i> Listing Published Live
+            </span>
+            <h1 class="publish-heading">
+              Your flat is officially listed!
+            </h1>
+            <p class="publish-subtext">
+              Guests worldwide can now discover and book your stay. Your reservation calendar is active.
+            </p>
+          </div>
+
+          <!-- Listing Snapshot Card -->
+          <% const primaryPhoto=home.photoUrl || (home.photos && home.photos[0]) || '' ; %>
+            <div class="publish-snapshot-box">
+              <div class="publish-snapshot-main">
+                <% if (primaryPhoto) { %>
+                  <img src="<%= primaryPhoto %>" alt="<%= home.houseName %>" class="publish-snapshot-thumb" />
+                  <% } else { %>
+                    <div class="publish-snapshot-thumb"
+                      style="display:flex;align-items:center;justify-content:center;color:#9CA3AF;font-size:1.5rem;">
+                      <i class="fa-solid fa-house"></i>
+                    </div>
+                    <% } %>
+
+                      <div class="publish-snapshot-info">
+                        <h3 class="publish-snapshot-title">
+                          <%= home.houseName %>
+                        </h3>
+                        <p class="publish-snapshot-loc">
+                          <i class="fa-solid fa-location-dot" style="color: #FF385C;"></i>
+                          <span>
+                            <%= home.location %>
+                          </span>
+                        </p>
+                        <div class="publish-snapshot-meta">
+                          <span class="publish-snapshot-price">$<%= home.price %> <span
+                                style="font-size:0.75rem;font-weight:normal;color:#6B7280;">night</span></span>
+                          <span class="publish-snapshot-rating">
+                            <i class="fa-solid fa-star"></i>
+                            <%= home.rating ? Number(home.rating).toFixed(2) : '4.95' %>
+                          </span>
+                          <span class="publish-snapshot-category">
+                            <%= home.category || 'City Flats' %>
+                          </span>
+                        </div>
+                      </div>
+              </div>
+
+              <% if (home.photos && home.photos.length> 1) { %>
+                <div class="publish-photos-strip">
+                  <span class="publish-photos-label">
+                    <i class="fa-solid fa-images" style="color: #FF385C;"></i>
+                    <%= home.photos.length %> Photos:
+                  </span>
+                  <div class="publish-photos-list">
+                    <% home.photos.forEach((p, idx)=> { %>
+                      <img src="<%= p %>" alt="Photo <%= idx + 1 %>" class="publish-mini-photo" />
+                      <% }) %>
+                  </div>
+                </div>
+                <% } %>
+            </div>
+
+            <!-- Key Benefits Unlocked -->
+            <div class="publish-perks-list">
+              <div class="publish-perk-item">
+                <i class="fa-solid fa-shield-halved" style="color: #059669;"></i>
+                <span>Protected by <strong>AirCover for Hosts</strong> automatically ($3M liability coverage)</span>
+              </div>
+              <div class="publish-perk-item">
+                <i class="fa-solid fa-calendar-check" style="color: #2563EB;"></i>
+                <span>Instant reservation enabled with standard 48h cancellation protection</span>
+              </div>
+              <div class="publish-perk-item">
+                <i class="fa-solid fa-bell" style="color: #D97706;"></i>
+                <span>You will receive instant alerts for incoming guest reservations</span>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="publish-actions">
+              <a href="/home/<%= home._id %>" class="btn-publish-primary">
+                <i class="fa-solid fa-eye"></i> View Your Live Listing
+              </a>
+              <a href="/host/host-home-list" class="btn-publish-secondary">
+                <i class="fa-solid fa-chart-line"></i> Go to Host Dashboard
+              </a>
+              <a href="/host/addHome" class="btn-publish-link">
+                + Post another flat or house
+              </a>
+            </div>
+
+        </div>
+      </main>
+
+      <footer class="border-t border-gray-200 bg-gray-50 py-8 text-xs text-gray-500 text-center">
+        <span>© 2026 Airbnb, Inc. · Host Portal</span>
+      </footer>
+  </body>
+
+  </html>

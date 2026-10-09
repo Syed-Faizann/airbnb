@@ -1,0 +1,22 @@
+<% if (isLoggedIn && user && user.userType==='guest' ) { %>
+  <% const isCurrentlyFav=typeof favIds !=='undefined' && favIds.includes(home._id.toString()); %>
+    <% if (isCurrentlyFav) { %>
+      <form action="/favourites/delete/<%= home._id %>" method="POST" style="margin: 0;">
+        <button type="submit" class="btn-card-favourite is-fav" title="Remove from wishlist"
+          aria-label="Remove from wishlist">
+          <i class="fa-solid fa-heart" style="color: #FF385C;"></i>
+        </button>
+      </form>
+      <% } else { %>
+        <form action="/favourite-list" method="POST" style="margin: 0;">
+          <input type="hidden" name="id" value="<%= home._id %>">
+          <button type="submit" class="btn-card-favourite" title="Save to wishlist" aria-label="Save to wishlist">
+            <i class="fa-regular fa-heart" style="color: #222222;"></i>
+          </button>
+        </form>
+        <% } %>
+          <% } else { %>
+            <a href="/login" class="btn-card-favourite" title="Log in to save to wishlist" aria-label="Log in to save">
+              <i class="fa-regular fa-heart" style="color: #222222;"></i>
+            </a>
+            <% } %>

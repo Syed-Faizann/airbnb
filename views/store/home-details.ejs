@@ -1,0 +1,2657 @@
+<%- include('../partials/head') %>
+  <style>
+    /* ==========================================================================
+     AUTHENTIC AIRBNB PROPERTY DETAILS DESIGN SYSTEM
+     ========================================================================== */
+    html {
+      overflow-x: hidden;
+      max-width: 100%;
+    }
+
+    body {
+      overflow-x: hidden !important;
+      max-width: 100vw;
+      position: relative;
+    }
+
+    .property-details-container {
+      width: 100%;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 20px 24px 80px;
+      box-sizing: border-box;
+      overflow-x: clip;
+      min-width: 0;
+    }
+
+    /* Breadcrumb & Top Actions Bar */
+    .property-breadcrumbs-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 12px;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .property-breadcrumbs-trail {
+      display: flex;
+      align-items: center;
+      gap: 6px 8px;
+      font-size: 0.82rem;
+      color: #6B7280;
+      min-width: 0;
+      max-width: 100%;
+      overflow: hidden;
+    }
+
+    .crumb-link {
+      color: #4B5563;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+      transition: color 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .crumb-link:hover {
+      color: #111827;
+    }
+
+    .crumb-sep {
+      color: #D1D5DB;
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    .crumb-loc {
+      color: #6B7280;
+      flex-shrink: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .crumb-title {
+      color: #111827;
+      font-weight: 600;
+      flex-shrink: 2;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .property-top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      min-width: 0;
+    }
+
+    .property-top-actions-buttons {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    /* Gallery Mode Switcher (Showcase vs Split Grid) */
+    .gallery-view-switcher {
+      display: inline-flex;
+      background: #F3F4F6;
+      border: 1px solid #E5E7EB;
+      border-radius: 9999px;
+      padding: 3px;
+      gap: 2px;
+    }
+
+    .view-switch-btn {
+      border: none;
+      background: transparent;
+      color: #4B5563;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 9999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .view-switch-btn.active {
+      background: #FFFFFF;
+      color: #111827;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-top-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #374151;
+      background: #FFFFFF;
+      border: 1px solid #D1D5DB;
+      padding: 7px 14px;
+      border-radius: 9999px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s ease;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+
+    .btn-top-action:hover {
+      background: #F9FAFB;
+      border-color: #9CA3AF;
+      color: #111827;
+    }
+
+    .btn-top-action.saved {
+      background: #FFF1F2;
+      border-color: #FECDD3;
+      color: #E11D48;
+    }
+
+    /* Page Header Title & Rating */
+    .property-hero-header {
+      margin-bottom: 22px;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .property-page-title {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: #111827;
+      letter-spacing: -0.025em;
+      line-height: 1.25;
+      margin: 0 0 10px;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .property-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 8px 12px;
+      font-size: 0.88rem;
+      color: #4B5563;
+      flex-wrap: wrap;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .meta-star-rating {
+      font-weight: 700;
+      color: #111827;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+
+    .meta-dot-sep {
+      color: #D1D5DB;
+    }
+
+    .meta-link {
+      color: #111827;
+      font-weight: 600;
+      text-decoration: underline;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .meta-badge-fav {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      background: #F3F4F6;
+      color: #111827;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      border: 1px solid #E5E7EB;
+      white-space: nowrap;
+    }
+
+    .meta-location {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 600;
+      color: #374151;
+      word-break: break-word;
+    }
+
+    /* ==========================================================================
+     MODE 1: INTERACTIVE FEATURED SHOWCASE (Clear, Uncut, High-Res)
+     ========================================================================== */
+    .gallery-showcase-container {
+      margin-bottom: 32px;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .master-stage-box {
+      position: relative;
+      width: 100%;
+      height: 500px;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #111827;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      cursor: pointer;
+    }
+
+    @media (max-width: 860px) {
+      .master-stage-box {
+        height: 360px !important;
+      }
+    }
+
+    .master-stage-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .master-stage-box:hover .master-stage-img {
+      transform: scale(1.02);
+    }
+
+    .hero-arrow-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      color: #111827;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+      transition: all 0.2s ease;
+      z-index: 5;
+    }
+
+    .hero-arrow-btn:hover {
+      background: #FFFFFF;
+      transform: translateY(-50%) scale(1.08);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+    }
+
+    .hero-arrow-btn.left {
+      left: 16px;
+    }
+
+    .hero-arrow-btn.right {
+      right: 16px;
+    }
+
+    .hero-badge-pill {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: rgba(17, 24, 39, 0.75);
+      backdrop-filter: blur(10px);
+      color: #FFFFFF;
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      letter-spacing: 0.02em;
+      pointer-events: none;
+      z-index: 5;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero-fullscreen-btn {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      color: #111827;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 8px 16px;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      z-index: 5;
+    }
+
+    .hero-fullscreen-btn:hover {
+      background: #FFFFFF;
+      transform: scale(1.04);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+    }
+
+    /* 3 Interactive Cards Below Master Stage */
+    .gallery-cards-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .gallery-card-item {
+      position: relative;
+      height: 180px;
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2.5px solid transparent;
+      background: #F3F4F6;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      min-width: 0;
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 768px) {
+      .gallery-card-item {
+        height: 110px;
+      }
+    }
+
+    .gallery-card-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    }
+
+    .gallery-card-item.active {
+      border-color: #FF385C;
+      box-shadow: 0 6px 20px rgba(255, 56, 92, 0.22);
+      transform: translateY(-2px);
+    }
+
+    .gallery-card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    /* Specific focal point for Photo 3 (Room / Feature) so dining hall & furniture are clearly visible */
+    .gallery-card-img.focal-room {
+      object-position: center 60%;
+    }
+
+    .gallery-card-item:hover .gallery-card-img {
+      transform: scale(1.04);
+    }
+
+    .gallery-card-label {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background: rgba(17, 24, 39, 0.75);
+      backdrop-filter: blur(8px);
+      color: #FFFFFF;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .gallery-card-active-dot {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #FF385C;
+      color: #FFFFFF;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      box-shadow: 0 2px 6px rgba(255, 56, 92, 0.4);
+      z-index: 2;
+    }
+
+    .gallery-card-item.active .gallery-card-active-dot {
+      display: flex;
+    }
+
+    /* ==========================================================================
+     MODE 2: 3-PHOTO SPLIT GRID (Fixed: 3rd photo focal adjusted)
+     ========================================================================== */
+    .gallery-grid-container {
+      display: none;
+      margin-bottom: 32px;
+    }
+
+    .gallery-grid-container.active-mode {
+      display: block;
+    }
+
+    .gallery-showcase-container.active-mode {
+      display: block;
+    }
+
+    .gallery-three-grid-fixed {
+      display: grid;
+      grid-template-columns: 1.5fr 1.1fr;
+      gap: 10px;
+      height: 520px;
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+      background: #F3F4F6;
+    }
+
+    @media (max-width: 860px) {
+      .gallery-three-grid-fixed {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+    }
+
+    .grid-main-slot {
+      position: relative;
+      height: 100%;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .grid-main-slot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .grid-main-slot:hover img {
+      transform: scale(1.025);
+    }
+
+    .grid-side-col {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      gap: 10px;
+      height: 100%;
+    }
+
+    .grid-side-slot {
+      position: relative;
+      height: 100%;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .grid-side-slot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* PHOTO 2: Living Room Center */
+    .grid-side-slot.slot-living img {
+      object-position: center;
+    }
+
+    /* PHOTO 3: Room / Feature - Focal point lowered so dining room, furniture, and chandelier are all visible! */
+    .grid-side-slot.slot-room img {
+      object-position: center 65%;
+    }
+
+    .grid-side-slot:hover img {
+      transform: scale(1.03);
+    }
+
+    /* ==========================================================================
+     2-COLUMN SPLIT LAYOUT (Content Left + Booking Card Right)
+     ========================================================================== */
+    .property-split-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 380px;
+      gap: 56px;
+      align-items: start;
+      box-sizing: border-box;
+      width: 100%;
+      min-width: 0;
+    }
+
+    @media (max-width: 1024px) {
+      .property-split-layout {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+    }
+
+    .property-info-section {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      min-width: 0;
+      width: 100%;
+    }
+
+    /* Host Banner */
+    .host-banner-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 24px;
+      border-bottom: 1px solid #E5E7EB;
+      gap: 16px;
+      width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+
+    .host-banner-card>div:first-child {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .host-banner-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #111827;
+      margin: 0 0 6px;
+      line-height: 1.3;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .host-banner-stats {
+      font-size: 0.9rem;
+      color: #6B7280;
+      margin: 0;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .host-avatar-large {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--airbnb-gradient, linear-gradient(90deg, #E61E4D 0%, #E31C5F 50%, #D70466 100%));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFFFFF;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(230, 30, 77, 0.25);
+    }
+
+    /* Property Perks */
+    .highlight-perks-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid #E5E7EB;
+    }
+
+    .perk-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .perk-icon-box {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: #F9FAFB;
+      border: 1px solid #E5E7EB;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FF385C;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .perk-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #111827;
+      margin: 0 0 2px;
+    }
+
+    .perk-desc {
+      font-size: 0.85rem;
+      color: #6B7280;
+      margin: 0;
+      line-height: 1.45;
+    }
+
+    /* Section Blocks */
+    .property-section-block {
+      padding-bottom: 28px;
+      border-bottom: 1px solid #E5E7EB;
+    }
+
+    .section-block-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #111827;
+      margin: 0 0 14px;
+    }
+
+    .section-block-body {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: #374151;
+      margin: 0;
+    }
+
+    /* Sleeping Arrangements */
+    .sleeping-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .sleeping-card {
+      padding: 20px;
+      border-radius: 16px;
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    }
+
+    .sleeping-card i {
+      font-size: 1.3rem;
+      color: #FF385C;
+      margin-bottom: 4px;
+    }
+
+    .sleeping-card-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #111827;
+      margin: 0;
+    }
+
+    .sleeping-card-desc {
+      font-size: 0.8rem;
+      color: #6B7280;
+      margin: 0;
+    }
+
+    /* Amenities */
+    .amenities-grid-clean {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .amenities-grid-clean {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .amenity-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.9rem;
+      color: #374151;
+    }
+
+    .amenity-row i {
+      width: 22px;
+      font-size: 1.1rem;
+      color: #111827;
+      text-align: center;
+    }
+
+    /* Reviews */
+    .review-bars-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px 32px;
+      font-size: 0.85rem;
+      color: #4B5563;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 600px) {
+      .review-bars-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .review-bar-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .review-cards-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 700px) {
+      .review-cards-list {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .guest-review-box {
+      padding: 18px;
+      border-radius: 16px;
+      background: #F9FAFB;
+      border: 1px solid #E5E7EB;
+    }
+
+    .guest-review-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .guest-avatar-mini {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #FEE2E2;
+      color: #E11D48;
+      font-weight: 700;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .guest-name {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #111827;
+      margin: 0;
+    }
+
+    .guest-date {
+      font-size: 0.72rem;
+      color: #9CA3AF;
+      margin: 0;
+    }
+
+    .guest-comment {
+      font-size: 0.82rem;
+      color: #4B5563;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* ==========================================================================
+     STICKY BOOKING CARD (Right Column)
+     ========================================================================== */
+    .sticky-booking-card {
+      position: sticky;
+      top: 96px;
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 24px;
+      padding: 26px 24px;
+      box-shadow: 0 10px 32px rgba(0, 0, 0, 0.08);
+      box-sizing: border-box;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .booking-card-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .booking-price-large {
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: #111827;
+    }
+
+    .booking-price-period {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: #6B7280;
+    }
+
+    .booking-rating-pill {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #111827;
+      white-space: nowrap;
+    }
+
+    .booking-dates-box {
+      border: 1px solid #D1D5DB;
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 18px;
+      background: #FFFFFF;
+      width: 100%;
+      box-sizing: border-box;
+      min-width: 0;
+    }
+
+    .booking-dates-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: 1px solid #E5E7EB;
+      width: 100%;
+      box-sizing: border-box;
+      min-width: 0;
+    }
+
+    .booking-field-cell {
+      padding: 10px 14px;
+      min-width: 0;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    .booking-field-cell:first-child {
+      border-right: 1px solid #E5E7EB;
+    }
+
+    .booking-field-label {
+      display: block;
+      font-size: 0.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #374151;
+      margin-bottom: 2px;
+      white-space: nowrap;
+    }
+
+    .booking-field-input {
+      width: 100%;
+      max-width: 100%;
+      border: none;
+      outline: none;
+      font-size: 0.82rem;
+      color: #111827;
+      font-weight: 600;
+      background: transparent;
+      padding: 0;
+      box-sizing: border-box;
+      min-width: 0;
+    }
+
+    .booking-guests-cell {
+      padding: 10px 14px;
+      width: 100%;
+      box-sizing: border-box;
+      min-width: 0;
+    }
+
+    .booking-guests-select {
+      width: 100%;
+      max-width: 100%;
+      border: none;
+      outline: none;
+      font-size: 0.85rem;
+      color: #111827;
+      font-weight: 600;
+      background: transparent;
+      cursor: pointer;
+      padding: 0;
+      box-sizing: border-box;
+      min-width: 0;
+    }
+
+    .btn-reserve-stay {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 14px 20px;
+      background: var(--airbnb-gradient, linear-gradient(90deg, #E61E4D 0%, #E31C5F 50%, #D70466 100%));
+      color: #FFFFFF;
+      font-size: 0.98rem;
+      font-weight: 700;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 4px 14px rgba(230, 30, 77, 0.3);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    .btn-reserve-stay:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(230, 30, 77, 0.4);
+      color: #FFFFFF;
+    }
+
+    .booking-no-charge-note {
+      text-align: center;
+      font-size: 0.78rem;
+      color: #6B7280;
+      margin: 12px 0 18px;
+    }
+
+    .pricing-calc-table {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 0.88rem;
+      color: #4B5563;
+      padding-bottom: 18px;
+      border-bottom: 1px solid #E5E7EB;
+    }
+
+    .pricing-calc-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .pricing-calc-row.total {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #111827;
+      padding-top: 12px;
+      border-top: 1px solid #E5E7EB;
+    }
+
+    .booking-aircover-note {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 16px;
+      font-size: 0.75rem;
+      color: #6B7280;
+      line-height: 1.35;
+    }
+
+    .booking-aircover-note i {
+      font-size: 1.3rem;
+      color: #FF385C;
+      flex-shrink: 0;
+    }
+
+    /* ==========================================================================
+     FULLSCREEN HIGH-RES LIGHTBOX MODAL
+     ========================================================================== */
+    .photo-lightbox-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .photo-lightbox-modal.active {
+      display: flex;
+    }
+
+    .lightbox-backdrop-blur {
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 10, 10, 0.94);
+      backdrop-filter: blur(16px);
+    }
+
+    .lightbox-modal-content {
+      position: relative;
+      z-index: 10;
+      max-width: 92vw;
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .lightbox-close-btn {
+      position: absolute;
+      top: -50px;
+      right: 0;
+      background: rgba(255, 255, 255, 0.15);
+      color: #FFFFFF;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .lightbox-close-btn:hover {
+      background: rgba(255, 255, 255, 0.35);
+    }
+
+    .lightbox-nav-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .lightbox-nav-btn {
+      background: rgba(255, 255, 255, 0.15);
+      color: #FFFFFF;
+      border: none;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .lightbox-nav-btn:hover {
+      background: rgba(255, 255, 255, 0.35);
+      transform: scale(1.08);
+    }
+
+    .lightbox-image-frame {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .lightbox-active-img {
+      max-width: 82vw;
+      max-height: 74vh;
+      object-fit: contain;
+      border-radius: 14px;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+    }
+
+    .lightbox-caption-text {
+      color: #FFFFFF;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-top: 14px;
+      letter-spacing: 0.02em;
+    }
+
+    .lightbox-filmstrip {
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
+      overflow-x: auto;
+      max-width: 80vw;
+    }
+
+    .lightbox-thumb {
+      width: 52px;
+      height: 38px;
+      border-radius: 6px;
+      object-fit: cover;
+      cursor: pointer;
+      opacity: 0.5;
+      border: 2px solid transparent;
+      transition: all 0.2s ease;
+    }
+
+    .lightbox-thumb.active {
+      opacity: 1;
+      border-color: #FF385C;
+    }
+
+    /* ==========================================================================
+       RESPONSIVE DESIGN ADAPTATIONS FOR VIEW-DETAILS
+       ========================================================================== */
+    .property-specs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin: 20px 0 28px;
+      padding: 18px 20px;
+      background: #FFFFFF;
+      border: 1.5px solid #E5E7EB;
+      border-radius: 18px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+      box-sizing: border-box;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .property-spec-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .property-spec-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .property-spec-badge {
+      font-size: 0.72rem;
+      color: #6B7280;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    .property-spec-value {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #111827;
+      line-height: 1.3;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .property-spec-sub {
+      font-size: 0.74rem;
+      font-weight: 600;
+      word-break: break-word;
+    }
+
+    .avail-reserved-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      background: #FFF5F5;
+      border: 1px solid #FECDD3;
+      border-left: 4px solid #E11D48;
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      box-sizing: border-box;
+      width: 100%;
+      min-width: 0;
+    }
+
+    /* Breakpoint: Tablets & Laptops (<= 1024px) */
+    @media (max-width: 1024px) {
+      .property-split-layout {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+
+      .sticky-booking-card {
+        position: static;
+        top: auto;
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+
+    /* Breakpoint: Small Tablets (<= 860px) */
+    @media (max-width: 860px) {
+      .gallery-three-grid-fixed {
+        grid-template-columns: 1fr;
+        height: auto;
+        border-radius: 16px;
+        gap: 8px;
+      }
+
+      .grid-main-slot {
+        height: 260px;
+        border-radius: 16px 16px 0 0;
+      }
+
+      .grid-side-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+        height: 130px;
+        gap: 8px;
+      }
+
+      .grid-side-slot {
+        height: 100%;
+        border-radius: 0 0 16px 16px;
+      }
+
+      .master-stage-box {
+        height: 380px !important;
+      }
+
+      .gallery-card-item {
+        height: 120px;
+      }
+
+      .property-specs-grid {
+        padding: 14px 16px;
+        gap: 10px;
+      }
+    }
+
+    /* Breakpoint: Phablets & Mobile (<= 768px) */
+    @media (max-width: 768px) {
+      .property-details-container {
+        padding: 14px 16px 80px;
+      }
+
+      .property-breadcrumbs-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+
+      .property-breadcrumbs-trail {
+        max-width: 100%;
+        width: 100%;
+        font-size: 0.8rem;
+      }
+
+      .property-top-actions {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .gallery-view-switcher {
+        width: 100%;
+        display: flex;
+      }
+
+      .view-switch-btn {
+        flex: 1;
+        justify-content: center;
+        padding: 6px 10px;
+        font-size: 0.74rem;
+      }
+
+      .property-top-actions-buttons {
+        display: flex;
+        width: 100%;
+        gap: 8px;
+      }
+
+      .property-top-actions-buttons .btn-top-action {
+        flex: 1;
+        justify-content: center;
+        padding: 7px 12px;
+        font-size: 0.78rem;
+      }
+
+      .property-top-actions-buttons form {
+        flex: 1;
+        display: flex;
+        margin: 0;
+      }
+
+      .property-top-actions-buttons form .btn-top-action {
+        width: 100%;
+      }
+
+      .property-page-title {
+        font-size: 1.45rem;
+        line-height: 1.25;
+        margin-bottom: 8px;
+      }
+
+      .master-stage-box {
+        height: 320px !important;
+      }
+
+      .gallery-cards-row {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .gallery-card-item {
+        height: 96px;
+        border-radius: 10px;
+      }
+
+      .gallery-card-label {
+        font-size: 0.62rem;
+        padding: 3px 6px;
+        bottom: 6px;
+        left: 6px;
+        max-width: calc(100% - 12px);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .property-specs-grid {
+        grid-template-columns: 1fr;
+        padding: 16px;
+        gap: 12px;
+      }
+
+      .sleeping-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .host-banner-card {
+        gap: 12px;
+      }
+
+      .host-banner-title {
+        font-size: 1.2rem;
+      }
+
+      .host-avatar-large {
+        width: 48px;
+        height: 48px;
+        font-size: 1.15rem;
+      }
+    }
+
+    /* Breakpoint: Mobile Phones (<= 640px) */
+    @media (max-width: 640px) {
+      .master-stage-box {
+        height: 260px !important;
+        border-radius: 14px;
+      }
+
+      .hero-arrow-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 0.85rem;
+      }
+
+      .hero-arrow-btn.left {
+        left: 8px;
+      }
+
+      .hero-arrow-btn.right {
+        right: 8px;
+      }
+
+      .hero-badge-pill {
+        top: 10px;
+        left: 10px;
+        font-size: 0.68rem;
+        padding: 4px 10px;
+      }
+
+      .hero-fullscreen-btn {
+        bottom: 10px;
+        right: 10px;
+        font-size: 0.72rem;
+        padding: 6px 10px;
+      }
+
+      .gallery-card-item {
+        height: 80px;
+      }
+
+      .gallery-card-label {
+        display: none;
+      }
+
+      .amenities-grid-clean {
+        grid-template-columns: 1fr;
+      }
+
+      .review-bars-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .review-cards-list {
+        grid-template-columns: 1fr;
+      }
+
+      .sticky-booking-card {
+        padding: 20px 16px;
+        border-radius: 18px;
+      }
+
+      .booking-price-large {
+        font-size: 1.45rem;
+      }
+
+      .lightbox-modal-content {
+        max-width: 96vw;
+        max-height: 96vh;
+      }
+
+      .lightbox-close-btn {
+        top: -44px;
+        right: 4px;
+        width: 36px;
+        height: 36px;
+        font-size: 1.1rem;
+      }
+
+      .lightbox-nav-row {
+        gap: 6px;
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .lightbox-nav-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 1rem;
+        flex-shrink: 0;
+      }
+
+      .lightbox-active-img {
+        max-width: 76vw;
+        max-height: 60vh;
+        border-radius: 10px;
+      }
+
+      .lightbox-filmstrip {
+        max-width: 90vw;
+      }
+
+      .lightbox-thumb {
+        width: 42px;
+        height: 32px;
+      }
+    }
+
+    /* Breakpoint: Small Mobile (<= 480px) */
+    @media (max-width: 480px) {
+      .property-details-container {
+        padding: 10px 12px 80px;
+      }
+
+      .property-breadcrumbs-trail {
+        font-size: 0.76rem;
+      }
+
+      .property-page-title {
+        font-size: 1.25rem;
+      }
+
+      .property-meta-row {
+        font-size: 0.78rem;
+        gap: 6px 8px;
+      }
+
+      .master-stage-box {
+        height: 220px !important;
+        border-radius: 12px;
+      }
+
+      .gallery-cards-row {
+        gap: 6px;
+        margin-top: 8px;
+      }
+
+      .gallery-card-item {
+        height: 64px;
+        border-radius: 8px;
+      }
+
+      .grid-main-slot {
+        height: 200px;
+      }
+
+      .grid-side-col {
+        height: 96px;
+        gap: 6px;
+      }
+
+      .grid-side-slot .hero-fullscreen-btn {
+        font-size: 0.65rem;
+        padding: 4px 8px;
+        bottom: 6px;
+        right: 6px;
+      }
+
+      .host-banner-title {
+        font-size: 1.1rem;
+      }
+
+      .host-avatar-large {
+        width: 42px;
+        height: 42px;
+        font-size: 1rem;
+      }
+
+      .sticky-booking-card {
+        padding: 18px 14px;
+        border-radius: 16px;
+      }
+
+      .booking-field-cell {
+        padding: 8px 10px;
+      }
+
+      .booking-field-input {
+        font-size: 0.76rem;
+      }
+
+      .booking-guests-cell {
+        padding: 8px 10px;
+      }
+
+      .booking-guests-select {
+        font-size: 0.78rem;
+      }
+
+      .btn-reserve-stay {
+        padding: 12px 14px;
+        font-size: 0.92rem;
+      }
+    }
+
+    /* Breakpoint: Tiny Mobile (<= 360px) */
+    @media (max-width: 360px) {
+      .property-details-container {
+        padding: 8px 8px 80px;
+      }
+
+      .master-stage-box {
+        height: 190px !important;
+      }
+
+      .gallery-card-item {
+        height: 52px;
+      }
+
+      .booking-dates-split {
+        grid-template-columns: 1fr;
+      }
+
+      .booking-field-cell:first-child {
+        border-right: none;
+        border-bottom: 1px solid #E5E7EB;
+      }
+    }
+  </style>
+  </head>
+
+  <body>
+    <!-- Ambient Atmosphere -->
+    <div class="ambient-glow-1"></div>
+    <div class="ambient-glow-2"></div>
+    <div class="bg-grid-pattern"></div>
+
+    <!-- Airbnb Sticky Navigation -->
+    <%- include('../partials/nav') %>
+
+      <% 
+        // Filter down to genuine uploaded photos 
+        let displayPhotos = []; 
+        if (Array.isArray(home.photos) && home.photos.length > 0) {
+          displayPhotos = home.photos.filter(p => p && typeof p === 'string' && p.trim().length > 0);
+        }
+        if (displayPhotos.length === 0 && home.photoUrl && home.photoUrl.trim()) {
+          displayPhotos.push(home.photoUrl.trim());
+        }
+        if (displayPhotos.length === 0) {
+          displayPhotos.push('https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=80');
+        }
+
+        const photoLabels = [
+          "1. Cover Photo · Exterior",
+          "2. Living / Space · Interior",
+          "3. Room / Feature · Architecture & Amenities"
+        ];
+      %>
+
+        <main class="property-details-container">
+
+          <!-- Breadcrumb & Top Controls Bar -->
+          <div class="property-breadcrumbs-bar">
+            <div class="property-breadcrumbs-trail">
+              <a href="/home-list" class="crumb-link">
+                <i class="fa-solid fa-arrow-left"></i> All Stays
+              </a>
+              <span class="crumb-sep">/</span>
+              <span class="crumb-loc">
+                <%= home.location %>
+              </span>
+              <span class="crumb-sep">/</span>
+              <span class="crumb-title">
+                <%= home.houseName %>
+              </span>
+            </div>
+
+            <div class="property-top-actions">
+              <!-- View Mode Switcher -->
+              <% if (displayPhotos.length>= 2) { %>
+                <div class="gallery-view-switcher">
+                  <button type="button" class="view-switch-btn active" id="btnModeShowcase"
+                    onclick="setGalleryMode('showcase')">
+                    <i class="fa-solid fa-panorama"></i> Showcase
+                  </button>
+                  <button type="button" class="view-switch-btn" id="btnModeGrid" onclick="setGalleryMode('grid')">
+                    <i class="fa-solid fa-table-cells-large"></i> Split Grid
+                  </button>
+                </div>
+                <% } %>
+
+                  <div class="property-top-actions-buttons">
+                    <!-- Share button -->
+                    <button type="button"
+                      onclick="navigator.clipboard.writeText(window.location.href); alert('Listing link copied to clipboard!');"
+                      class="btn-top-action">
+                      <i class="fa-solid fa-arrow-up-from-bracket"></i> Share
+                    </button>
+
+                    <!-- Wishlist toggle -->
+                    <% if (isLoggedIn && user && user.userType==='guest' ) { %>
+                      <% if (typeof isFav !=='undefined' && isFav) { %>
+                        <form action="/favourites/delete/<%= home._id %>" method="POST" style="margin:0;">
+                          <button type="submit" class="btn-top-action saved">
+                            <i class="fa-solid fa-heart" style="color: #E11D48;"></i> Saved
+                          </button>
+                        </form>
+                        <% } else { %>
+                          <form action="/favourite-list" method="POST" style="margin:0;">
+                            <input type="hidden" name="id" value="<%= home._id %>" />
+                            <button type="submit" class="btn-top-action">
+                              <i class="fa-regular fa-heart"></i> Save
+                            </button>
+                          </form>
+                          <% } %>
+                            <% } %>
+                  </div>
+            </div>
+          </div>
+
+          <!-- Title & Meta Header -->
+          <header class="property-hero-header">
+            <h1 class="property-page-title">
+              <%= home.houseName %>
+            </h1>
+
+            <div class="property-meta-row">
+              <span class="meta-star-rating">
+                <i class="fa-solid fa-star text-xs" style="color: #F59E0B;"></i>
+                <%= home.rating ? Number(home.rating).toFixed(2) : '4.95' %>
+              </span>
+              <span class="meta-dot-sep">·</span>
+              <span class="meta-link">64 reviews</span>
+              <span class="meta-dot-sep">·</span>
+              <span class="meta-badge-fav">
+                <i class="fa-solid fa-award" style="color: #F59E0B;"></i> Guest favourite
+              </span>
+              <span class="meta-dot-sep">·</span>
+              <span class="meta-location">
+                <i class="fa-solid fa-location-dot" style="color: #FF385C;"></i>
+                <%= home.location %>
+              </span>
+            </div>
+          </header>
+
+          <!-- ======================================================================
+         GALLERY PRESENTATION SECTION
+         ====================================================================== -->
+
+          <!-- MODE 1: FEATURED MASTER SHOWCASE (Default: Full view, crystal-clear, uncut) -->
+          <section class="gallery-showcase-container active-mode" id="galleryShowcaseMode">
+            <!-- Master Stage Box -->
+            <div class="master-stage-box" onclick="openLightbox(activeHeroIndex)">
+              <img id="masterStageImg" src="<%= displayPhotos[0] %>" alt="<%= home.houseName %>"
+                class="master-stage-img" />
+
+              <!-- Arrow Buttons -->
+              <% if (displayPhotos.length> 1) { %>
+                <button type="button" class="hero-arrow-btn left" onclick="event.stopPropagation(); cycleHeroPhoto(-1);"
+                  title="Previous photo">
+                  <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <button type="button" class="hero-arrow-btn right" onclick="event.stopPropagation(); cycleHeroPhoto(1);"
+                  title="Next photo">
+                  <i class="fa-solid fa-chevron-right"></i>
+                </button>
+                <% } %>
+
+                  <!-- Floating Badge -->
+                  <div class="hero-badge-pill" id="heroBadgePill">
+                    <i class="fa-solid fa-camera mr-1"></i> <span id="heroBadgeText">1 of <%= displayPhotos.length %> ·
+                        Cover Photo</span>
+                  </div>
+
+                  <!-- Fullscreen Button -->
+                  <button type="button" class="hero-fullscreen-btn"
+                    onclick="event.stopPropagation(); openLightbox(activeHeroIndex);">
+                    <i class="fa-solid fa-expand"></i> View Uncropped Fullscreen
+                  </button>
+            </div>
+
+            <!-- 3 Interactive Cards Below: Shows every picture clearly without cutting off! -->
+            <% if (displayPhotos.length> 1) { %>
+              <div class="gallery-cards-row">
+                <% displayPhotos.forEach((pic, idx)=> { %>
+                  <div class="gallery-card-item <%= idx === 0 ? 'active' : '' %>" id="featureCard-<%= idx %>"
+                    onclick="selectHeroPhoto(<%= idx %>)"
+                    title="Click to view <%= photoLabels[idx] || ('Photo ' + (idx + 1)) %>">
+                    <img src="<%= pic %>" alt="<%= photoLabels[idx] || ('Photo ' + (idx + 1)) %>"
+                      class="gallery-card-img <%= idx === 2 ? 'focal-room' : '' %>" />
+                    <div class="gallery-card-active-dot">
+                      <i class="fa-solid fa-check"></i>
+                    </div>
+                    <span class="gallery-card-label">
+                      <%= photoLabels[idx] || ('Photo ' + (idx + 1)) %>
+              </span>
+            </div>
+          <% }) %>
+        </div>
+      <% } %>
+    </section>
+
+    <!-- MODE 2: 3-PHOTO SPLIT GRID (Fixed focal points & height so room isn' t sliced in half) -->
+                        <section class="gallery-grid-container" id="galleryGridMode">
+                          <div class="gallery-three-grid-fixed">
+                            <!-- Main Hero Left -->
+                            <div class="grid-main-slot" onclick="openLightbox(0)">
+                              <span class="hero-badge-pill">Cover Photo</span>
+                              <img src="<%= displayPhotos[0] %>" alt="<%= home.houseName %>" />
+                            </div>
+
+                            <!-- Side Stack Right -->
+                            <div class="grid-side-col">
+                              <!-- Photo 2: Living Room -->
+                              <div class="grid-side-slot slot-living" onclick="openLightbox(1)">
+                                <span class="hero-badge-pill">Living / Space</span>
+                                <img src="<%= displayPhotos[1] || displayPhotos[0] %>" alt="Living space" />
+                              </div>
+
+                              <!-- Photo 3: Room / Feature with center 65% focal point so dining room and furniture are visible! -->
+                              <div class="grid-side-slot slot-room" onclick="openLightbox(2)">
+                                <span class="hero-badge-pill">Room / Feature</span>
+                                <img src="<%= displayPhotos[2] || displayPhotos[0] %>" alt="Room feature" />
+                                <button type="button" class="hero-fullscreen-btn"
+                                  onclick="event.stopPropagation(); openLightbox(0);">
+                                  <i class="fa-solid fa-grip-vertical"></i> Show all <%= displayPhotos.length %> photos
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </section>
+
+                        <!-- 2-Column Split: Info Left + Booking Card Right -->
+                        <div class="property-split-layout">
+
+                          <!-- Left Column: Detailed Information -->
+                          <div class="property-info-section">
+
+                            <!-- Host Banner Card -->
+                            <div class="host-banner-card">
+                              <div style="flex: 1 1 auto; min-width: 0;">
+                                <h2 class="host-banner-title">
+                                  Entire rental flat hosted by <%= home.hostName || 'Alex (Superhost)' %>
+                                </h2>
+                                <p class="host-banner-stats">
+                                  <%= home.maxGuests || 4 %> guests · <%= home.bedrooms || 2 %> bedrooms · <%= home.beds
+                                        || 2 %> beds · <%= home.bathrooms || 1 %> private bath
+                                </p>
+                              </div>
+                              <div class="host-avatar-large">
+                                <i class="fa-solid fa-user"></i>
+                              </div>
+                            </div>
+
+                            <!-- Dedicated Property Capacity Highlights: Bedrooms, Bathrooms, Max Guests Allowed to Stay -->
+                            <div class="property-specs-grid">
+                              <div class="property-spec-item">
+                                <div class="property-spec-icon" style="background: #EEF2FF; color: #4F46E5;">
+                                  <i class="fa-solid fa-users"></i>
+                                </div>
+                                <div style="min-width: 0;">
+                                  <div class="property-spec-badge">Guest Capacity</div>
+                                  <div class="property-spec-value">
+                                    <%= home.maxGuests || 4 %> Guests Max
+                                  </div>
+                                  <div class="property-spec-sub" style="color: #059669;">Allowed to stay</div>
+                                </div>
+                              </div>
+
+                              <div class="property-spec-item">
+                                <div class="property-spec-icon" style="background: #EFF6FF; color: #2563EB;">
+                                  <i class="fa-solid fa-bed"></i>
+                                </div>
+                                <div style="min-width: 0;">
+                                  <div class="property-spec-badge">Bedrooms</div>
+                                  <div class="property-spec-value">
+                                    <%= home.bedrooms || 2 %>
+                                      <%= (home.bedrooms===1) ? 'Bedroom' : 'Bedrooms' %>
+                                  </div>
+                                  <div class="property-spec-sub" style="color: #6B7280;">
+                                    <%= home.beds || home.bedrooms || 2 %> beds total
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="property-spec-item">
+                                <div class="property-spec-icon" style="background: #ECFDF5; color: #059669;">
+                                  <i class="fa-solid fa-bath"></i>
+                                </div>
+                                <div style="min-width: 0;">
+                                  <div class="property-spec-badge">Bathrooms</div>
+                                  <div class="property-spec-value">
+                                    <%= home.bathrooms || 1 %>
+                                      <%= (home.bathrooms===1) ? 'Bathroom' : 'Bathrooms' %>
+                                  </div>
+                                  <div class="property-spec-sub" style="color: #6B7280;">Full private bath</div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <!-- Highlight Perks -->
+                            <div class="highlight-perks-list">
+                              <div class="perk-item">
+                                <div class="perk-icon-box">
+                                  <i class="fa-solid fa-award"></i>
+                                </div>
+                                <div>
+                                  <h4 class="perk-title">Guest favourite property</h4>
+                                  <p class="perk-desc">One of the most loved homes on Airbnb based on traveler ratings,
+                                    reviews, and reliability.</p>
+                                </div>
+                              </div>
+
+                              <div class="perk-item">
+                                <div class="perk-icon-box">
+                                  <i class="fa-solid fa-laptop"></i>
+                                </div>
+                                <div>
+                                  <h4 class="perk-title">Dedicated workspace</h4>
+                                  <p class="perk-desc">Comfortable ergonomic desk with 350 Mbps fiber Wi-Fi, perfect for
+                                    business trips or remote work.</p>
+                                </div>
+                              </div>
+
+                              <div class="perk-item">
+                                <div class="perk-icon-box">
+                                  <i class="fa-solid fa-key"></i>
+                                </div>
+                                <div>
+                                  <h4 class="perk-title">Self check-in with smart lock</h4>
+                                  <p class="perk-desc">Check yourself in seamlessly with the digital door lock code
+                                    provided upon booking.</p>
+                                </div>
+                              </div>
+
+                              <div class="perk-item">
+                                <div class="perk-icon-box">
+                                  <i class="fa-solid fa-calendar-check"></i>
+                                </div>
+                                <div>
+                                  <h4 class="perk-title">Free cancellation before 48 hours</h4>
+                                  <p class="perk-desc">Change of plans? Receive a 100% full refund when you cancel at
+                                    least 48 hours before check-in.</p>
+                                </div>
+                              </div>
+                            </div>
+
+                            <!-- About This Space -->
+                            <div class="property-section-block">
+                              <h3 class="section-block-title">About this space</h3>
+                              <p class="section-block-body">
+                                <%= home.description
+                                  || 'Welcome to this sun-lit, newly designed modern flat nestled in the heart of the city. Featuring high ceilings, custom wooden craftsmanship, air conditioning, and top-of-the-line appliances, this space offers the perfect balance of luxury and home comfort for business travelers or holiday seekers alike.'
+                                  %>
+                              </p>
+                            </div>
+
+                            <!-- Where You'll Sleep -->
+                            <div class="property-section-block">
+                              <h3 class="section-block-title">Where you'll sleep</h3>
+                              <div class="sleeping-grid">
+                                <div class="sleeping-card">
+                                  <i class="fa-solid fa-bed"></i>
+                                  <h4 class="sleeping-card-title">Bedroom 1 (Master)</h4>
+                                  <p class="sleeping-card-desc">1 King plush mattress, ensuite balcony</p>
+                                </div>
+                                <div class="sleeping-card">
+                                  <i class="fa-solid fa-bed"></i>
+                                  <h4 class="sleeping-card-title">Bedroom 2 (Guest Suite)</h4>
+                                  <p class="sleeping-card-desc">1 Queen bed & ergonomic workspace</p>
+                                </div>
+                              </div>
+                            </div>
+
+                            <!-- Amenities Grid (Dynamic from Selected Host Options) -->
+                            <% function getAmenityIcon(name) { const lower=(name || '' ).toLowerCase(); if
+                              (lower.includes('wi-fi') || lower.includes('wifi') || lower.includes('internet'))
+                              return 'fa-solid fa-wifi' ; if (lower.includes('kitchen') || lower.includes('chef'))
+                              return 'fa-solid fa-kitchen-set' ; if (lower.includes('workspace') ||
+                              lower.includes('desk') || lower.includes('laptop')) return 'fa-solid fa-laptop' ; if
+                              (lower.includes('pool')) return 'fa-solid fa-water-ladder' ; if (lower.includes('tub') ||
+                              lower.includes('jacuzzi')) return 'fa-solid fa-hot-tub-person' ; if
+                              (lower.includes('conditioning') || lower.includes('ac') || lower.includes('cooling'))
+                              return 'fa-solid fa-snowflake' ; if (lower.includes('mountain'))
+                              return 'fa-solid fa-mountain' ; if (lower.includes('parking') || lower.includes('garage'))
+                              return 'fa-solid fa-square-parking' ; if (lower.includes('tv') ||
+                              lower.includes('streaming')) return 'fa-solid fa-tv' ; if (lower.includes('washer') ||
+                              lower.includes('dryer') || lower.includes('laundry')) return 'fa-solid fa-shirt' ; if
+                              (lower.includes('smoke') || lower.includes('detector') || lower.includes('security'))
+                              return 'fa-solid fa-shield-halved' ; if (lower.includes('coffee') ||
+                              lower.includes('espresso')) return 'fa-solid fa-mug-saucer' ; if
+                              (lower.includes('balcony') || lower.includes('patio')) return 'fa-solid fa-cloud-sun' ; if
+                              (lower.includes('keypad') || lower.includes('lock') || lower.includes('check-in'))
+                              return 'fa-solid fa-key' ; if (lower.includes('beach') || lower.includes('ocean'))
+                              return 'fa-solid fa-umbrella-beach' ; return 'fa-solid fa-circle-check' ; } const
+                              currentListingAmenities=(home.amenities && home.amenities.length> 0)
+                              ? home.amenities
+                              : [
+                              "Fast Wi-Fi (300 Mbps)",
+                              "Chef's Kitchen",
+                              "Dedicated Workspace",
+                              "Central Air Conditioning",
+                              "55\" 4K Smart TV with Streaming",
+                              "In-unit Washer & Dryer",
+                              "Free On-premises Parking",
+                              "Security & Smoke Detectors"
+                              ];
+                              %>
+                              <div class="property-section-block">
+                                <div
+                                  style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+                                  <h3 class="section-block-title" style="margin-bottom:0;">What this place offers</h3>
+                                  <span
+                                    style="font-size:0.78rem;font-weight:700;color:#6B7280;background:#F3F4F6;padding:4px 10px;border-radius:999px;">
+                                    <%= currentListingAmenities.length %> amenities provided
+                                  </span>
+                                </div>
+                                <p style="font-size:0.85rem;color:#717171;margin-bottom:16px;">
+                                  Amenities selected by the host for this stay:
+                                </p>
+                                <div class="amenities-grid-clean">
+                                  <% currentListingAmenities.forEach(function(item) { %>
+                                    <div class="amenity-row">
+                                      <i class="<%= getAmenityIcon(item) %>"></i>
+                                      <span>
+                                        <%= item %>
+                                      </span>
+                                    </div>
+                                    <% }); %>
+                                </div>
+                              </div>
+
+                              <!-- Reviews Showcase -->
+                              <div class="property-section-block">
+                                <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+                                  <i class="fa-solid fa-star" style="color:#111827;font-size:1.1rem;"></i>
+                                  <h3 class="section-block-title" style="margin:0;">
+                                    <%= home.rating ? Number(home.rating).toFixed(2) : '4.95' %> · 64 reviews
+                                  </h3>
+                                </div>
+
+                                <div class="review-bars-grid">
+                                  <div class="review-bar-item">
+                                    <span>Cleanliness</span>
+                                    <strong>4.9 ★</strong>
+                                  </div>
+                                  <div class="review-bar-item">
+                                    <span>Accuracy</span>
+                                    <strong>5.0 ★</strong>
+                                  </div>
+                                  <div class="review-bar-item">
+                                    <span>Communication</span>
+                                    <strong>4.9 ★</strong>
+                                  </div>
+                                  <div class="review-bar-item">
+                                    <span>Location</span>
+                                    <strong>4.8 ★</strong>
+                                  </div>
+                                </div>
+
+                                <div class="review-cards-list">
+                                  <div class="guest-review-box">
+                                    <div class="guest-review-header">
+                                      <div class="guest-avatar-mini">SM</div>
+                                      <div>
+                                        <h5 class="guest-name">Sophia Miller</h5>
+                                        <p class="guest-date">Stayed 5 nights · September 2026</p>
+                                      </div>
+                                    </div>
+                                    <p class="guest-comment">
+                                      "The place was immaculate! Breathtaking natural light, super high-speed internet
+                                      for
+                                      work, and the bed was heavenly. Host was ultra responsive. 10/10!"
+                                    </p>
+                                  </div>
+
+                                  <div class="guest-review-box">
+                                    <div class="guest-review-header">
+                                      <div class="guest-avatar-mini" style="background:#EDE9FE;color:#7C3AED;">DK</div>
+                                      <div>
+                                        <h5 class="guest-name">Daniel Krause</h5>
+                                        <p class="guest-date">Stayed 1 week · August 2026</p>
+                                      </div>
+                                    </div>
+                                    <p class="guest-comment">
+                                      "Loved everything about this flat. Incredible neighborhood with bakeries and cafes
+                                      right downstairs. Will definitely book again next time!"
+                                    </p>
+                                  </div>
+                                </div>
+
+                                <!-- Property Availability & Calendar Dates Section -->
+                                <div class="property-section-block">
+                                  <div
+                                    style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+                                    <div>
+                                      <h3 class="section-block-title" style="margin:0 0 4px;">Availability & Reserved
+                                        Dates</h3>
+                                      <p style="font-size:0.85rem;color:#6B7280;margin:0;">
+                                        Bookings are confirmed in real-time. Grayed/flagged dates are unavailable.
+                                      </p>
+                                    </div>
+                                    <a href="/reserve/<%= home._id %>" class="btn-top-action"
+                                      style="background:#FFF1F2;border-color:#FECDD3;color:#E11D48;">
+                                      <i class="fa-regular fa-calendar-check"></i> Check Availability & Reserve
+                                    </a>
+                                  </div>
+
+                                  <% if (typeof existingBookings !=='undefined' && existingBookings &&
+                                    existingBookings.length> 0) { %>
+                                    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px;">
+                                      <% existingBookings.forEach((b)=> {
+                                        const sDate = new Date(b.checkIn).toLocaleDateString("en-US", { month: "short",
+                                        day: "numeric", year: "numeric" });
+                                        const eDate = new Date(b.checkOut).toLocaleDateString("en-US", { month: "short",
+                                        day: "numeric", year: "numeric" });
+                                        const nNights = b.nights || Math.max(1, Math.round((new Date(b.checkOut) - new
+                                        Date(b.checkIn)) / (1000*60*60*24)));
+                                        %>
+                                        <div class="avail-reserved-row">
+                                          <div
+                                            style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;min-width:0;">
+                                            <span
+                                              style="font-size:0.72rem;font-weight:700;background:#FFE4E6;color:#BE123C;padding:3px 8px;border-radius:6px;text-transform:uppercase;white-space:nowrap;">Reserved</span>
+                                            <strong style="color:#111827;word-break:break-word;">
+                                              <%= sDate %> &mdash; <%= eDate %>
+                                            </strong>
+                                          </div>
+                                          <span
+                                            style="font-size:0.8rem;color:#6B7280;font-weight:600;white-space:nowrap;">
+                                            <%= nNights %>
+                                              <%= nNights===1 ? 'night' : 'nights' %>
+                                          </span>
+                                        </div>
+                                        <% }) %>
+                                    </div>
+                                    <p style="font-size:0.8rem;color:#6B7280;margin:0;">
+                                      <i class="fa-solid fa-circle-info text-rose-500 mr-1"></i> Other guests have
+                                      secured
+                                      the above dates. All remaining calendar dates are open!
+                                    </p>
+                                    <% } else { %>
+                                      <div
+                                        style="display:flex;align-items:center;gap:12px;background:#ECFDF5;border:1px solid #A7F3D0;padding:14px 18px;border-radius:12px;color:#065F46;font-size:0.88rem;">
+                                        <i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>
+                                        <div>
+                                          <strong>Full Calendar Currently Open</strong>
+                                          <div style="font-size:0.8rem;color:#047857;font-weight:normal;">No blackout or
+                                            reserved periods. Select your favorite dates to book.</div>
+                                        </div>
+                                      </div>
+                                      <% } %>
+                                </div>
+
+                              </div>
+
+                              <!-- Right Column: Sticky Booking Card -->
+                              <aside>
+                                <div class="sticky-booking-card">
+
+                                  <!-- Price Header -->
+                                  <div class="booking-card-header">
+                                    <div>
+                                      <span class="booking-price-large">$<%= home.price %></span>
+                                      <span class="booking-price-period"> night</span>
+                                    </div>
+                                    <div class="booking-rating-pill">
+                                      <i class="fa-solid fa-star text-xs" style="color: #F59E0B;"></i>
+                                      <span>
+                                        <%= home.rating ? Number(home.rating).toFixed(2) : '4.95' %>
+                                      </span>
+                                      <span style="color:#6B7280;font-weight:normal;">(64)</span>
+                                    </div>
+                                  </div>
+
+                                  <!-- Reservation Form -->
+                                  <form action="/bookings/book/<%= home._id %>" method="POST" id="homeBookingForm">
+                                    <div class="booking-dates-box">
+                                      <div class="booking-dates-split">
+                                        <div class="booking-field-cell">
+                                          <span class="booking-field-label">Check-in</span>
+                                          <input type="date" id="homeCheckIn" name="checkIn" class="booking-field-input"
+                                            required />
+                                        </div>
+                                        <div class="booking-field-cell">
+                                          <span class="booking-field-label">Checkout</span>
+                                          <input type="date" id="homeCheckOut" name="checkOut"
+                                            class="booking-field-input" required />
+                                        </div>
+                                      </div>
+
+                                      <div class="booking-guests-cell">
+                                        <div
+                                          style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px;">
+                                          <span class="booking-field-label" style="margin-bottom:0;">Guests</span>
+                                          <span style="font-size:0.72rem;color:#6B7280;font-weight:700;">Max <%=
+                                              home.maxGuests || 4 %> allowed</span>
+                                        </div>
+                                        <select id="homeBookingGuests" name="guests" class="booking-guests-select"
+                                          style="margin-top:2px;">
+                                          <% const maxAllowedGuests=home.maxGuests || 4; const
+                                            maxSelectable=Math.max(10, maxAllowedGuests + 4); for(let g=1; g
+                                            <=maxSelectable; g++) { %>
+                                            <option value="<%= g %>" <%=g===2 ? 'selected' : '' %>
+                                              <%= g> maxAllowedGuests ? 'style="color:#DC2626;font-weight:700;"' : ''
+                                                %>>
+                                                <%= g %>
+                                                  <%= g===1 ? 'guest' : 'guests' %>
+                                                    <%= g> maxAllowedGuests ? `(⚠️ Exceeds limit of
+                                                      ${maxAllowedGuests}!)` : '' %>
+                                            </option>
+                                            <% } %>
+                                        </select>
+                                      </div>
+                                    </div>
+
+                                    <!-- In-card Guest Limit Exceeded Warning Banner -->
+                                    <div id="homeCardGuestLimitNotice"
+                                      style="display:none;background:#FFF1F2;border:1.5px solid #FDA4AF;border-radius:12px;padding:12px 14px;margin-bottom:12px;font-size:0.83rem;color:#9F1239;line-height:1.45;">
+                                      <div
+                                        style="display:flex;align-items:center;gap:6px;font-weight:800;margin-bottom:2px;">
+                                        <i class="fa-solid fa-triangle-exclamation text-rose-600"></i>
+                                        <span>Guest Capacity Exceeded</span>
+                                      </div>
+                                      <span>This property only accommodates up to <strong>
+                                          <%= home.maxGuests || 4 %> guests
+                                        </strong>. You selected <strong id="homeCardGuestLimitCount">5</strong> guests.
+                                        Please reduce traveler count to reserve.</span>
+                                    </div>
+
+                                    <!-- In-card Conflict Banner -->
+                                    <div id="homeCardConflictNotice"
+                                      style="display:none;background:#FFF1F2;border:1px solid #FECDD3;border-radius:10px;padding:10px 12px;margin-bottom:12px;font-size:0.8rem;color:#9F1239;line-height:1.4;">
+                                      <i class="fa-solid fa-circle-exclamation text-rose-600 mr-1"></i>
+                                      <span id="homeCardConflictText">These dates are already reserved!</span>
+                                    </div>
+
+                                    <% if (isLoggedIn) { %>
+                                      <button type="submit" id="homeReserveSubmitBtn" class="btn-reserve-stay">
+                                        <i class="fa-solid fa-bolt text-xs"></i>
+                                        <span id="homeReserveBtnText">Reserve Stay</span>
+                                      </button>
+                                      <% } else { %>
+                                        <a href="/login" class="btn-reserve-stay">
+                                          <i class="fa-solid fa-arrow-right-to-bracket text-xs"></i>
+                                          <span>Log in to Reserve</span>
+                                        </a>
+                                        <% } %>
+                                  </form>
+
+                                  <div style="text-align:center;margin-top:10px;">
+                                    <a href="/reserve/<%= home._id %>"
+                                      style="font-size:0.8rem;color:#E11D48;font-weight:600;text-decoration:underline;">
+                                      Open Dedicated Reservation Hub &rarr;
+                                    </a>
+                                  </div>
+
+                                  <p class="booking-no-charge-note" style="margin-top:10px;">
+                                    You won't be charged yet
+                                  </p>
+
+                                  <!-- Pricing Breakdown -->
+                                  <div class="pricing-calc-table">
+                                    <div class="pricing-calc-row">
+                                      <span style="text-decoration:underline;cursor:pointer;">$<%= home.price %> × <span
+                                            id="homeCalcNights">3</span> nights</span>
+                                      <span id="homeCalcSubtotal">$<%= home.price * 3 %></span>
+                                    </div>
+                                    <div class="pricing-calc-row">
+                                      <span style="text-decoration:underline;cursor:pointer;">Cleaning fee</span>
+                                      <span>$50</span>
+                                    </div>
+                                    <div class="pricing-calc-row">
+                                      <span style="text-decoration:underline;cursor:pointer;">Airbnb service fee</span>
+                                      <span>$35</span>
+                                    </div>
+                                    <div class="pricing-calc-row total">
+                                      <span>Total before taxes</span>
+                                      <span id="homeCalcTotal" style="color:#FF385C;">$<%= (home.price * 3) + 85 %>
+                                          </span>
+                                    </div>
+                                  </div>
+
+                                  <!-- AirCover Guarantee -->
+                                  <div class="booking-aircover-note">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                    <div>
+                                      <strong style="color:#111827;">AirCover Guarantee:</strong> Protection against
+                                      listing discrepancies and host cancellations.
+                                    </div>
+                                  </div>
+
+                                </div>
+                              </aside>
+
+                          </div>
+
+        </main>
+
+        <!-- Global Footer -->
+        <footer class="airbnb-global-footer">
+          <div class="airbnb-footer-container">
+            <div class="footer-left-col">
+              <a href="/" class="footer-brand-logo">
+                <i class="fa-brands fa-airbnb"></i>
+                <span>airbnb</span>
+              </a>
+              <div class="footer-copyright-links">
+                <span>© 2026 Airbnb, Inc.</span>
+                <span>·</span>
+                <a href="#">Privacy</a>
+                <span>·</span>
+                <a href="#">Terms</a>
+                <span>·</span>
+                <a href="#">Sitemap</a>
+              </div>
+            </div>
+            <div class="footer-right-col">
+              <span class="footer-locale-btn"><i class="fa-solid fa-globe"></i> English (US)</span>
+              <span class="footer-locale-btn">$ USD</span>
+              <% if (!isLoggedIn || (user && user.userType==='host' )) { %>
+                <a href="/host/addHome" class="hover:text-rose-500 transition-colors">Become a Host</a>
+                <% } %>
+            </div>
+          </div>
+        </footer>
+
+        <!-- Lightbox Modal for Uncropped Full-Screen Viewing -->
+        <div id="photoLightboxModal" class="photo-lightbox-modal">
+          <div class="lightbox-backdrop-blur" onclick="closeLightbox()"></div>
+          <div class="lightbox-modal-content">
+            <button type="button" class="lightbox-close-btn" onclick="closeLightbox()" title="Close viewer">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="lightbox-nav-row">
+              <button type="button" class="lightbox-nav-btn" onclick="prevLightboxPhoto()" title="Previous photo">
+                <i class="fa-solid fa-chevron-left"></i>
+              </button>
+
+              <div class="lightbox-image-frame">
+                <img id="lightboxActiveImg" src="" alt="Full view" class="lightbox-active-img" />
+                <div class="lightbox-caption-text" id="lightboxCaption">Photo 1 of 1</div>
+              </div>
+
+              <button type="button" class="lightbox-nav-btn" onclick="nextLightboxPhoto()" title="Next photo">
+                <i class="fa-solid fa-chevron-right"></i>
+              </button>
+            </div>
+
+            <!-- Thumbnail filmstrip inside modal -->
+            <div class="lightbox-filmstrip" id="lightboxFilmstrip"></div>
+          </div>
+        </div>
+
+        <script>
+          const galleryPhotos = <%- JSON.stringify(displayPhotos) %>;
+          const galleryLabels = <%- JSON.stringify(photoLabels) %>;
+
+          let activeHeroIndex = 0;
+          let currentPhotoIndex = 0;
+
+          // Mode Switcher: 'showcase' or 'grid'
+          function setGalleryMode(mode) {
+            const showcaseSec = document.getElementById('galleryShowcaseMode');
+            const gridSec = document.getElementById('galleryGridMode');
+            const btnShowcase = document.getElementById('btnModeShowcase');
+            const btnGrid = document.getElementById('btnModeGrid');
+
+            if (mode === 'grid') {
+              if (showcaseSec) showcaseSec.classList.remove('active-mode');
+              if (gridSec) gridSec.classList.add('active-mode');
+              if (btnShowcase) btnShowcase.classList.remove('active');
+              if (btnGrid) btnGrid.classList.add('active');
+            } else {
+              if (showcaseSec) showcaseSec.classList.add('active-mode');
+              if (gridSec) gridSec.classList.remove('active-mode');
+              if (btnShowcase) btnShowcase.classList.add('active');
+              if (btnGrid) btnGrid.classList.remove('active');
+            }
+          }
+
+          // Hero Showcase Controls
+          function selectHeroPhoto(idx) {
+            if (!galleryPhotos || idx < 0 || idx >= galleryPhotos.length) return;
+            activeHeroIndex = idx;
+            updateHeroStage();
+          }
+
+          function cycleHeroPhoto(delta) {
+            if (!galleryPhotos || galleryPhotos.length <= 1) return;
+            activeHeroIndex = (activeHeroIndex + delta + galleryPhotos.length) % galleryPhotos.length;
+            updateHeroStage();
+          }
+
+          function updateHeroStage() {
+            const img = document.getElementById('masterStageImg');
+            const tagText = document.getElementById('heroBadgeText');
+
+            if (img && galleryPhotos[activeHeroIndex]) {
+              img.src = galleryPhotos[activeHeroIndex];
+            }
+
+            if (tagText) {
+              const label = (galleryLabels && galleryLabels[activeHeroIndex]) ? galleryLabels[activeHeroIndex] : `Photo ${activeHeroIndex + 1}`;
+              tagText.innerText = `${activeHeroIndex + 1} of ${galleryPhotos.length} · ${label}`;
+            }
+
+            // Update active card highlight
+            galleryPhotos.forEach((_, i) => {
+              const card = document.getElementById(`featureCard-${i}`);
+              if (card) {
+                if (i === activeHeroIndex) {
+                  card.classList.add('active');
+                } else {
+                  card.classList.remove('active');
+                }
+              }
+            });
+          }
+
+          // Lightbox Controls
+          function openLightbox(idx) {
+            currentPhotoIndex = idx || 0;
+            updateLightbox();
+            renderLightboxFilmstrip();
+            const modal = document.getElementById('photoLightboxModal');
+            if (modal) modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+          }
+
+          function closeLightbox() {
+            const modal = document.getElementById('photoLightboxModal');
+            if (modal) modal.classList.remove('active');
+            document.body.style.overflow = '';
+          }
+
+          function updateLightbox() {
+            const img = document.getElementById('lightboxActiveImg');
+            const cap = document.getElementById('lightboxCaption');
+            if (img && galleryPhotos.length > 0) {
+              img.src = galleryPhotos[currentPhotoIndex];
+            }
+            if (cap) {
+              cap.innerText = `Photo ${currentPhotoIndex + 1} of ${galleryPhotos.length} — ${galleryLabels[currentPhotoIndex] || 'Listing photo'}`;
+            }
+            // Update active thumb
+            document.querySelectorAll('.lightbox-thumb').forEach((t, i) => {
+              if (i === currentPhotoIndex) {
+                t.classList.add('active');
+              } else {
+                t.classList.remove('active');
+              }
+            });
+          }
+
+          function renderLightboxFilmstrip() {
+            const strip = document.getElementById('lightboxFilmstrip');
+            if (!strip) return;
+            strip.innerHTML = '';
+            if (galleryPhotos.length <= 1) return;
+
+            galleryPhotos.forEach((pic, i) => {
+              const thumb = document.createElement('img');
+              thumb.src = pic;
+              thumb.className = `lightbox-thumb ${i === currentPhotoIndex ? 'active' : ''}`;
+              thumb.onclick = () => {
+                currentPhotoIndex = i;
+                updateLightbox();
+              };
+              strip.appendChild(thumb);
+            });
+          }
+
+          function nextLightboxPhoto() {
+            if (galleryPhotos.length === 0) return;
+            currentPhotoIndex = (currentPhotoIndex + 1) % galleryPhotos.length;
+            updateLightbox();
+          }
+
+          function prevLightboxPhoto() {
+            if (galleryPhotos.length === 0) return;
+            currentPhotoIndex = (currentPhotoIndex - 1 + galleryPhotos.length) % galleryPhotos.length;
+            updateLightbox();
+          }
+
+          document.addEventListener('keydown', (e) => {
+            const modal = document.getElementById('photoLightboxModal');
+            if (modal && modal.classList.contains('active')) {
+              if (e.key === 'Escape') closeLightbox();
+              if (e.key === 'ArrowRight') nextLightboxPhoto();
+              if (e.key === 'ArrowLeft') prevLightboxPhoto();
+            } else {
+              if (e.key === 'ArrowRight') cycleHeroPhoto(1);
+              if (e.key === 'ArrowLeft') cycleHeroPhoto(-1);
+            }
+          });
+
+          // Dynamic Date Calculation and Conflict Checking on Home Details Card
+          (function initHomeBookingCard() {
+            const homePrice = <%= Number(home.price) || 150 %>;
+            const bookedList = <%- JSON.stringify((existingBookings || []).map(b => ({
+              start: new Date(b.checkIn).getTime(),
+              end: new Date(b.checkOut).getTime(),
+              startStr: new Date(b.checkIn).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
+              endStr: new Date(b.checkOut).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+            }))) %>;
+
+            const inEl = document.getElementById('homeCheckIn');
+            const outEl = document.getElementById('homeCheckOut');
+            const nightsEl = document.getElementById('homeCalcNights');
+            const subtotalEl = document.getElementById('homeCalcSubtotal');
+            const totalEl = document.getElementById('homeCalcTotal');
+            const noticeBox = document.getElementById('homeCardConflictNotice');
+            const noticeText = document.getElementById('homeCardConflictText');
+            const reserveBtn = document.getElementById('homeReserveSubmitBtn');
+            const btnText = document.getElementById('homeReserveBtnText');
+
+            const maxGuestsLimit = <%= Number(home.maxGuests) || 4 %>;
+            const guestsEl = document.getElementById('homeBookingGuests') || document.querySelector('select[name="guests"]');
+            const guestWarningBox = document.getElementById('homeCardGuestLimitNotice');
+            const guestWarningCount = document.getElementById('homeCardGuestLimitCount');
+
+            if (!inEl || !outEl) return;
+
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const defIn = new Date(today);
+            defIn.setDate(defIn.getDate() + 1);
+            const defOut = new Date(defIn);
+            defOut.setDate(defOut.getDate() + 3);
+
+            function fmtDate(d) {
+              return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+            }
+
+            inEl.min = fmtDate(today);
+            outEl.min = fmtDate(defIn);
+            inEl.value = fmtDate(defIn);
+            outEl.value = fmtDate(defOut);
+
+            function recompute() {
+              if (!inEl.value || !outEl.value) return;
+
+              // 1. Guest capacity check
+              const guestsVal = parseInt(guestsEl ? guestsEl.value : 1, 10) || 1;
+              const isExceeded = (guestsVal > maxGuestsLimit);
+
+              if (isExceeded) {
+                if (guestWarningBox) {
+                  guestWarningBox.style.display = 'block';
+                  if (guestWarningCount) guestWarningCount.textContent = guestsVal;
+                }
+                if (guestsEl) {
+                  guestsEl.style.borderColor = '#EF4444';
+                  guestsEl.style.backgroundColor = '#FFF1F2';
+                }
+                if (reserveBtn) {
+                  reserveBtn.disabled = true;
+                  if (btnText) btnText.textContent = `Capacity Exceeded (Max ${maxGuestsLimit} Guests)`;
+                }
+                return;
+              } else {
+                if (guestWarningBox) guestWarningBox.style.display = 'none';
+                if (guestsEl) {
+                  guestsEl.style.borderColor = '';
+                  guestsEl.style.backgroundColor = '';
+                }
+              }
+
+              const inD = new Date(inEl.value + 'T00:00:00');
+              const outD = new Date(outEl.value + 'T00:00:00');
+
+              const minNext = new Date(inD);
+              minNext.setDate(minNext.getDate() + 1);
+              outEl.min = fmtDate(minNext);
+
+              if (outD <= inD) {
+                if (noticeBox) {
+                  noticeBox.style.display = 'block';
+                  noticeText.textContent = 'Checkout must be after check-in date.';
+                }
+                if (reserveBtn) reserveBtn.disabled = true;
+                return;
+              }
+
+              const inMs = inD.getTime();
+              const outMs = outD.getTime();
+
+              // Conflict check
+              let conflict = null;
+              for (const b of bookedList) {
+                if (b.start < outMs && b.end > inMs) {
+                  conflict = b;
+                  break;
+                }
+              }
+
+              const diff = outMs - inMs;
+              const nights = Math.max(1, Math.round(diff / (1000 * 60 * 60 * 24)));
+              const subtotal = homePrice * nights;
+              const grandTotal = subtotal + 50 + 35;
+
+              if (nightsEl) nightsEl.textContent = nights;
+              if (subtotalEl) subtotalEl.textContent = `$${subtotal.toLocaleString()}`;
+              if (totalEl) totalEl.textContent = `$${grandTotal.toLocaleString()}`;
+
+              if (conflict) {
+                if (noticeBox) {
+                  noticeBox.style.display = 'block';
+                  noticeText.innerHTML = `<strong>Unavailable:</strong> Reserved from ${conflict.startStr} to ${conflict.endStr}.`;
+                }
+                if (reserveBtn) {
+                  reserveBtn.disabled = true;
+                  if (btnText) btnText.textContent = 'Dates Unavailable';
+                }
+              } else {
+                if (noticeBox) noticeBox.style.display = 'none';
+                if (reserveBtn) {
+                  reserveBtn.disabled = false;
+                  if (btnText) btnText.textContent = `Reserve Stay (${nights} nights)`;
+                }
+              }
+            }
+
+            inEl.addEventListener('change', () => {
+              const inD = new Date(inEl.value + 'T00:00:00');
+              const outD = new Date(outEl.value + 'T00:00:00');
+              if (outD <= inD) {
+                const next = new Date(inD);
+                next.setDate(next.getDate() + 3);
+                outEl.value = fmtDate(next);
+              }
+              recompute();
+            });
+
+            outEl.addEventListener('change', recompute);
+
+            if (guestsEl) {
+              guestsEl.addEventListener('change', recompute);
+              guestsEl.addEventListener('input', recompute);
+            }
+
+            const bookingForm = document.getElementById('homeBookingForm');
+            if (bookingForm) {
+              bookingForm.addEventListener('submit', (e) => {
+                const val = parseInt(guestsEl ? guestsEl.value : 1, 10) || 1;
+                if (val > maxGuestsLimit) {
+                  e.preventDefault();
+                  alert(`⚠️ This property accommodates a maximum of ${maxGuestsLimit} guests. You entered ${val} guests. Please reduce traveler count to proceed.`);
+                  if (guestsEl) guestsEl.focus();
+                }
+              });
+            }
+
+            recompute();
+          })();
+        </script>
+
+  </body>
+
+  </html>

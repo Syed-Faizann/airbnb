@@ -1,0 +1,16 @@
+<% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+  <div class="rounded-xl px-4 py-3 flex flex-col gap-2 mb-4 bg-red-50 border border-red-200 text-red-700">
+    <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-red-800">
+      <i class="fa-solid fa-circle-exclamation text-sm text-red-600"></i>
+      Please check the following
+    </div>
+    <ul class="flex flex-col gap-1 pl-1">
+      <% errors.forEach(err => { %>
+        <li class="flex items-start gap-2 text-xs leading-relaxed text-red-700">
+          <span class="mt-1.5 w-1 h-1 rounded-full bg-red-500 flex-shrink-0"></span>
+          <span><%= err %></span>
+        </li>
+      <% }) %>
+    </ul>
+  </div>
+<% } %>

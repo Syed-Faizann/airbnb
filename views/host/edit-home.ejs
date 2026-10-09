@@ -1,0 +1,2747 @@
+<%- include('../partials/head') %>
+  <style>
+    /* ========================================================================
+     AIRBNB HOST SETUP WIZARD - SCOPED LUXURY DESIGN & RESPONSIVE SYSTEM
+     ======================================================================== */
+
+    html,
+    body {
+      overflow-x: hidden !important;
+      max-width: 100vw !important;
+      width: 100% !important;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    /* Container Spacing */
+    .host-wizard-container {
+      max-width: 1560px !important;
+      width: 100% !important;
+      margin: 36px auto 80px !important;
+      padding: 0 40px !important;
+      box-sizing: border-box !important;
+      min-width: 0 !important;
+      overflow-x: clip !important;
+    }
+
+    @media (max-width: 1024px) {
+      .host-wizard-container {
+        padding: 0 24px !important;
+        margin: 24px auto 60px !important;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .host-wizard-container {
+        padding: 0 16px !important;
+        margin: 16px auto 40px !important;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .host-wizard-container {
+        padding: 0 12px !important;
+      }
+    }
+
+    /* ------------------------------------------------------------------------
+     1. HERO HEADER: Crystal Clear Heading, Subtitle & Generous Spacing
+     ------------------------------------------------------------------------ */
+    .wizard-header-section {
+      margin-bottom: 32px !important;
+      padding-bottom: 24px !important;
+      border-bottom: 1.5px solid #EBEBEB !important;
+      width: 100% !important;
+    }
+
+    .wizard-header-badge {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      background: #FFF1F2 !important;
+      border: 1px solid #FFE4E6 !important;
+      padding: 6px 14px !important;
+      border-radius: 999px !important;
+      margin-bottom: 12px !important;
+      max-width: 100% !important;
+      flex-wrap: wrap !important;
+    }
+
+    .wizard-badge-pulse {
+      width: 8px !important;
+      height: 8px !important;
+      border-radius: 50% !important;
+      background: #FF385C !important;
+      box-shadow: 0 0 0 3px rgba(255, 56, 92, 0.25) !important;
+      display: inline-block !important;
+      animation: pulseGlow 2s infinite !important;
+      flex-shrink: 0 !important;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.2);
+        opacity: 0.7;
+      }
+    }
+
+    .wizard-badge-tag {
+      font-size: 0.75rem !important;
+      font-weight: 800 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.08em !important;
+      color: #E11D48 !important;
+    }
+
+    .wizard-badge-sep {
+      color: #FDA4AF !important;
+      font-size: 0.85rem !important;
+    }
+
+    .wizard-badge-step {
+      font-size: 0.78rem !important;
+      color: #4B5563 !important;
+      font-weight: 700 !important;
+    }
+
+    .wizard-header-title {
+      font-size: clamp(1.5rem, 3.2vw, 2.75rem) !important;
+      font-weight: 800 !important;
+      letter-spacing: -0.035em !important;
+      color: #1E1E1E !important;
+      line-height: 1.2 !important;
+      margin: 0 0 10px 0 !important;
+      word-break: break-word !important;
+    }
+
+    .wizard-header-subtitle {
+      font-size: 0.95rem !important;
+      color: #717171 !important;
+      margin: 0 !important;
+      max-width: 720px !important;
+      line-height: 1.6 !important;
+    }
+
+    @media (max-width: 640px) {
+      .wizard-header-section {
+        margin-bottom: 20px !important;
+        padding-bottom: 18px !important;
+      }
+      .wizard-header-subtitle {
+        font-size: 0.85rem !important;
+        line-height: 1.5 !important;
+      }
+      .wizard-badge-tag, .wizard-badge-step {
+        font-size: 0.7rem !important;
+      }
+    }
+
+    /* ------------------------------------------------------------------------
+     2. GRID LAYOUT BREAKPOINTS
+     ------------------------------------------------------------------------ */
+    .host-wizard-layout {
+      display: grid !important;
+      grid-template-columns: 280px minmax(0, 1fr) 360px !important;
+      gap: 32px !important;
+      align-items: start !important;
+      width: 100% !important;
+      min-width: 0 !important;
+    }
+
+    @media (max-width: 1280px) {
+      .host-wizard-layout {
+        grid-template-columns: 260px minmax(0, 1fr) !important;
+        gap: 24px !important;
+      }
+      .live-preview-box {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: 920px) {
+      .host-wizard-layout {
+        grid-template-columns: minmax(0, 1fr) !important;
+        gap: 16px !important;
+      }
+      .live-preview-box {
+        display: none !important;
+      }
+    }
+
+    /* ------------------------------------------------------------------------
+     3. SIDEBAR STEPPER NAVIGATION (Vertical on Desktop, Horizontal Pill Stepper on Mobile)
+     ------------------------------------------------------------------------ */
+    .wizard-sidebar-nav {
+      position: sticky !important;
+      top: 96px !important;
+      background: #FFFFFF !important;
+      border: 1.5px solid #E5E7EB !important;
+      border-radius: 20px !important;
+      padding: 24px 18px !important;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04) !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 8px !important;
+      box-sizing: border-box !important;
+      width: 100% !important;
+      min-width: 0 !important;
+    }
+
+    .wizard-sidebar-head {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      margin-bottom: 10px !important;
+      padding-bottom: 10px !important;
+      border-bottom: 1.5px solid #F3F4F6 !important;
+    }
+
+    .wizard-sidebar-title {
+      font-size: 0.75rem !important;
+      font-weight: 800 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.08em !important;
+      color: #111827 !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+    }
+
+    .wizard-sidebar-steps-list {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 8px !important;
+      width: 100% !important;
+    }
+
+    .vertical-step-btn {
+      display: flex !important;
+      align-items: center !important;
+      gap: 12px !important;
+      padding: 12px 14px !important;
+      border-radius: 14px !important;
+      border: 1.5px solid transparent !important;
+      background: transparent !important;
+      cursor: pointer !important;
+      text-align: left !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      transition: all 0.2s ease !important;
+    }
+
+    .vertical-step-btn:hover {
+      background: #F9FAFB !important;
+    }
+
+    .vertical-step-btn.active {
+      background: #FFFFFF !important;
+      border-color: #222222 !important;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06) !important;
+    }
+
+    .vertical-step-btn.completed {
+      background: #F0FDF4 !important;
+      border-color: #A7F3D0 !important;
+    }
+
+    .vertical-step-badge {
+      width: 32px !important;
+      height: 32px !important;
+      border-radius: 50% !important;
+      background: #F3F4F6 !important;
+      color: #6B7280 !important;
+      font-size: 0.82rem !important;
+      font-weight: 800 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      flex-shrink: 0 !important;
+      transition: all 0.2s ease !important;
+    }
+
+    .vertical-step-btn.active .vertical-step-badge {
+      background: #222222 !important;
+      color: #FFFFFF !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+    }
+
+    .vertical-step-btn.completed .vertical-step-badge {
+      background: #10B981 !important;
+      color: #FFFFFF !important;
+    }
+
+    .vertical-step-info {
+      display: flex !important;
+      flex-direction: column !important;
+      min-width: 0 !important;
+      flex: 1 1 auto !important;
+    }
+
+    .vertical-step-title {
+      font-size: 0.85rem !important;
+      font-weight: 700 !important;
+      color: #111827 !important;
+      line-height: 1.25 !important;
+    }
+
+    .vertical-step-sub {
+      font-size: 0.72rem !important;
+      color: #6B7280 !important;
+      line-height: 1.25 !important;
+      margin-top: 2px !important;
+    }
+
+    .sidebar-progress-card {
+      margin-top: 14px !important;
+      padding-top: 14px !important;
+      border-top: 1.5px solid #F3F4F6 !important;
+    }
+
+    .sidebar-progress-label {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      font-size: 0.75rem !important;
+      font-weight: 700 !important;
+      color: #374151 !important;
+      margin-bottom: 8px !important;
+    }
+
+    .sidebar-progress-track {
+      width: 100% !important;
+      height: 6px !important;
+      background: #E5E7EB !important;
+      border-radius: 999px !important;
+      overflow: hidden !important;
+    }
+
+    .sidebar-progress-fill {
+      height: 100% !important;
+      width: 25% !important;
+      background: linear-gradient(135deg, #FF385C 0%, #E00B41 100%) !important;
+      border-radius: 999px !important;
+      transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+
+    .sidebar-aircover-note {
+      margin-top: 14px !important;
+      padding: 12px 14px !important;
+      border-radius: 14px !important;
+      background: #FFF1F2 !important;
+      border: 1px solid #FFE4E6 !important;
+      font-size: 0.72rem !important;
+      color: #9F1239 !important;
+      line-height: 1.4 !important;
+    }
+
+    /* Tablet & Mobile Stepper Transformation (<= 920px) */
+    @media (max-width: 920px) {
+      .wizard-sidebar-nav {
+        position: static !important;
+        top: auto !important;
+        padding: 14px 14px !important;
+        margin-bottom: 16px !important;
+        border-radius: 16px !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03) !important;
+        border: 1.5px solid #E5E7EB !important;
+      }
+
+      .wizard-sidebar-head {
+        margin-bottom: 10px !important;
+        padding-bottom: 8px !important;
+      }
+
+      .wizard-sidebar-steps-list {
+        display: grid !important;
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        gap: 6px !important;
+      }
+
+      .vertical-step-btn {
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        padding: 8px 4px !important;
+        border-radius: 12px !important;
+        background: #F9FAFB !important;
+        border: 1.5px solid transparent !important;
+        gap: 5px !important;
+        min-width: 0 !important;
+      }
+
+      .vertical-step-btn.active {
+        background: #FFFFFF !important;
+        border-color: #111827 !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05) !important;
+      }
+
+      .vertical-step-btn.completed {
+        background: #F0FDF4 !important;
+        border-color: #86EFAC !important;
+      }
+
+      .vertical-step-badge {
+        width: 26px !important;
+        height: 26px !important;
+        font-size: 0.75rem !important;
+      }
+
+      .vertical-step-info {
+        align-items: center !important;
+        width: 100% !important;
+      }
+
+      .vertical-step-title {
+        font-size: 0.72rem !important;
+        font-weight: 700 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        max-width: 100% !important;
+        line-height: 1.2 !important;
+      }
+
+      .vertical-step-sub {
+        display: none !important;
+      }
+
+      .sidebar-progress-card {
+        margin-top: 10px !important;
+        padding-top: 10px !important;
+      }
+
+      .sidebar-aircover-note {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .vertical-step-btn {
+        padding: 6px 2px !important;
+      }
+      .vertical-step-title {
+        font-size: 0.65rem !important;
+      }
+      .vertical-step-badge {
+        width: 24px !important;
+        height: 24px !important;
+        font-size: 0.7rem !important;
+      }
+    }
+
+    @media (max-width: 350px) {
+      .vertical-step-title {
+        display: none !important;
+      }
+      .vertical-step-btn {
+        padding: 8px 0 !important;
+      }
+    }
+
+    /* ------------------------------------------------------------------------
+     4. FORM CARD & SLIDE PANELS
+     ------------------------------------------------------------------------ */
+    .wizard-form-card {
+      background: #FFFFFF !important;
+      border: 1.5px solid #E5E7EB !important;
+      border-radius: 24px !important;
+      padding: 36px 40px !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
+      width: 100% !important;
+      min-width: 0 !important;
+      box-sizing: border-box !important;
+    }
+
+    @media (max-width: 768px) {
+      .wizard-form-card {
+        padding: 22px 18px !important;
+        border-radius: 18px !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .wizard-form-card {
+        padding: 16px 14px !important;
+        border-radius: 16px !important;
+      }
+    }
+
+    .wizard-slide-panel {
+      display: none !important;
+      width: 100% !important;
+      min-width: 0 !important;
+    }
+
+    .wizard-slide-panel.active {
+      display: block !important;
+      animation: slideInFade 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    }
+
+    @keyframes slideInFade {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .wizard-slide-header {
+      margin-bottom: 26px !important;
+      padding-bottom: 18px !important;
+      border-bottom: 1.5px solid #F3F4F6 !important;
+      width: 100% !important;
+    }
+
+    .wizard-slide-header-top {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      gap: 12px !important;
+      margin-bottom: 6px !important;
+      flex-wrap: wrap !important;
+    }
+
+    .wizard-section-title {
+      font-size: 1.3rem !important;
+      font-weight: 800 !important;
+      letter-spacing: -0.025em !important;
+      color: #111827 !important;
+      margin: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 10px !important;
+      word-break: break-word !important;
+      line-height: 1.3 !important;
+    }
+
+    .wizard-section-subtitle {
+      font-size: 0.88rem !important;
+      color: #6B7280 !important;
+      line-height: 1.55 !important;
+      margin: 0 !important;
+    }
+
+    .wizard-char-counter {
+      font-size: 0.75rem !important;
+      font-weight: 700 !important;
+      color: #6B7280 !important;
+      background: #F3F4F6 !important;
+      padding: 4px 10px !important;
+      border-radius: 999px !important;
+      flex-shrink: 0 !important;
+    }
+
+    @media (max-width: 640px) {
+      .wizard-section-title {
+        font-size: 1.15rem !important;
+      }
+      .wizard-section-subtitle {
+        font-size: 0.82rem !important;
+        line-height: 1.45 !important;
+      }
+    }
+
+    /* ------------------------------------------------------------------------
+     5. FORM INPUTS & LABELS
+     ------------------------------------------------------------------------ */
+    .form-group {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 8px !important;
+      margin-bottom: 22px !important;
+      width: 100% !important;
+      min-width: 0 !important;
+      box-sizing: border-box !important;
+    }
+
+    .form-label {
+      font-size: 0.78rem !important;
+      font-weight: 700 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.05em !important;
+      color: #374151 !important;
+      margin: 0 !important;
+    }
+
+    .form-control {
+      width: 100% !important;
+      box-sizing: border-box !important;
+      background: #FFFFFF !important;
+      border: 1.5px solid #D1D5DB !important;
+      color: #1E1E1E !important;
+      padding: 13px 16px !important;
+      border-radius: 12px !important;
+      font-size: 0.95rem !important;
+      font-family: inherit !important;
+      transition: all 0.2s ease !important;
+      outline: none !important;
+    }
+
+    .form-control:focus {
+      border-color: #222222 !important;
+      box-shadow: 0 0 0 3px rgba(34, 34, 34, 0.1) !important;
+    }
+
+    .wizard-sub-label {
+      font-size: 0.78rem !important;
+      font-weight: 700 !important;
+      color: #4B5563 !important;
+      display: block !important;
+      margin-bottom: 6px !important;
+    }
+
+    /* ------------------------------------------------------------------------
+     6. CATEGORY SELECT GRID & PRESETS
+     ------------------------------------------------------------------------ */
+    .category-select-grid {
+      display: grid !important;
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      gap: 10px !important;
+      margin-top: 4px !important;
+      width: 100% !important;
+    }
+
+    @media (max-width: 600px) {
+      .category-select-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 8px !important;
+      }
+    }
+
+    .category-card-btn {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 8px !important;
+      padding: 14px 10px !important;
+      border-radius: 14px !important;
+      border: 1.5px solid #E5E7EB !important;
+      background: #FFFFFF !important;
+      cursor: pointer !important;
+      transition: all 0.2s ease !important;
+      color: #1F2937 !important;
+      text-align: center !important;
+      width: 100% !important;
+      min-width: 0 !important;
+      box-sizing: border-box !important;
+    }
+
+    .category-card-btn:hover {
+      border-color: #111827 !important;
+      transform: translateY(-2px) !important;
+    }
+
+    .category-card-btn.selected {
+      border-color: #FF385C !important;
+      background: #FFF1F2 !important;
+      box-shadow: 0 0 0 1px #FF385C !important;
+    }
+
+    .category-card-btn i {
+      font-size: 1.35rem !important;
+      color: #FF385C !important;
+    }
+
+    .category-card-btn span {
+      font-size: 0.78rem !important;
+      font-weight: 700 !important;
+      word-break: break-word !important;
+      line-height: 1.25 !important;
+    }
+
+    @media (max-width: 480px) {
+      .category-card-btn {
+        padding: 10px 6px !important;
+        gap: 5px !important;
+      }
+      .category-card-btn i {
+        font-size: 1.15rem !important;
+      }
+      .category-card-btn span {
+        font-size: 0.72rem !important;
+      }
+    }
+
+    .photo-presets-row {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      gap: 6px !important;
+      margin-top: 6px !important;
+      width: 100% !important;
+    }
+
+    .photo-preset-btn {
+      background: #F3F4F6 !important;
+      border: 1px solid #E5E7EB !important;
+      color: #374151 !important;
+      font-size: 0.75rem !important;
+      font-weight: 600 !important;
+      padding: 6px 12px !important;
+      border-radius: 999px !important;
+      cursor: pointer !important;
+      transition: all 0.2s ease !important;
+      max-width: 100% !important;
+      white-space: normal !important;
+      text-align: left !important;
+      line-height: 1.35 !important;
+      box-sizing: border-box !important;
+    }
+
+    .photo-preset-btn:hover {
+      background: #FFF1F2 !important;
+      color: #FF385C !important;
+      border-color: #FDA4AF !important;
+    }
+
+    @media (max-width: 480px) {
+      .photo-preset-btn {
+        font-size: 0.7rem !important;
+        padding: 5px 10px !important;
+      }
+    }
+
+    /* ------------------------------------------------------------------------
+     7. INTERACTIVE COUNTER STEPPERS
+     ------------------------------------------------------------------------ */
+    .counter-stepper-box {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      padding: 14px 18px !important;
+      border: 1.5px solid #E5E7EB !important;
+      border-radius: 16px !important;
+      margin-bottom: 12px !important;
+      background: #FFFFFF !important;
+      width: 100% !important;
+      min-width: 0 !important;
+      box-sizing: border-box !important;
+      gap: 12px !important;
+    }
+
+    .counter-stepper-label {
+      display: flex !important;
+      flex-direction: column !important;
+      flex: 1 1 auto !important;
+      min-width: 0 !important;
+    }
+
+    .counter-stepper-title {
+      font-size: 0.9rem !important;
+      font-weight: 700 !important;
+      color: #111827 !important;
+      line-height: 1.3 !important;
+    }
+
+    .counter-stepper-sub {
+      font-size: 0.74rem !important;
+      color: #6B7280 !important;
+      line-height: 1.35 !important;
+      margin-top: 2px !important;
+    }
+
+    .counter-stepper-controls {
+      display: flex !important;
+      align-items: center !important;
+      gap: 10px !important;
+      flex-shrink: 0 !important;
+    }
+
+    .counter-stepper-btn {
+      width: 34px !important;
+      height: 34px !important;
+      border-radius: 50% !important;
+      border: 1.5px solid #D1D5DB !important;
+      background: #FFFFFF !important;
+      color: #111827 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      font-size: 0.85rem !important;
+      font-weight: 700 !important;
+      cursor: pointer !important;
+      transition: all 0.15s ease !important;
+      flex-shrink: 0 !important;
+    }
+
+    .counter-stepper-btn:hover {
+      border-color: #111827 !important;
+      background: #F9FAFB !important;
+    }
+
+    .counter-stepper-val {
+      font-size: 1.05rem !important;
+      font-weight: 800 !important;
+      min-width: 24px !important;
+      text-align: center !important;
+      color: #111827 !important;
+    }
+
+    @media (max-width: 480px) {
+      .counter-stepper-box {
+        padding: 12px 12px !important;
+        gap: 8px !important;
+      }
+      .counter-stepper-title {
+        font-size: 0.84rem !important;
+      }
+      .counter-stepper-sub {
+        font-size: 0.7rem !important;
+      }
+      .counter-stepper-btn {
+        width: 30px !important;
+        height: 30px !important;
+      }
+      .counter-stepper-controls {
+        gap: 6px !important;
+      }
+    }
+
+    .wizard-desc-head {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      margin-bottom: 6px !important;
+      flex-wrap: wrap !important;
+      gap: 6px !important;
+    }
+
+    .wizard-auto-gen-btn {
+      background: transparent !important;
+      border: none !important;
+      color: #FF385C !important;
+      font-size: 0.78rem !important;
+      font-weight: 700 !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 5px !important;
+      cursor: pointer !important;
+      transition: all 0.2s ease !important;
+      padding: 4px 8px !important;
+      border-radius: 6px !important;
+    }
+
+    .wizard-auto-gen-btn:hover {
+      color: #E00B41 !important;
+      background: #FFF1F2 !important;
+    }
+
+    /* ------------------------------------------------------------------------
+     8. 3-PHOTO UPLOADTHING STUDIO & SLOTS
+     ------------------------------------------------------------------------ */
+    .photo-upload-studio {
+      background: #FFFFFF !important;
+      border: 1.5px solid #E5E7EB !important;
+      border-radius: 20px !important;
+      padding: 22px !important;
+      margin-bottom: 22px !important;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04) !important;
+      width: 100% !important;
+      min-width: 0 !important;
+      box-sizing: border-box !important;
+    }
+
+    @media (max-width: 640px) {
+      .photo-upload-studio {
+        padding: 16px 14px !important;
+        border-radius: 16px !important;
+      }
+    }
+
+    .photo-dropzone {
+      border: 2px dashed #D1D5DB !important;
+      border-radius: 16px !important;
+      background: #F9FAFB !important;
+      padding: 24px 16px !important;
+      text-align: center !important;
+      cursor: pointer !important;
+      transition: all 0.2s ease !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      position: relative !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    .photo-dropzone:hover,
+    .photo-dropzone.dragover {
+      border-color: #FF385C !important;
+      background: #FFF1F2 !important;
+    }
+
+    .dropzone-icon {
+      width: 48px !important;
+      height: 48px !important;
+      border-radius: 50% !important;
+      background: #FFE4E6 !important;
+      color: #FF385C !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      font-size: 1.3rem !important;
+      margin-bottom: 10px !important;
+      transition: transform 0.2s ease !important;
+    }
+
+    .photo-dropzone:hover .dropzone-icon {
+      transform: scale(1.1) !important;
+    }
+
+    .dropzone-title {
+      font-size: 0.92rem !important;
+      font-weight: 700 !important;
+      color: #111827 !important;
+      margin-bottom: 4px !important;
+      display: block !important;
+      word-break: break-word !important;
+      line-height: 1.35 !important;
+    }
+
+    .dropzone-subtitle {
+      font-size: 0.76rem !important;
+      color: #6B7280 !important;
+      display: block !important;
+      word-break: break-word !important;
+      line-height: 1.35 !important;
+    }
+
+    .btn-browse-photos {
+      margin-top: 12px !important;
+      background: #FF385C !important;
+      color: #FFFFFF !important;
+      font-size: 0.8rem !important;
+      font-weight: 700 !important;
+      padding: 8px 18px !important;
+      border-radius: 9999px !important;
+      border: none !important;
+      cursor: pointer !important;
+      box-shadow: 0 4px 12px rgba(255, 56, 92, 0.25) !important;
+      transition: all 0.2s ease !important;
+    }
+
+    .btn-browse-photos:hover {
+      background: #E00B41 !important;
+      transform: translateY(-1px) !important;
+    }
+
+    .three-slots-row {
+      display: grid !important;
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      gap: 14px !important;
+      margin-top: 18px !important;
+      width: 100% !important;
+    }
+
+    @media (max-width: 768px) {
+      .three-slots-row {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+      }
+    }
+
+    .photo-slot-card {
+      background: #F9FAFB !important;
+      border: 1.5px solid #E5E7EB !important;
+      border-radius: 16px !important;
+      overflow: hidden !important;
+      transition: all 0.2s ease !important;
+      position: relative !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    .photo-slot-card.has-photo {
+      border-color: #10B981 !important;
+      background: #FFFFFF !important;
+    }
+
+    .slot-card-header {
+      padding: 8px 12px !important;
+      background: #F3F4F6 !important;
+      border-bottom: 1px solid #E5E7EB !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      font-size: 0.72rem !important;
+      font-weight: 700 !important;
+      color: #374151 !important;
+    }
+
+    .photo-slot-card.has-photo .slot-card-header {
+      background: #ECFDF5 !important;
+      color: #065F46 !important;
+      border-color: #D1FAE5 !important;
+    }
+
+    .slot-badge-num {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 5px !important;
+    }
+
+    .slot-remove-btn {
+      background: transparent !important;
+      border: none !important;
+      color: #9CA3AF !important;
+      cursor: pointer !important;
+      font-size: 0.8rem !important;
+      padding: 2px 4px !important;
+      border-radius: 4px !important;
+      transition: color 0.15s ease !important;
+    }
+
+    .slot-remove-btn:hover {
+      color: #EF4444 !important;
+    }
+
+    .slot-preview-box {
+      height: 120px !important;
+      position: relative !important;
+      overflow: hidden !important;
+      cursor: pointer !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      background: #F3F4F6 !important;
+    }
+
+    .slot-preview-img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      display: block !important;
+      transition: transform 0.2s ease !important;
+    }
+
+    .slot-preview-box:hover .slot-preview-img {
+      transform: scale(1.05) !important;
+    }
+
+    .slot-placeholder {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 6px !important;
+      color: #9CA3AF !important;
+      font-size: 0.72rem !important;
+      font-weight: 600 !important;
+    }
+
+    .slot-placeholder i {
+      font-size: 1.5rem !important;
+    }
+
+    .dropzone-uploading {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      padding: 10px 0 !important;
+    }
+
+    .upload-spinner-ring {
+      width: 36px !important;
+      height: 36px !important;
+      border: 3px solid #E5E7EB !important;
+      border-top: 3px solid #FF385C !important;
+      border-radius: 50% !important;
+      animation: spinRing 0.8s linear infinite !important;
+    }
+
+    @keyframes spinRing {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* ------------------------------------------------------------------------
+     9. AMENITIES CHECKLIST CHIPS
+     ------------------------------------------------------------------------ */
+    .amenities-chips-grid {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      gap: 8px !important;
+      margin-top: 10px !important;
+      width: 100% !important;
+    }
+
+    .amenity-toggle-chip {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      padding: 8px 14px !important;
+      border-radius: 999px !important;
+      border: 1.5px solid #E5E7EB !important;
+      background: #FFFFFF !important;
+      color: #1F2937 !important;
+      font-size: 0.78rem !important;
+      font-weight: 600 !important;
+      cursor: pointer !important;
+      transition: all 0.2s ease !important;
+      max-width: 100% !important;
+      white-space: normal !important;
+      text-align: left !important;
+      line-height: 1.35 !important;
+      box-sizing: border-box !important;
+    }
+
+    .amenity-toggle-chip:hover {
+      border-color: #111827 !important;
+    }
+
+    .amenity-toggle-chip.active {
+      background: #111827 !important;
+      color: #FFFFFF !important;
+      border-color: #111827 !important;
+    }
+
+    @media (max-width: 480px) {
+      .amenities-chips-grid {
+        gap: 6px !important;
+      }
+      .amenity-toggle-chip {
+        font-size: 0.72rem !important;
+        padding: 6px 10px !important;
+        gap: 6px !important;
+      }
+    }
+
+    /* ------------------------------------------------------------------------
+     10. PRICE INPUT CONTAINER & EARNINGS CALCULATOR
+     ------------------------------------------------------------------------ */
+    .wizard-price-wrapper {
+      position: relative !important;
+      display: flex !important;
+      align-items: center !important;
+      width: 100% !important;
+      max-width: 320px !important;
+      margin-top: 6px !important;
+    }
+
+    @media (max-width: 480px) {
+      .wizard-price-wrapper {
+        max-width: 100% !important;
+      }
+    }
+
+    .wizard-price-currency {
+      position: absolute !important;
+      left: 18px !important;
+      font-size: 1.75rem !important;
+      font-weight: 800 !important;
+      color: #1E1E1E !important;
+      pointer-events: none !important;
+      z-index: 2 !important;
+      user-select: none !important;
+    }
+
+    .wizard-price-input {
+      width: 100% !important;
+      box-sizing: border-box !important;
+      padding: 15px 96px 15px 44px !important;
+      font-size: 1.75rem !important;
+      font-weight: 800 !important;
+      color: #1E1E1E !important;
+      background: #FFFFFF !important;
+      border: 1.5px solid #D1D5DB !important;
+      border-radius: 16px !important;
+      letter-spacing: -0.02em !important;
+      outline: none !important;
+      transition: all 0.2s ease !important;
+    }
+
+    .wizard-price-input:focus {
+      border-color: #222222 !important;
+      box-shadow: 0 0 0 3px rgba(34, 34, 34, 0.1) !important;
+    }
+
+    .wizard-price-suffix {
+      position: absolute !important;
+      right: 18px !important;
+      font-size: 0.85rem !important;
+      font-weight: 700 !important;
+      color: #6B7280 !important;
+      pointer-events: none !important;
+      z-index: 2 !important;
+      user-select: none !important;
+    }
+
+    @media (max-width: 480px) {
+      .wizard-price-currency {
+        font-size: 1.4rem !important;
+        left: 14px !important;
+      }
+      .wizard-price-input {
+        font-size: 1.4rem !important;
+        padding: 12px 88px 12px 36px !important;
+      }
+    }
+
+    .pricing-calculator-card {
+      background: #F9FAFB !important;
+      border: 1.5px solid #E5E7EB !important;
+      border-radius: 16px !important;
+      padding: 18px 20px !important;
+      margin-top: 16px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    .pricing-calc-row {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      font-size: 0.8rem !important;
+      color: #4B5563 !important;
+      margin-bottom: 8px !important;
+      gap: 8px !important;
+    }
+
+    .pricing-calc-row.highlight {
+      font-size: 0.95rem !important;
+      font-weight: 800 !important;
+      color: #059669 !important;
+      border-top: 1.5px solid #E5E7EB !important;
+      padding-top: 10px !important;
+      margin-top: 10px !important;
+      margin-bottom: 0 !important;
+    }
+
+    @media (max-width: 480px) {
+      .pricing-calculator-card {
+        padding: 14px 14px !important;
+      }
+      .pricing-calc-row {
+        font-size: 0.76rem !important;
+      }
+    }
+
+    .wizard-checklist-card {
+      margin-top: 24px !important;
+      padding: 20px 22px !important;
+      border-radius: 18px !important;
+      background: #F0FDF4 !important;
+      border: 1.5px solid #86EFAC !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 10px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    .wizard-checklist-title {
+      display: flex !important;
+      align-items: center !important;
+      gap: 9px !important;
+      font-size: 0.88rem !important;
+      font-weight: 800 !important;
+      color: #166534 !important;
+      margin-bottom: 2px !important;
+    }
+
+    .wizard-checklist-title i {
+      color: #16A34A !important;
+      font-size: 1rem !important;
+    }
+
+    .wizard-checklist-item {
+      display: flex !important;
+      align-items: center !important;
+      gap: 10px !important;
+      font-size: 0.8rem !important;
+      font-weight: 600 !important;
+      color: #15803D !important;
+      line-height: 1.4 !important;
+    }
+
+    .wizard-checklist-item i {
+      font-size: 0.72rem !important;
+      color: #16A34A !important;
+    }
+
+    .preview-info-card {
+      margin-top: 18px !important;
+      padding: 14px 18px !important;
+      border-radius: 16px !important;
+      background: #F9FAFB !important;
+      border: 1.5px solid #E5E7EB !important;
+      font-size: 0.78rem !important;
+      color: #6B7280 !important;
+      line-height: 1.5 !important;
+      display: flex !important;
+      align-items: flex-start !important;
+      gap: 10px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    .preview-info-card i {
+      color: #FF385C !important;
+      margin-top: 2px !important;
+      flex-shrink: 0 !important;
+      font-size: 0.9rem !important;
+    }
+
+    /* ------------------------------------------------------------------------
+     11. WIZARD NAVIGATION FOOTER
+     ------------------------------------------------------------------------ */
+    .wizard-nav-footer {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      padding-top: 24px !important;
+      border-top: 1.5px solid #F3F4F6 !important;
+      margin-top: 28px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      gap: 12px !important;
+    }
+
+    .btn-wizard-back {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      padding: 11px 22px !important;
+      border-radius: 999px !important;
+      border: 1.5px solid #D1D5DB !important;
+      background: #FFFFFF !important;
+      color: #1E1E1E !important;
+      font-size: 0.86rem !important;
+      font-weight: 700 !important;
+      cursor: pointer !important;
+      transition: all 0.2s ease !important;
+      flex-shrink: 0 !important;
+    }
+
+    .btn-wizard-back:hover:not(:disabled) {
+      background: #F9FAFB !important;
+      border-color: #111827 !important;
+    }
+
+    .btn-wizard-back:disabled {
+      opacity: 0.35 !important;
+      cursor: not-allowed !important;
+      pointer-events: none !important;
+    }
+
+    .wizard-step-dots {
+      display: flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+    }
+
+    .wizard-dot {
+      width: 8px !important;
+      height: 8px !important;
+      border-radius: 50% !important;
+      background: #E5E7EB !important;
+      transition: all 0.2s ease !important;
+    }
+
+    .wizard-dot.active {
+      background: #FF385C !important;
+      width: 22px !important;
+      border-radius: 999px !important;
+    }
+
+    .btn-wizard-next {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      padding: 12px 26px !important;
+      border-radius: 999px !important;
+      border: none !important;
+      background: linear-gradient(135deg, #FF385C 0%, #E00B41 100%) !important;
+      color: #FFFFFF !important;
+      font-size: 0.88rem !important;
+      font-weight: 700 !important;
+      cursor: pointer !important;
+      transition: all 0.2s ease !important;
+      box-shadow: 0 4px 14px rgba(255, 56, 92, 0.3) !important;
+      flex-shrink: 0 !important;
+    }
+
+    .btn-wizard-next:hover {
+      background: linear-gradient(135deg, #E00B41 0%, #D7043B 100%) !important;
+      transform: translateY(-1px) !important;
+      box-shadow: 0 6px 18px rgba(255, 56, 92, 0.4) !important;
+    }
+
+    @media (max-width: 540px) {
+      .wizard-step-dots {
+        display: none !important;
+      }
+      .wizard-nav-footer {
+        padding-top: 18px !important;
+        margin-top: 20px !important;
+      }
+      .btn-wizard-back {
+        padding: 10px 18px !important;
+        font-size: 0.82rem !important;
+      }
+      .btn-wizard-next {
+        padding: 11px 20px !important;
+        font-size: 0.84rem !important;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .btn-wizard-back {
+        padding: 9px 14px !important;
+      }
+      .btn-wizard-next {
+        padding: 10px 16px !important;
+      }
+    }
+
+    /* ------------------------------------------------------------------------
+     12. REAL-TIME LIVE LISTING PREVIEW (Right Column)
+     ------------------------------------------------------------------------ */
+    .live-preview-box {
+      position: sticky !important;
+      top: 96px !important;
+      background: #FFFFFF !important;
+      border: 1.5px solid #E5E7EB !important;
+      border-radius: 20px !important;
+      padding: 20px !important;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05) !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    @media (max-width: 1280px) {
+      .live-preview-box {
+        display: none !important;
+      }
+    }
+
+    .preview-badge-pill {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      font-size: 0.75rem !important;
+      font-weight: 700 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.06em !important;
+      color: #FF385C !important;
+      background: #FFF1F2 !important;
+      padding: 4px 12px !important;
+      border-radius: 999px !important;
+      margin-bottom: 12px !important;
+    }
+
+    /* Utility display */
+    .hidden {
+      display: none !important;
+    }
+  </style>
+  </head>
+
+  <body>
+    <!-- Ambient Atmosphere -->
+    <div class="ambient-glow-1"></div>
+    <div class="ambient-glow-2"></div>
+    <div class="bg-grid-pattern"></div>
+
+    <!-- Airbnb Sticky Navigation -->
+    <%- include('../partials/nav') %>
+
+      <div class="host-wizard-container">
+
+        <!-- Spacious Elegant Airbnb Header (Generous Breathing Room & Hierarchy) -->
+        <div class="wizard-header-section">
+          <div class="wizard-header-badge">
+            <span class="wizard-badge-pulse"></span>
+            <span class="wizard-badge-tag">Airbnb Host Portal</span>
+            <span class="wizard-badge-sep">·</span>
+            <span class="wizard-badge-step" id="wizardSubheading">Step 1 of 4: The Basics</span>
+          </div>
+          <h1 class="wizard-header-title">
+            <%= editing ? "Edit your rental listing" : "Airbnb your home — Post your flat" %>
+          </h1>
+          <p class="wizard-header-subtitle">
+            Complete the milestones below to publish your stay. All listings are automatically backed by Airbnb AirCover
+            host protection.
+          </p>
+        </div>
+
+        <!-- 3-Column Layout: Left Stepper Navigation + Center Form Fields + Right Live Preview -->
+        <div class="host-wizard-layout">
+
+          <!-- Left Column: Milestone Steps Navigator -->
+          <aside class="wizard-sidebar-nav">
+            <div class="wizard-sidebar-head">
+              <div class="wizard-sidebar-title">
+                <i class="fa-solid fa-list-check" style="color: #FF385C;"></i> Setup Milestones
+              </div>
+              <span class="text-[11px] font-bold text-gray-400" id="stepCounterBadge">1 of 4</span>
+            </div>
+
+            <div class="wizard-sidebar-steps-list">
+              <!-- Step 1 -->
+              <button type="button" class="vertical-step-btn active" id="pill-1" onclick="goToStep(1)">
+                <div class="vertical-step-badge" id="pill-num-1">1</div>
+                <div class="vertical-step-info">
+                  <span class="vertical-step-title">1. The Basics</span>
+                  <span class="vertical-step-sub">Name, Style, City</span>
+                </div>
+              </button>
+
+              <!-- Step 2 -->
+              <button type="button" class="vertical-step-btn" id="pill-2" onclick="goToStep(2)">
+                <div class="vertical-step-badge" id="pill-num-2">2</div>
+                <div class="vertical-step-info">
+                  <span class="vertical-step-title">2. Capacity & Rooms</span>
+                  <span class="vertical-step-sub">Beds, Baths, Rating</span>
+                </div>
+              </button>
+
+              <!-- Step 3 -->
+              <button type="button" class="vertical-step-btn" id="pill-3" onclick="goToStep(3)">
+                <div class="vertical-step-badge" id="pill-num-3">3</div>
+                <div class="vertical-step-info">
+                  <span class="vertical-step-title">3. Photos & Vibe</span>
+                  <span class="vertical-step-sub">High-Res Media</span>
+                </div>
+              </button>
+
+              <!-- Step 4 -->
+              <button type="button" class="vertical-step-btn" id="pill-4" onclick="goToStep(4)">
+                <div class="vertical-step-badge" id="pill-num-4">4</div>
+                <div class="vertical-step-info">
+                  <span class="vertical-step-title">4. Price & Publish</span>
+                  <span class="vertical-step-sub">Rates & Summary</span>
+                </div>
+              </button>
+            </div>
+
+            <!-- Sidebar Progress Card -->
+            <div class="sidebar-progress-card">
+              <div class="sidebar-progress-label">
+                <span>Progress</span>
+                <span id="sidebarProgressPercent">25%</span>
+              </div>
+              <div class="sidebar-progress-track">
+                <div id="stepProgressBar" class="sidebar-progress-fill" style="width: 25%;"></div>
+              </div>
+            </div>
+
+            <!-- AirCover Trust Note -->
+            <div class="sidebar-aircover-note">
+              <div
+                style="font-weight: 800; display: flex; align-items: center; gap: 6px; margin-bottom: 4px; color: #9F1239;">
+                <i class="fa-solid fa-shield-halved" style="color: #E11D48;"></i> AirCover for Hosts
+              </div>
+              Top-to-bottom protection. $3M damage protection and $1M liability insurance included.
+            </div>
+          </aside>
+
+          <!-- Center: Host Form with Slide Panels -->
+          <div class="wizard-form-card">
+            <form action="/host/<%= editing ? 'edit-home' : 'addHome' %>" method="POST" enctype="multipart/form-data"
+              id="hostListingForm">
+              <% if (editing) { %>
+                <input type="hidden" name="id" value="<%= home._id %>" />
+                <% } %>
+
+                  <!-- Hidden input for category to sync with visual cards -->
+                  <input type="hidden" id="category" name="category"
+                    value="<%= (home && home.category) ? home.category : 'City Flats' %>" />
+
+                  <!-- Hidden inputs for stepper counters -->
+                  <input type="hidden" id="bedrooms" name="bedrooms"
+                    value="<%= (home && home.bedrooms) ? home.bedrooms : 2 %>" />
+                  <input type="hidden" id="bathrooms" name="bathrooms"
+                    value="<%= (home && home.bathrooms) ? home.bathrooms : 1 %>" />
+                  <input type="hidden" id="maxGuests" name="maxGuests"
+                    value="<%= (home && home.maxGuests) ? home.maxGuests : 4 %>" />
+
+                  <!-- Hidden input for rating (removed from host UI per request) -->
+                  <input type="hidden" id="rating" name="rating"
+                    value="<%= (home && home.rating) ? home.rating : '4.95' %>" />
+
+                  <!-- Hidden container for submitted amenities -->
+                  <div id="amenitiesHiddenContainer"></div>
+
+                  <!-- ==============================================================
+               SLIDE 1: BASIC PROPERTY DETAILS
+               ============================================================== -->
+                  <div class="wizard-slide-panel active" id="slide-1">
+                    <div class="wizard-section-block">
+                      <div class="wizard-slide-header">
+                        <div class="wizard-slide-header-top">
+                          <h2 class="wizard-section-title">
+                            <i class="fa-solid fa-house-chimney" style="color: #FF385C;"></i>
+                            Give your place a standout title
+                          </h2>
+                          <span class="wizard-char-counter" id="titleCounter">0/60</span>
+                        </div>
+                        <p class="wizard-section-subtitle">
+                          Catchy titles highlight what makes your flat memorable, like views, design, or location.
+                        </p>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="form-label" for="houseName">Listing Title / Property Name</label>
+                        <input type="text" id="houseName" name="houseName" value="<%= home ? home.houseName : '' %>"
+                          placeholder="e.g. Designer 2-Bedroom Flat with City Balcony" required class="form-control"
+                          oninput="handleTitleInput(); updateLivePreview();" />
+                      </div>
+
+                      <!-- Quick Title Suggestions -->
+                      <div class="mb-5">
+                        <label class="wizard-sub-label">
+                          <i class="fa-solid fa-lightbulb" style="color: #F59E0B; margin-right: 4px;"></i> Or click an
+                          inspiration title:
+                        </label>
+                        <div class="photo-presets-row">
+                          <button type="button" class="photo-preset-btn"
+                            onclick="setTitlePreset('Chic Minimalist Flat with Sunny Balcony')">
+                            🏙️ Chic City Flat with Balcony
+                          </button>
+                          <button type="button" class="photo-preset-btn"
+                            onclick="setTitlePreset('Sunset Oceanfront Flat & Private Terrace')">
+                            🌅 Sunset Oceanfront Flat
+                          </button>
+                          <button type="button" class="photo-preset-btn"
+                            onclick="setTitlePreset('Kyoto Garden Atelier & Cedar Soaking Tub')">
+                            🌿 Peaceful Zen Atelier
+                          </button>
+                          <button type="button" class="photo-preset-btn"
+                            onclick="setTitlePreset('Skyline Glass Penthouse & Rooftop Deck')">
+                            ✨ Skyline Luxury Penthouse
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- Visual Property Style / Category Cards -->
+                      <div class="form-group mb-5">
+                        <label class="form-label">Which of these best describes your place?</label>
+                        <div class="category-select-grid">
+                          <% const catOptions=[ { id: 'City Flats' , label: 'City Flat / Loft' ,
+                            icon: 'fa-solid fa-city' }, { id: 'Beachfront' , label: 'Beachfront Villa' ,
+                            icon: 'fa-solid fa-umbrella-beach' }, { id: 'Amazing Pools' , label: 'Amazing Pools' ,
+                            icon: 'fa-solid fa-water-ladder' }, { id: 'Cabins' , label: 'Mountain Cabin' ,
+                            icon: 'fa-solid fa-campground' }, { id: 'Mansions' , label: 'Luxury Mansion' ,
+                            icon: 'fa-solid fa-landmark-dome' }, { id: 'Luxe' , label: 'Luxe Penthouse' ,
+                            icon: 'fa-solid fa-gem' } ]; const activeCat=(home && home.category) ? home.category
+                            : 'City Flats' ; %>
+                            <% catOptions.forEach(opt=> { %>
+                              <button type="button"
+                                class="category-card-btn <%= activeCat === opt.id ? 'selected' : '' %>"
+                                data-cat="<%= opt.id %>" onclick="selectCategory('<%= opt.id %>')">
+                                <i class="<%= opt.icon %>"></i>
+                                <span>
+                                  <%= opt.label %>
+                                </span>
+                              </button>
+                              <% }) %>
+                        </div>
+                      </div>
+
+                      <!-- Location Input & Quick Cities -->
+                      <div class="form-group">
+                        <label class="form-label" for="location">Where is your place located?</label>
+                        <input type="text" id="location" name="location" value="<%= home ? home.location : '' %>"
+                          placeholder="e.g. Manhattan, New York, USA" required class="form-control"
+                          oninput="updateLivePreview()" />
+
+                        <div class="photo-presets-row mt-2">
+                          <span class="text-[11px] text-gray-400 self-center mr-1">Popular:</span>
+                          <button type="button" class="photo-preset-btn"
+                            onclick="setLocation('Manhattan, New York, USA')">New York</button>
+                          <button type="button" class="photo-preset-btn"
+                            onclick="setLocation('Le Marais, Paris, France')">Paris</button>
+                          <button type="button" class="photo-preset-btn"
+                            onclick="setLocation('Gion, Kyoto, Japan')">Kyoto</button>
+                          <button type="button" class="photo-preset-btn"
+                            onclick="setLocation('Lake Como, Lombardy, Italy')">Lake Como</button>
+                          <button type="button" class="photo-preset-btn"
+                            onclick="setLocation('Dubai Marina, UAE')">Dubai</button>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <!-- ==============================================================
+               SLIDE 2: CAPACITY, ROOMS & RATING
+               ============================================================== -->
+                  <div class="wizard-slide-panel" id="slide-2">
+                    <div class="wizard-section-block">
+                      <div class="wizard-slide-header">
+                        <h2 class="wizard-section-title">
+                          <i class="fa-solid fa-bed" style="color: #2563EB;"></i>
+                          Rooms, Beds & Capacity
+                        </h2>
+                        <p class="wizard-section-subtitle">
+                          Set accurate sleeping accommodation numbers to match guests with the right size space.
+                        </p>
+                      </div>
+
+                      <!-- Interactive Stepper 1: Bedrooms -->
+                      <div class="counter-stepper-box">
+                        <div class="counter-stepper-label">
+                          <span class="counter-stepper-title">Bedrooms</span>
+                          <span class="counter-stepper-sub">Dedicated private sleeping rooms</span>
+                        </div>
+                        <div class="counter-stepper-controls">
+                          <button type="button" class="counter-stepper-btn" onclick="adjustCount('bedrooms', -1)">
+                            <i class="fa-solid fa-minus text-xs"></i>
+                          </button>
+                          <span class="counter-stepper-val" id="val-bedrooms">
+                            <%= (home && home.bedrooms) ? home.bedrooms : 2 %>
+                          </span>
+                          <button type="button" class="counter-stepper-btn" onclick="adjustCount('bedrooms', 1)">
+                            <i class="fa-solid fa-plus text-xs"></i>
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- Interactive Stepper 2: Bathrooms -->
+                      <div class="counter-stepper-box">
+                        <div class="counter-stepper-label">
+                          <span class="counter-stepper-title">Bathrooms</span>
+                          <span class="counter-stepper-sub">Full or half bathrooms with shower/tub</span>
+                        </div>
+                        <div class="counter-stepper-controls">
+                          <button type="button" class="counter-stepper-btn" onclick="adjustCount('bathrooms', -1)">
+                            <i class="fa-solid fa-minus text-xs"></i>
+                          </button>
+                          <span class="counter-stepper-val" id="val-bathrooms">
+                            <%= (home && home.bathrooms) ? home.bathrooms : 1 %>
+                          </span>
+                          <button type="button" class="counter-stepper-btn" onclick="adjustCount('bathrooms', 1)">
+                            <i class="fa-solid fa-plus text-xs"></i>
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- Interactive Stepper 3: Max Guests -->
+                      <div class="counter-stepper-box">
+                        <div class="counter-stepper-label">
+                          <span class="counter-stepper-title">Maximum Guests</span>
+                          <span class="counter-stepper-sub">Total number of travelers accommodated</span>
+                        </div>
+                        <div class="counter-stepper-controls">
+                          <button type="button" class="counter-stepper-btn" onclick="adjustCount('maxGuests', -1)">
+                            <i class="fa-solid fa-minus text-xs"></i>
+                          </button>
+                          <span class="counter-stepper-val" id="val-maxGuests">
+                            <%= (home && home.maxGuests) ? home.maxGuests : 4 %>
+                          </span>
+                          <button type="button" class="counter-stepper-btn" onclick="adjustCount('maxGuests', 1)">
+                            <i class="fa-solid fa-plus text-xs"></i>
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- About This Place Field (Added to Listing Setup) -->
+                      <div class="form-group mt-6 pt-5" style="border-top: 1.5px solid #F3F4F6;">
+                        <div class="wizard-desc-head mb-2" style="display: flex; align-items: center; justify-content: space-between;">
+                          <label class="form-label mb-0" for="description">
+                            <i class="fa-solid fa-align-left" style="color: #FF385C; margin-right: 6px;"></i>
+                            About This Place / Description
+                          </label>
+                          <button type="button" class="wizard-auto-gen-btn" onclick="autoGenerateDesc()">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Auto-generate
+                          </button>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-2">
+                          Tell guests about your space, room layout, atmosphere, and neighborhood perks. This displays prominently in View Details.
+                        </p>
+                        <textarea id="description" name="description" rows="4" class="form-control"
+                          style="font-size: 0.9rem; line-height: 1.6; resize: vertical;"
+                          placeholder="Welcome to our beautiful home! Featuring comfortable beds, plenty of natural light, full kitchen, high-speed Wi-Fi, and convenient access to local attractions..."><%= home && home.description ? home.description : '' %></textarea>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <!-- ==============================================================
+               SLIDE 3: PHOTOS & AMENITIES
+               ============================================================== -->
+                  <div class="wizard-slide-panel" id="slide-3">
+                    <div class="wizard-section-block">
+                      <div class="wizard-slide-header">
+                        <h2 class="wizard-section-title">
+                          <i class="fa-solid fa-camera" style="color: #9333EA;"></i>
+                          Add high-quality photos & amenities
+                        </h2>
+                        <p class="wizard-section-subtitle">
+                          Listings with bright, professional photography receive up to 5x more guest inquiries.
+                        </p>
+                      </div>
+
+                      <!-- 3-Photo UploadThing Studio -->
+                      <% const initP1=(home && home.photos && home.photos[0]) ? home.photos[0] : (home && home.photoUrl
+                        ? home.photoUrl : '' ); const initP2=(home && home.photos && home.photos[1]) ? home.photos[1]
+                        : '' ; const initP3=(home && home.photos && home.photos[2]) ? home.photos[2] : '' ; %>
+                        <div class="photo-upload-studio">
+                          <div class="flex items-center justify-between mb-2">
+                            <label class="form-label mb-0" style="margin-bottom:0 !important;">
+                              <i class="fa-solid fa-cloud-arrow-up" style="color: #FF385C; margin-right: 6px;"></i>
+                              Property Photos (Upload 3 Photos)
+                            </label>
+                            <span
+                              class="text-[11px] font-bold text-rose-500 bg-rose-50 px-2.5 py-1 rounded-full border border-rose-100">
+                              <i class="fa-solid fa-bolt mr-1"></i> UploadThing Cloud CDN
+                            </span>
+                          </div>
+                          <p class="text-xs text-gray-500 mb-4">
+                            Upload 3 high-resolution photos for your stay. Photo 1 will serve as your primary cover
+                            image.
+                          </p>
+
+                          <!-- Hidden file inputs -->
+                          <input type="file" id="bulkUploadInput" multiple accept="image/*" class="hidden"
+                            onchange="handleBulkFiles(this.files)" />
+                          <input type="file" id="slotUploadInput" accept="image/*" class="hidden"
+                            onchange="handleSlotFile(this.files)" />
+
+                          <!-- Drag & Drop Zone -->
+                          <div class="photo-dropzone" id="photoDropzone"
+                            onclick="document.getElementById('bulkUploadInput').click()"
+                            ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)"
+                            ondrop="handleDrop(event)">
+                            <div id="dropzoneNormalState">
+                              <div class="dropzone-icon">
+                                <i class="fa-solid fa-images"></i>
+                              </div>
+                              <span class="dropzone-title">Click to upload or drag & drop 3 photos</span>
+                              <span class="dropzone-subtitle">JPG, PNG, WEBP (up to 10MB each) · Instant Cloud
+                                Upload</span>
+                              <button type="button" class="btn-browse-photos">
+                                <i class="fa-solid fa-cloud-arrow-up mr-1.5"></i> Select 3 Photos
+                              </button>
+                            </div>
+
+                            <div id="dropzoneLoadingState" class="dropzone-uploading hidden">
+                              <div class="upload-spinner-ring"></div>
+                              <span class="font-bold text-gray-900 text-sm mt-3" id="dropzoneStatusText">Uploading to
+                                UploadThing...</span>
+                              <span class="text-xs text-gray-500 mt-1">Please wait while your high-res photos are
+                                uploaded</span>
+                            </div>
+                          </div>
+
+                          <!-- 3 Photo Slots Grid Preview -->
+                          <div class="three-slots-row">
+                            <!-- Slot 1: Cover Photo -->
+                            <div class="photo-slot-card <%= initP1 ? 'has-photo' : '' %>" id="slotCard-1">
+                              <div class="slot-card-header">
+                                <span class="slot-badge-num">
+                                  <i class="fa-solid fa-star text-amber-500 text-[10px]"></i> 1. Cover Photo
+                                </span>
+                                <button type="button" class="slot-remove-btn" onclick="clearSlot(1)"
+                                  title="Remove photo">
+                                  <i class="fa-solid fa-xmark"></i>
+                                </button>
+                              </div>
+                              <div class="slot-preview-box" onclick="triggerSlotUpload(1)">
+                                <img src="<%= initP1 %>" id="slotImg-1"
+                                  class="slot-preview-img <%= initP1 ? '' : 'hidden' %>" alt="Cover Photo" />
+                                <div class="slot-placeholder <%= initP1 ? 'hidden' : '' %>" id="slotEmpty-1">
+                                  <i class="fa-solid fa-camera"></i>
+                                  <span>Cover Photo</span>
+                                </div>
+                              </div>
+                              <input type="hidden" name="photo1" id="photo1" value="<%= initP1 %>" />
+                            </div>
+
+                            <!-- Slot 2: Living / Interior -->
+                            <div class="photo-slot-card <%= initP2 ? 'has-photo' : '' %>" id="slotCard-2">
+                              <div class="slot-card-header">
+                                <span class="slot-badge-num">
+                                  <i class="fa-solid fa-couch text-blue-500 text-[10px]"></i> 2. Living / Interior
+                                </span>
+                                <button type="button" class="slot-remove-btn" onclick="clearSlot(2)"
+                                  title="Remove photo">
+                                  <i class="fa-solid fa-xmark"></i>
+                                </button>
+                              </div>
+                              <div class="slot-preview-box" onclick="triggerSlotUpload(2)">
+                                <img src="<%= initP2 %>" id="slotImg-2"
+                                  class="slot-preview-img <%= initP2 ? '' : 'hidden' %>" alt="Interior Photo" />
+                                <div class="slot-placeholder <%= initP2 ? 'hidden' : '' %>" id="slotEmpty-2">
+                                  <i class="fa-solid fa-couch"></i>
+                                  <span>Living / Space</span>
+                                </div>
+                              </div>
+                              <input type="hidden" name="photo2" id="photo2" value="<%= initP2 %>" />
+                            </div>
+
+                            <!-- Slot 3: Room / Amenity -->
+                            <div class="photo-slot-card <%= initP3 ? 'has-photo' : '' %>" id="slotCard-3">
+                              <div class="slot-card-header">
+                                <span class="slot-badge-num">
+                                  <i class="fa-solid fa-bed text-purple-500 text-[10px]"></i> 3. Room / Amenity
+                                </span>
+                                <button type="button" class="slot-remove-btn" onclick="clearSlot(3)"
+                                  title="Remove photo">
+                                  <i class="fa-solid fa-xmark"></i>
+                                </button>
+                              </div>
+                              <div class="slot-preview-box" onclick="triggerSlotUpload(3)">
+                                <img src="<%= initP3 %>" id="slotImg-3"
+                                  class="slot-preview-img <%= initP3 ? '' : 'hidden' %>" alt="Room Photo" />
+                                <div class="slot-placeholder <%= initP3 ? 'hidden' : '' %>" id="slotEmpty-3">
+                                  <i class="fa-solid fa-bed"></i>
+                                  <span>Bedroom / Balcony</span>
+                                </div>
+                              </div>
+                              <input type="hidden" name="photo3" id="photo3" value="<%= initP3 %>" />
+                            </div>
+                          </div>
+
+                          <!-- Hidden photoUrl field for backwards compatibility -->
+                          <input type="hidden" id="photoUrl" name="photoUrl" value="<%= initP1 %>" />
+
+                          <!-- Expandable Manual URL Section -->
+                          <div class="mt-4 pt-3 border-t border-gray-100">
+                            <button type="button"
+                              onclick="document.getElementById('manualUrlInputs').classList.toggle('hidden')"
+                              class="text-xs text-gray-500 hover:text-gray-900 font-semibold flex items-center gap-1.5 transition-colors">
+                              <i class="fa-solid fa-link text-gray-400"></i> Or manually enter photo URLs
+                            </button>
+                            <div id="manualUrlInputs" class="hidden mt-3 space-y-2">
+                              <div class="flex items-center gap-2">
+                                <span class="text-xs font-bold text-gray-500 w-16">Photo 1:</span>
+                                <input type="url" class="form-control text-xs py-1.5" placeholder="https://..."
+                                  value="<%= initP1 %>" oninput="setSlotUrl(1, this.value)" />
+                              </div>
+                              <div class="flex items-center gap-2">
+                                <span class="text-xs font-bold text-gray-500 w-16">Photo 2:</span>
+                                <input type="url" class="form-control text-xs py-1.5" placeholder="https://..."
+                                  value="<%= initP2 %>" oninput="setSlotUrl(2, this.value)" />
+                              </div>
+                              <div class="flex items-center gap-2">
+                                <span class="text-xs font-bold text-gray-500 w-16">Photo 3:</span>
+                                <input type="url" class="form-control text-xs py-1.5" placeholder="https://..."
+                                  value="<%= initP3 %>" oninput="setSlotUrl(3, this.value)" />
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <!-- Instant Presets (Sets all 3 matching photos) -->
+                        <div class="mb-6">
+                          <label class="wizard-sub-label">
+                            <i class="fa-solid fa-wand-magic-sparkles" style="color: #F59E0B; margin-right: 4px;"></i>
+                            Quick 1-Click Luxury Presets (Sets all 3 photos):
+                          </label>
+                          <div class="photo-presets-row">
+                            <button type="button" class="photo-preset-btn"
+                              onclick="applyPresetPack('city', 'Modern Skyline Flat & Balcony', 'Manhattan, New York, USA', 'City Flats', 240)">
+                              🏙️ Modern City Flat (3 Photos · $240)
+                            </button>
+                            <button type="button" class="photo-preset-btn"
+                              onclick="applyPresetPack('villa', 'Santorini Cliffside Cave Villa', 'Oia, Santorini, Greece', 'Beachfront', 350)">
+                              🏖️ Cliffside Sea Villa (3 Photos · $350)
+                            </button>
+                            <button type="button" class="photo-preset-btn"
+                              onclick="applyPresetPack('nordic', 'Nordic Minimalist Loft', 'Stockholm, Sweden', 'City Flats', 145)">
+                              🛋️ Nordic Studio (3 Photos · $145)
+                            </button>
+                            <button type="button" class="photo-preset-btn"
+                              onclick="applyPresetPack('chalet', 'Alpine Pine Horizon Chalet', 'Zermatt, Switzerland', 'Cabins', 280)">
+                              🌲 Alpine Chalet (3 Photos · $280)
+                            </button>
+                            <button type="button" class="photo-preset-btn"
+                              onclick="applyPresetPack('pool', 'Casa Palmera Jungle Sanctuary', 'Tulum, Mexico', 'Amazing Pools', 310)">
+                              🏊 Poolside Villa (3 Photos · $310)
+                            </button>
+                          </div>
+                        </div>
+
+                        <!-- Visual Amenities Checklist Chips -->
+                        <%
+                          const activeAmenityList = (home && home.amenities && home.amenities.length > 0)
+                            ? home.amenities
+                            : ["Fast Wi-Fi (300 Mbps)", "Chef's Kitchen", "Dedicated Workspace", "Central Air Conditioning"];
+                          function isAmenityPicked(name) {
+                            return activeAmenityList.includes(name);
+                          }
+                        %>
+                        <div class="form-group">
+                          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                            <label class="form-label mb-0" style="margin-bottom:0 !important;">
+                              Key Property Amenities (Selected items display in View Details)
+                            </label>
+                            <span class="text-xs text-rose-500 font-bold" id="amenityCountDisplay">
+                              <%= activeAmenityList.length %> selected
+                            </span>
+                          </div>
+                          <p class="text-xs text-gray-500 mb-3">
+                            Click to toggle which amenities your stay provides. These will be highlighted in the guest View Details page:
+                          </p>
+                          <div class="amenities-chips-grid">
+                            <button type="button" class="amenity-toggle-chip <%= isAmenityPicked('Fast Wi-Fi (300 Mbps)') ? 'active' : '' %>"
+                              onclick="toggleAmenity(this, 'Fast Wi-Fi (300 Mbps)')">
+                              <i class="fa-solid fa-wifi"></i> Fast Wi-Fi (300 Mbps)
+                            </button>
+                            <button type="button" class="amenity-toggle-chip <%= isAmenityPicked('Chef\'s Kitchen') ? 'active' : '' %>"
+                              onclick="toggleAmenity(this, 'Chef\'s Kitchen')">
+                              <i class="fa-solid fa-kitchen-set"></i> Fully Equipped Chef's Kitchen
+                            </button>
+                            <button type="button" class="amenity-toggle-chip <%= isAmenityPicked('Dedicated Workspace') ? 'active' : '' %>"
+                              onclick="toggleAmenity(this, 'Dedicated Workspace')">
+                              <i class="fa-solid fa-laptop"></i> Dedicated Workspace
+                            </button>
+                            <button type="button" class="amenity-toggle-chip <%= isAmenityPicked('Central Air Conditioning') ? 'active' : '' %>"
+                              onclick="toggleAmenity(this, 'Central Air Conditioning')">
+                              <i class="fa-solid fa-snowflake"></i> Central Air Conditioning
+                            </button>
+                            <button type="button" class="amenity-toggle-chip <%= isAmenityPicked('55\" 4K Smart TV with Streaming') ? 'active' : '' %>"
+                              onclick="toggleAmenity(this, '55&quot; 4K Smart TV with Streaming')">
+                              <i class="fa-solid fa-tv"></i> 55" 4K Smart TV
+                            </button>
+                            <button type="button" class="amenity-toggle-chip <%= isAmenityPicked('In-unit Washer & Dryer') ? 'active' : '' %>"
+                              onclick="toggleAmenity(this, 'In-unit Washer & Dryer')">
+                              <i class="fa-solid fa-shirt"></i> In-unit Washer & Dryer
+                            </button>
+                            <button type="button" class="amenity-toggle-chip <%= isAmenityPicked('Free On-premises Parking') ? 'active' : '' %>"
+                              onclick="toggleAmenity(this, 'Free On-premises Parking')">
+                              <i class="fa-solid fa-square-parking"></i> Free On-premises Parking
+                            </button>
+                            <button type="button" class="amenity-toggle-chip <%= isAmenityPicked('Security & Smoke Detectors') ? 'active' : '' %>"
+                              onclick="toggleAmenity(this, 'Security & Smoke Detectors')">
+                              <i class="fa-solid fa-shield-halved"></i> Security & Smoke Detectors
+                            </button>
+                            <button type="button" class="amenity-toggle-chip <%= isAmenityPicked('Espresso Coffee Maker') ? 'active' : '' %>"
+                              onclick="toggleAmenity(this, 'Espresso Coffee Maker')">
+                              <i class="fa-solid fa-mug-saucer"></i> Espresso Coffee Maker
+                            </button>
+                            <button type="button" class="amenity-toggle-chip <%= isAmenityPicked('Private Pool') ? 'active' : '' %>"
+                              onclick="toggleAmenity(this, 'Private Pool')">
+                              <i class="fa-solid fa-water-ladder"></i> Private Pool
+                            </button>
+                            <button type="button" class="amenity-toggle-chip <%= isAmenityPicked('Hot Tub') ? 'active' : '' %>"
+                              onclick="toggleAmenity(this, 'Hot Tub')">
+                              <i class="fa-solid fa-hot-tub-person"></i> Hot Tub
+                            </button>
+                            <button type="button" class="amenity-toggle-chip <%= isAmenityPicked('Mountain View') ? 'active' : '' %>"
+                              onclick="toggleAmenity(this, 'Mountain View')">
+                              <i class="fa-solid fa-mountain"></i> Mountain View
+                            </button>
+                            <button type="button" class="amenity-toggle-chip <%= isAmenityPicked('Balcony / Patio') ? 'active' : '' %>"
+                              onclick="toggleAmenity(this, 'Balcony / Patio')">
+                              <i class="fa-solid fa-cloud-sun"></i> Balcony / Patio
+                            </button>
+                            <button type="button" class="amenity-toggle-chip <%= isAmenityPicked('Self Check-in Keypad') ? 'active' : '' %>"
+                              onclick="toggleAmenity(this, 'Self Check-in Keypad')">
+                              <i class="fa-solid fa-key"></i> Self Check-in Keypad
+                            </button>
+                          </div>
+                        </div>
+
+                    </div>
+                  </div>
+
+                  <!-- ==============================================================
+               SLIDE 4: NIGHTLY PRICING, DESCRIPTION & PUBLISH
+               ============================================================== -->
+                  <div class="wizard-slide-panel" id="slide-4">
+                    <div class="wizard-section-block">
+                      <div class="wizard-slide-header">
+                        <h2 class="wizard-section-title">
+                          <i class="fa-solid fa-receipt" style="color: #059669;"></i>
+                          Set your nightly price & description
+                        </h2>
+                        <p class="wizard-section-subtitle">
+                          You can change your rate anytime or set seasonal weekend discounts.
+                        </p>
+                      </div>
+
+                      <!-- Price Input (Fixed: No pe$ight text collision) -->
+                      <div class="form-group">
+                        <label class="form-label" for="price">Nightly Rate (USD $)</label>
+                        <div class="wizard-price-wrapper">
+                          <span class="wizard-price-currency">$</span>
+                          <input type="number" id="price" name="price" value="<%= home ? home.price : '150' %>"
+                            placeholder="150" required min="10" class="wizard-price-input"
+                            oninput="calcEarnings(); updateLivePreview();" />
+                          <span class="wizard-price-suffix">per night</span>
+                        </div>
+                      </div>
+
+                      <!-- Dynamic Earnings Calculator -->
+                      <div class="pricing-calculator-card">
+                        <div class="flex items-center justify-between mb-3">
+                          <span class="text-xs font-bold uppercase tracking-wider text-gray-700">
+                            <i class="fa-solid fa-calculator" style="color: #059669; margin-right: 4px;"></i> Host
+                            Earnings Breakdown
+                          </span>
+                          <span class="text-[11px] text-gray-400">Based on standard 5-night stay</span>
+                        </div>
+
+                        <div class="pricing-calc-row">
+                          <span>Guest pays (5 nights)</span>
+                          <span id="calcGuestTotal" class="font-bold text-gray-900">$750</span>
+                        </div>
+
+                        <div class="pricing-calc-row">
+                          <span>Airbnb Host AirCover service fee (3%)</span>
+                          <span id="calcFee" class="text-rose-500 font-semibold">-$22.50</span>
+                        </div>
+
+                        <div class="pricing-calc-row highlight">
+                          <span>Your Net Host Payout</span>
+                          <span id="calcPayout">$727.50</span>
+                        </div>
+                      </div>
+
+                      <!-- Listing Summary Notice -->
+                      <div class="preview-info-card mt-5" style="background: #F0FDF4; border-color: #86EFAC;">
+                        <i class="fa-solid fa-circle-check" style="color: #16A34A;"></i>
+                        <span style="color: #166534; font-weight: 600;">
+                          Your "About This Place" story, sleeping accommodations, and key amenities have been saved and configured.
+                        </span>
+                      </div>
+
+                      <!-- Pre-Publish Checklist (Polished Light-Green Card) -->
+                      <div class="wizard-checklist-card">
+                        <div class="wizard-checklist-title">
+                          <i class="fa-solid fa-circle-check"></i>
+                          <span>Ready to Go Live</span>
+                        </div>
+                        <div class="wizard-checklist-item">
+                          <i class="fa-solid fa-check"></i>
+                          <span>Title, category, and city confirmed</span>
+                        </div>
+                        <div class="wizard-checklist-item">
+                          <i class="fa-solid fa-check"></i>
+                          <span>Rooms and guest capacity set</span>
+                        </div>
+                        <div class="wizard-checklist-item">
+                          <i class="fa-solid fa-check"></i>
+                          <span>High-res photo linked with live preview</span>
+                        </div>
+                        <div class="wizard-checklist-item">
+                          <i class="fa-solid fa-check"></i>
+                          <span>Protected by Airbnb AirCover host guarantee</span>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <!-- ==============================================================
+               WIZARD NAVIGATION FOOTER (Back / Step Dots / Next or Submit)
+               ============================================================== -->
+                  <div class="wizard-nav-footer">
+                    <!-- Back Button -->
+                    <button type="button" class="btn-wizard-back" id="btnBack" onclick="navigateStep(-1)" disabled>
+                      <i class="fa-solid fa-arrow-left text-xs"></i>
+                      <span>Back</span>
+                    </button>
+
+                    <!-- Step Dots -->
+                    <div class="wizard-step-dots">
+                      <div class="wizard-dot active" id="dot-1"></div>
+                      <div class="wizard-dot" id="dot-2"></div>
+                      <div class="wizard-dot" id="dot-3"></div>
+                      <div class="wizard-dot" id="dot-4"></div>
+                    </div>
+
+                    <!-- Next Step / Publish Button -->
+                    <div class="flex items-center gap-3">
+                      <button type="button" class="btn-wizard-next" id="btnNext" onclick="navigateStep(1)">
+                        <span>Next Step</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                      </button>
+
+                      <button type="submit" class="btn-wizard-next hidden" id="btnSubmit"
+                        style="background: var(--airbnb-gradient);">
+                        <i class="fa-solid fa-<%= editing ? 'floppy-disk' : 'rocket' %>"></i>
+                        <span>
+                          <%= editing ? "Save Changes" : "Publish Listing Live" %>
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+
+            </form>
+          </div>
+
+          <!-- Right: Real-time Live Listing Preview (Light Theme) -->
+          <aside class="live-preview-box">
+            <div class="flex items-center justify-between mb-3">
+              <span class="preview-badge-pill mb-0">
+                <i class="fa-solid fa-eye"></i> Live Guest Preview
+              </span>
+              <span class="text-[11px] text-gray-400">Updates live</span>
+            </div>
+
+            <div class="airbnb-card">
+              <!-- Photo Media -->
+              <div class="card-media-wrapper">
+                <% const hasInitialPhoto=Boolean(home && (home.photoUrl || (home.photos && home.photos[0]))); %>
+                  <img id="previewImg" src="<%= hasInitialPhoto ? (home.photoUrl || home.photos[0]) : '' %>"
+                    alt="Preview" class="card-media-img"
+                    style="<%= hasInitialPhoto ? 'display: block;' : 'display: none;' %>" />
+                  <div id="previewImgEmpty" class="card-media-empty"
+                    style="<%= hasInitialPhoto ? 'display: none;' : 'display: flex;' %>">
+                    <div class="preview-empty-icon-wrap">
+                      <i class="fa-solid fa-camera"></i>
+                    </div>
+                    <span class="preview-empty-title">Cover Photo Preview</span>
+                    <span class="preview-empty-hint">Add or upload a cover photo to see your card live</span>
+                  </div>
+
+                  <div class="card-badge-guest-fav">
+                    <i class="fa-solid fa-award" style="color: #F59E0B;"></i> Guest favourite
+                  </div>
+                  <div class="card-badge-category" id="previewCategory">
+                    <%= (home && home.category) ? home.category : 'City Flats' %>
+                  </div>
+                  <div class="btn-card-favourite">
+                    <i class="fa-regular fa-heart"></i>
+                  </div>
+              </div>
+
+              <!-- Card Content -->
+              <div class="card-details-wrapper">
+                <div class="card-header-row">
+                  <h3 class="card-location-title" id="previewLocation">
+                    <%= (home && home.location) ? home.location : 'Manhattan, New York' %>
+                  </h3>
+                  <div class="card-rating-badge">
+                    <i class="fa-solid fa-star"></i>
+                    <span id="previewRating">
+                      <%= (home && home.rating) ? Number(home.rating).toFixed(2) : '4.95' %>
+                    </span>
+                  </div>
+                </div>
+
+                <p class="card-property-desc" id="previewTitle">
+                  <%= (home && home.houseName) ? home.houseName : 'Designer 2-Bedroom Flat with City Balcony' %>
+                </p>
+
+                <p class="text-xs text-gray-500" id="previewBeds">
+                  <%= (home && home.bedrooms) ? home.bedrooms : 2 %> bedrooms · Hosted by Superhost
+                </p>
+
+                <div class="card-price-row">
+                  <div>
+                    <span class="card-price-text" id="previewPrice">$<%= (home && home.price) ? home.price : '150' %>
+                        </span>
+                    <span class="card-price-period"> night</span>
+                  </div>
+                  <span class="text-[11px] text-gray-500">Free cancellation</span>
+                </div>
+
+                <div class="card-action-btns">
+                  <button type="button" class="btn-card-reserve cursor-default">
+                    Reserve
+                  </button>
+                  <button type="button" class="btn-card-details cursor-default">
+                    View Details
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="preview-info-card">
+              <i class="fa-solid fa-circle-info"></i>
+              <span>This is an exact preview of how your card will appear to travelers on the main discovery
+                feed.</span>
+            </div>
+          </aside>
+
+        </div>
+
+      </div>
+
+      <!-- Wizard JavaScript Engine -->
+      <script>
+        let currentStep = 1;
+        const totalSteps = 4;
+        <%
+          const initAmenitiesArray = (home && home.amenities && home.amenities.length > 0)
+            ? home.amenities
+            : ["Fast Wi-Fi (300 Mbps)", "Chef's Kitchen", "Dedicated Workspace", "Central Air Conditioning"];
+        %>
+        const selectedAmenities = new Set(<%- JSON.stringify(initAmenitiesArray) %>);
+
+        const stepTitles = {
+          1: "Step 1 of 4: The Basics",
+          2: "Step 2 of 4: Rooms, Capacity & About",
+          3: "Step 3 of 4: Photos & Amenities",
+          4: "Step 4 of 4: Pricing & Publish"
+        };
+
+        function goToStep(step) {
+          if (step < 1 || step > totalSteps) return;
+
+          // Validate required fields before moving forward from Step 1
+          if (step > currentStep && currentStep === 1) {
+            const title = document.getElementById('houseName').value.trim();
+            const loc = document.getElementById('location').value.trim();
+            if (!title) {
+              alert('Please enter a listing title first.');
+              document.getElementById('houseName').focus();
+              return;
+            }
+            if (!loc) {
+              alert('Please enter a location/city.');
+              document.getElementById('location').focus();
+              return;
+            }
+          }
+
+          currentStep = step;
+          updateStepUI();
+        }
+
+        function navigateStep(delta) {
+          goToStep(currentStep + delta);
+        }
+
+        function updateStepUI() {
+          // 1. Update slide visibility
+          for (let i = 1; i <= totalSteps; i++) {
+            const panel = document.getElementById(`slide-${i}`);
+            if (panel) {
+              if (i === currentStep) {
+                panel.classList.add('active');
+              } else {
+                panel.classList.remove('active');
+              }
+            }
+          }
+
+          // 2. Update Progress Bar Fill & Percentage Text
+          const progressPercent = (currentStep / totalSteps) * 100;
+          const pBar = document.getElementById('stepProgressBar');
+          if (pBar) pBar.style.width = `${progressPercent}%`;
+          const pText = document.getElementById('sidebarProgressPercent');
+          if (pText) pText.innerText = `${progressPercent}%`;
+
+          // 3. Update Step Subheading Text & Badge
+          const sub = document.getElementById('wizardSubheading');
+          if (sub) sub.innerText = stepTitles[currentStep] || '';
+          const badge = document.getElementById('stepCounterBadge');
+          if (badge) badge.innerText = `${currentStep} of 4`;
+
+          // 4. Update Step Pills
+          for (let i = 1; i <= totalSteps; i++) {
+            const pill = document.getElementById(`pill-${i}`);
+            const circle = document.getElementById(`pill-num-${i}`);
+            if (pill && circle) {
+              pill.classList.remove('active', 'completed');
+              if (i === currentStep) {
+                pill.classList.add('active');
+                circle.innerHTML = i;
+              } else if (i < currentStep) {
+                pill.classList.add('completed');
+                circle.innerHTML = '<i class="fa-solid fa-check text-xs"></i>';
+              } else {
+                circle.innerHTML = i;
+              }
+            }
+          }
+
+          // 5. Update Step Indicator Dots
+          for (let i = 1; i <= totalSteps; i++) {
+            const dot = document.getElementById(`dot-${i}`);
+            if (dot) {
+              if (i === currentStep) {
+                dot.classList.add('active');
+              } else {
+                dot.classList.remove('active');
+              }
+            }
+          }
+
+          // 6. Navigation Buttons States
+          const btnBack = document.getElementById('btnBack');
+          const btnNext = document.getElementById('btnNext');
+          const btnSubmit = document.getElementById('btnSubmit');
+
+          if (btnBack) {
+            btnBack.disabled = (currentStep === 1);
+          }
+
+          if (currentStep === totalSteps) {
+            if (btnNext) btnNext.classList.add('hidden');
+            if (btnSubmit) btnSubmit.classList.remove('hidden');
+            calcEarnings();
+          } else {
+            if (btnNext) btnNext.classList.remove('hidden');
+            if (btnSubmit) btnSubmit.classList.add('hidden');
+          }
+        }
+
+        // Step 1: Category selection
+        function selectCategory(catId) {
+          document.getElementById('category').value = catId;
+          document.querySelectorAll('.category-card-btn').forEach(btn => {
+            if (btn.getAttribute('data-cat') === catId) {
+              btn.classList.add('selected');
+            } else {
+              btn.classList.remove('selected');
+            }
+          });
+          document.getElementById('previewCategory').innerText = catId;
+        }
+
+        function setTitlePreset(preset) {
+          const input = document.getElementById('houseName');
+          input.value = preset;
+          handleTitleInput();
+          updateLivePreview();
+        }
+
+        function setLocation(loc) {
+          document.getElementById('location').value = loc;
+          updateLivePreview();
+        }
+
+        function handleTitleInput() {
+          const val = document.getElementById('houseName').value;
+          const counter = document.getElementById('titleCounter');
+          if (counter) counter.innerText = `${val.length}/60`;
+        }
+
+        // Step 2: Interactive steppers
+        function adjustCount(fieldId, delta) {
+          const hiddenInput = document.getElementById(fieldId);
+          const valDisplay = document.getElementById(`val-${fieldId}`);
+          let currentVal = parseInt(hiddenInput.value) || 1;
+          let newVal = Math.max(1, currentVal + delta);
+          hiddenInput.value = newVal;
+          if (valDisplay) valDisplay.innerText = newVal;
+
+          if (fieldId === 'bedrooms') {
+            document.getElementById('previewBeds').innerText = `${newVal} bedrooms · Hosted by Superhost`;
+          }
+        }
+
+        function syncRating(val) {
+          const num = parseFloat(val) || 4.9;
+          document.getElementById('rating').value = num.toFixed(2);
+          document.getElementById('ratingRange').value = num.toFixed(2);
+          document.getElementById('previewRating').innerText = num.toFixed(2);
+        }
+
+        // 3-Photo UploadThing & Preset Handlers
+        let activeUploadSlot = 1;
+
+        const presetPacks = {
+          city: {
+            p1: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=80',
+            p2: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80',
+            p3: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80'
+          },
+          villa: {
+            p1: 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=1200&q=80',
+            p2: 'https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=800&q=80',
+            p3: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80'
+          },
+          nordic: {
+            p1: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80',
+            p2: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=800&q=80',
+            p3: 'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=800&q=80'
+          },
+          chalet: {
+            p1: 'https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=1200&q=80',
+            p2: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80',
+            p3: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80'
+          },
+          pool: {
+            p1: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1200&q=80',
+            p2: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80',
+            p3: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80'
+          }
+        };
+
+        function applyPresetPack(packKey, title, loc, cat, price) {
+          const pack = presetPacks[packKey];
+          if (pack) {
+            setSlotUrl(1, pack.p1);
+            setSlotUrl(2, pack.p2);
+            setSlotUrl(3, pack.p3);
+          }
+          document.getElementById('houseName').value = title;
+          document.getElementById('location').value = loc;
+          document.getElementById('price').value = price;
+          selectCategory(cat);
+          handleTitleInput();
+          calcEarnings();
+          updateLivePreview();
+        }
+
+        function setSlotUrl(slotNum, url) {
+          const input = document.getElementById(`photo${slotNum}`);
+          const img = document.getElementById(`slotImg-${slotNum}`);
+          const empty = document.getElementById(`slotEmpty-${slotNum}`);
+          const card = document.getElementById(`slotCard-${slotNum}`);
+
+          if (input) input.value = url || '';
+          if (slotNum === 1) {
+            const primary = document.getElementById('photoUrl');
+            if (primary) primary.value = url || '';
+          }
+
+          if (url && url.trim() !== '') {
+            if (img) {
+              img.src = url.trim();
+              img.classList.remove('hidden');
+            }
+            if (empty) empty.classList.add('hidden');
+            if (card) card.classList.add('has-photo');
+          } else {
+            if (img) img.classList.add('hidden');
+            if (empty) empty.classList.remove('hidden');
+            if (card) card.classList.remove('has-photo');
+          }
+          updateLivePreview();
+        }
+
+        function clearSlot(slotNum) {
+          setSlotUrl(slotNum, '');
+        }
+
+        function triggerSlotUpload(slotNum) {
+          activeUploadSlot = slotNum;
+          const fileInput = document.getElementById('slotUploadInput');
+          if (fileInput) {
+            fileInput.value = '';
+            fileInput.click();
+          }
+        }
+
+        async function handleSlotFile(files) {
+          if (!files || files.length === 0) return;
+          const file = files[0];
+          setDropzoneLoading(true, `Uploading Photo ${activeUploadSlot} to UploadThing...`);
+
+          try {
+            const formData = new FormData();
+            formData.append('photos', file);
+
+            const res = await fetch('/host/upload-photos', {
+              method: 'POST',
+              body: formData
+            });
+            const data = await res.json();
+
+            if (data.success && data.urls && data.urls.length > 0) {
+              setSlotUrl(activeUploadSlot, data.urls[0]);
+            } else {
+              alert('Upload failed: ' + (data.error || 'Server error'));
+            }
+          } catch (err) {
+            console.error('Upload error:', err);
+            alert('Failed to upload photo to UploadThing.');
+          } finally {
+            setDropzoneLoading(false);
+          }
+        }
+
+        async function handleBulkFiles(files) {
+          if (!files || files.length === 0) return;
+          const fileArray = Array.from(files).slice(0, 3);
+          setDropzoneLoading(true, `Uploading ${fileArray.length} photos to UploadThing...`);
+
+          try {
+            const formData = new FormData();
+            fileArray.forEach(f => formData.append('photos', f));
+
+            const res = await fetch('/host/upload-photos', {
+              method: 'POST',
+              body: formData
+            });
+            const data = await res.json();
+
+            if (data.success && data.urls && data.urls.length > 0) {
+              data.urls.forEach((url, i) => {
+                if (i < 3) {
+                  setSlotUrl(i + 1, url);
+                }
+              });
+            } else {
+              alert('Upload failed: ' + (data.error || 'Server error'));
+            }
+          } catch (err) {
+            console.error('Bulk upload error:', err);
+            alert('Failed to upload photos to UploadThing.');
+          } finally {
+            setDropzoneLoading(false);
+          }
+        }
+
+        function setDropzoneLoading(isLoading, msg) {
+          const normal = document.getElementById('dropzoneNormalState');
+          const loading = document.getElementById('dropzoneLoadingState');
+          const text = document.getElementById('dropzoneStatusText');
+          if (isLoading) {
+            if (normal) normal.classList.add('hidden');
+            if (loading) loading.classList.remove('hidden');
+            if (text && msg) text.innerText = msg;
+          } else {
+            if (normal) normal.classList.remove('hidden');
+            if (loading) loading.classList.add('hidden');
+          }
+        }
+
+        function handleDragOver(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          document.getElementById('photoDropzone').classList.add('dragover');
+        }
+
+        function handleDragLeave(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          document.getElementById('photoDropzone').classList.remove('dragover');
+        }
+
+        function handleDrop(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          document.getElementById('photoDropzone').classList.remove('dragover');
+          if (e.dataTransfer && e.dataTransfer.files) {
+            handleBulkFiles(e.dataTransfer.files);
+          }
+        }
+
+        function syncAmenitiesToInputs() {
+          const container = document.getElementById('amenitiesHiddenContainer');
+          if (!container) return;
+          container.innerHTML = '';
+          selectedAmenities.forEach(amenity => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'amenities';
+            input.value = amenity;
+            container.appendChild(input);
+          });
+          const countDisp = document.getElementById('amenityCountDisplay');
+          if (countDisp) countDisp.innerText = `${selectedAmenities.size} selected`;
+        }
+
+        function toggleAmenity(btn, amenityName) {
+          if (selectedAmenities.has(amenityName)) {
+            selectedAmenities.delete(amenityName);
+            btn.classList.remove('active');
+          } else {
+            selectedAmenities.add(amenityName);
+            btn.classList.add('active');
+          }
+          syncAmenitiesToInputs();
+        }
+
+        // Step 4: Pricing & Auto description
+        function calcEarnings() {
+          const priceVal = parseFloat(document.getElementById('price').value) || 150;
+          const guest5Night = priceVal * 5;
+          const fee = guest5Night * 0.03;
+          const payout = guest5Night - fee;
+
+          document.getElementById('calcGuestTotal').innerText = `$${guest5Night.toLocaleString()}`;
+          document.getElementById('calcFee').innerText = `-$${fee.toFixed(2)}`;
+          document.getElementById('calcPayout').innerText = `$${payout.toFixed(2)}`;
+          document.getElementById('previewPrice').innerText = `$${priceVal}`;
+        }
+
+        function autoGenerateDesc() {
+          const title = document.getElementById('houseName').value.trim() || 'Designer Flat';
+          const loc = document.getElementById('location').value.trim() || 'prime location';
+          const cat = document.getElementById('category').value || 'City Flat';
+          const beds = document.getElementById('bedrooms').value || '2';
+          const amenitiesList = Array.from(selectedAmenities).slice(0, 4).join(', ');
+
+          const desc = `Welcome to this handpicked ${cat.toLowerCase()} in ${loc}. Featuring ${beds} spacious bedrooms, high ceilings, and premium amenities including ${amenitiesList}. Perfect for both relaxing getaways and business travelers seeking comfort and style.`;
+          document.getElementById('description').value = desc;
+        }
+
+        function updateLivePreview() {
+          const name = document.getElementById('houseName') ? document.getElementById('houseName').value.trim() : '';
+          const loc = document.getElementById('location') ? document.getElementById('location').value.trim() : '';
+          const price = document.getElementById('price') ? document.getElementById('price').value.trim() : '';
+          const rating = document.getElementById('rating') ? document.getElementById('rating').value.trim() : '';
+          const photo1 = document.getElementById('photo1') ? document.getElementById('photo1').value.trim() : '';
+          const photoUrl = document.getElementById('photoUrl') ? document.getElementById('photoUrl').value.trim() : '';
+          const activePhoto = photo1 || photoUrl;
+          const category = document.getElementById('category') ? document.getElementById('category').value : 'City Flats';
+          const beds = document.getElementById('bedrooms') ? document.getElementById('bedrooms').value : 2;
+
+          document.getElementById('previewTitle').innerText = name || 'Designer Flat with Balcony';
+          document.getElementById('previewLocation').innerText = loc || 'Location / City';
+          document.getElementById('previewPrice').innerText = price ? `$${price}` : '$150';
+          if (rating) document.getElementById('previewRating').innerText = Number(rating).toFixed(2);
+          if (category) document.getElementById('previewCategory').innerText = category;
+          if (beds) document.getElementById('previewBeds').innerText = `${beds} bedrooms · Hosted by Superhost`;
+
+          const previewImg = document.getElementById('previewImg');
+          const previewEmpty = document.getElementById('previewImgEmpty');
+
+          if (activePhoto && activePhoto.trim() !== '') {
+            if (previewImg) {
+              previewImg.src = activePhoto.trim();
+              previewImg.style.display = 'block';
+            }
+            if (previewEmpty) {
+              previewEmpty.style.display = 'none';
+            }
+          } else {
+            if (previewImg) {
+              previewImg.src = '';
+              previewImg.style.display = 'none';
+            }
+            if (previewEmpty) {
+              previewEmpty.style.display = 'flex';
+            }
+          }
+        }
+
+        // Initial setup on load
+        document.addEventListener('DOMContentLoaded', () => {
+          handleTitleInput();
+          calcEarnings();
+          updateLivePreview();
+          syncAmenitiesToInputs();
+          const listingForm = document.getElementById('hostListingForm');
+          if (listingForm) {
+            listingForm.addEventListener('submit', () => {
+              syncAmenitiesToInputs();
+            });
+          }
+        });
+      </script>
+
+      <footer class="airbnb-global-footer">
+        <div class="airbnb-footer-container">
+          <div class="footer-left-col">
+            <a href="/" class="footer-brand-logo">
+              <i class="fa-brands fa-airbnb"></i>
+              <span>airbnb</span>
+            </a>
+            <div class="footer-copyright-links">
+              <span>© 2026 Airbnb, Inc.</span>
+              <span>·</span>
+              <a href="#">Host Portal</a>
+            </div>
+          </div>
+          <div class="footer-right-col">
+            <span>Protected by Airbnb AirCover for Hosts</span>
+          </div>
+        </div>
+      </footer>
+  </body>
+
+  </html>

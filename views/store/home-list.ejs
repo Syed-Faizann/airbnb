@@ -1,0 +1,407 @@
+<%- include('../partials/head') %>
+  </head>
+
+  <body style="display: flex; flex-direction: column; min-height: 100vh; background-color: #FFFFFF;">
+
+    <!-- Airbnb Sticky Navigation -->
+    <%- include('../partials/nav') %>
+
+      <!-- Categories Bar -->
+      <div class="airbnb-categories-wrapper">
+        <div class="airbnb-categories-container">
+          <% const categories=[ { id: "All" , name: "All Stays" , icon: "fa-solid fa-border-all" }, { id: "City Flats" ,
+            name: "City Flats" , icon: "fa-solid fa-city" }, { id: "Beachfront" , name: "Beachfront" ,
+            icon: "fa-solid fa-umbrella-beach" }, { id: "Amazing Pools" , name: "Amazing Pools" ,
+            icon: "fa-solid fa-water-ladder" }, { id: "Cabins" , name: "Cabins" , icon: "fa-solid fa-campground" }, {
+            id: "Mansions" , name: "Mansions" , icon: "fa-solid fa-landmark-dome" }, { id: "Luxe" , name: "Luxe" ,
+            icon: "fa-solid fa-gem" }, { id: "Mountain Views" , name: "Mountain Views" , icon: "fa-solid fa-mountain" }
+            ]; %>
+
+            <% categories.forEach(cat=> { %>
+              <a href="/home-list?category=<%= encodeURIComponent(cat.id) %><% if (searchQuery) { %>&search=<%= encodeURIComponent(searchQuery) %><% } %>"
+                class="category-chip <%= activeCategory === cat.id ? 'active' : '' %>" title="<%= cat.name %>">
+                <i class="<%= cat.icon %> category-chip-icon"></i>
+                <span>
+                  <%= cat.name %>
+                </span>
+              </a>
+              <% }) %>
+        </div>
+      </div>
+
+      <!-- Main Content Area -->
+      <main class="airbnb-main-container">
+
+        <!-- Explore Hero Banner -->
+        <div class="explore-hero-banner">
+          <div class="explore-hero-text">
+            <div class="explore-pill-tag">
+              <span class="pulse-indicator"></span>
+              <span>VERIFIED VACATION RENTALS & STAYS</span>
+            </div>
+            <h1 class="explore-hero-title">
+              <% if (activeCategory && activeCategory !=='All' ) { %>
+                <%= activeCategory %> in Global Destinations
+                  <% } else if (searchQuery) { %>
+                    Stays matching "<%= searchQuery %>"
+                      <% } else { %>
+                        Explore Extraordinary Vacation Stays
+                        <% } %>
+            </h1>
+            <p class="explore-hero-subtitle">
+              Handpicked designer flats, beachfront villas, and luxury sanctuaries curated for unforgettable journeys.
+            </p>
+          </div>
+
+          <!-- Live Count Status Pill -->
+          <div class="explore-status-pill">
+            <i class="fa-solid fa-house-chimney-window"></i>
+            <span><strong id="listingCountDisplay">
+                <%= registerHomes.length %>
+              </strong> stays available</span>
+          </div>
+        </div>
+
+        <!-- Modern Interactive Filter & Search Toolbar -->
+        <div class="explore-filter-toolbar">
+          <!-- Search Box -->
+          <form action="/home-list" method="GET" class="explore-search-box" id="exploreSearchForm">
+            <div class="explore-search-icon">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <input type="text" name="search" id="exploreSearchInput" value="<%= searchQuery || '' %>"
+              placeholder="Search by city, title, or host..." autocomplete="off" />
+            <% if (activeCategory && activeCategory !=='All' ) { %>
+              <input type="hidden" name="category" value="<%= activeCategory %>" />
+              <% } %>
+                <% if (searchQuery) { %>
+                  <a href="/home-list<% if (activeCategory && activeCategory !== 'All') { %>?category=<%= encodeURIComponent(activeCategory) %><% } %>"
+                    class="btn-clear-search" title="Clear search">
+                    <i class="fa-solid fa-xmark"></i>
+                  </a>
+                  <% } %>
+                    <button type="submit" class="btn-explore-submit">
+                      <span>Search</span>
+                      <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+          </form>
+
+          <!-- Quick Filter Pills -->
+          <div class="explore-quick-filters">
+            <button type="button" class="quick-filter-btn active" data-filter="all">
+              <i class="fa-solid fa-sparkles"></i> All Stays
+            </button>
+            <button type="button" class="quick-filter-btn" data-filter="top-rated">
+              <i class="fa-solid fa-star text-amber-500"></i> Top Rated (4.9+)
+            </button>
+            <button type="button" class="quick-filter-btn" data-filter="under-200">
+              <i class="fa-solid fa-tag text-emerald-600"></i> Under $200
+            </button>
+            <button type="button" class="quick-filter-btn" data-filter="multi-bed">
+              <i class="fa-solid fa-bed text-sky-600"></i> 2+ Beds
+            </button>
+          </div>
+
+          <!-- Sort Selector -->
+          <div class="explore-sort-wrapper">
+            <label for="sortSelector" class="explore-sort-label">Sort by:</label>
+            <select id="sortSelector" class="explore-sort-select">
+              <option value="recommended">Recommended</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="rating-desc">Highest Rated</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Server-side Empty State -->
+        <% if (registerHomes.length===0) { %>
+          <div class="airbnb-empty-state">
+            <div class="empty-state-icon">
+              <i class="fa-solid fa-house-circle-exclamation"></i>
+            </div>
+            <h3 class="empty-state-title">No listings found</h3>
+            <p class="empty-state-desc">
+              No rental flats match your current criteria. Try adjusting your search query or reset category filter.
+            </p>
+            <div class="flex items-center justify-center gap-4 mt-4">
+              <a href="/home-list" class="btn-card-reserve" style="padding: 10px 22px;">
+                <i class="fa-solid fa-arrow-rotate-left mr-2"></i> Reset Filters
+              </a>
+              <a href="/host/addHome" class="btn-card-details" style="padding: 10px 22px;">
+                <i class="fa-solid fa-plus mr-2"></i> Post a Flat
+              </a>
+            </div>
+          </div>
+          <% } else { %>
+
+            <!-- Client-side No Match Message (hidden by default) -->
+            <div id="noClientMatches" class="explore-no-match-state">
+              <div class="empty-state-icon" style="margin-bottom: 12px;">
+                <i class="fa-solid fa-filter-circle-xmark text-3xl text-gray-400"></i>
+              </div>
+              <h4 class="text-base font-bold text-gray-900 mb-1">No stays match this quick filter</h4>
+              <p class="text-xs text-gray-500 mb-4 max-w-sm">
+                Try switching to another filter or reset to view all available listings.
+              </p>
+              <button type="button" id="resetClientFilterBtn" class="btn-card-details" style="padding: 8px 18px;">
+                <i class="fa-solid fa-rotate-left mr-1.5"></i> Show All Stays
+              </button>
+            </div>
+
+            <!-- Grid of Homes -->
+            <div class="airbnb-homes-grid" id="homesGrid">
+              <% registerHomes.forEach((home)=> { %>
+                <div class="airbnb-card home-card-item" data-id="<%= home._id %>" data-price="<%= home.price %>"
+                  data-rating="<%= home.rating ? home.rating : 4.90 %>" data-bedrooms="<%= home.bedrooms || 2 %>"
+                  data-category="<%= (home.category || '').toLowerCase() %>"
+                  data-search="<%= (home.houseName + ' ' + home.location + ' ' + (home.hostName || '')).toLowerCase() %>">
+
+                  <!-- Media Header -->
+                  <div class="card-media-wrapper">
+                    <% const cPhoto=home.photoUrl || (home.photos && home.photos[0]) || '' ; %>
+                      <% if (cPhoto) { %>
+                        <img src="<%= cPhoto %>" alt="<%= home.houseName %>" class="card-media-img" loading="lazy" />
+                        <% } else { %>
+                          <div class="card-media-empty">
+                            <div class="preview-empty-icon-wrap"><i class="fa-solid fa-house"></i></div>
+                            <span class="preview-empty-title">
+                              <%= home.houseName %>
+                            </span>
+                          </div>
+                          <% } %>
+
+                            <!-- Guest Favourite Glass Badge -->
+                            <div class="card-badge-guest-fav">
+                              <i class="fa-solid fa-award text-amber-500"></i>
+                              <span>Guest favourite</span>
+                            </div>
+
+                            <!-- Category Glass Badge -->
+                            <div class="card-badge-category">
+                              <%= home.category || 'Rental Flat' %>
+                            </div>
+
+                            <!-- Verified Badge -->
+                            <div class="card-badge-verified">
+                              <i class="fa-solid fa-shield-check"></i>
+                              <span>Verified</span>
+                            </div>
+
+                            <!-- Wishlist Heart Button -->
+                            <%- include('../partials/favourite', { home }) %>
+                  </div>
+
+                  <!-- Card Details Body -->
+                  <div class="card-details-wrapper">
+                    <div class="card-header-row">
+                      <h3 class="card-location-title" title="<%= home.location %>">
+                        <%= home.location %>
+                      </h3>
+                      <div class="card-rating-badge">
+                        <i class="fa-solid fa-star"></i>
+                        <span>
+                          <%= home.rating ? Number(home.rating).toFixed(2) : '4.95' %>
+                        </span>
+                      </div>
+                    </div>
+
+                    <p class="card-property-desc" title="<%= home.houseName %>">
+                      <%= home.houseName %>
+                    </p>
+
+                    <!-- Amenities Micro-chips -->
+                    <div class="card-amenities-row">
+                      <span class="amenity-chip">
+                        <i class="fa-solid fa-bed"></i>
+                        <%= home.bedrooms || 2 %> beds
+                      </span>
+                      <span class="amenity-chip">
+                        <i class="fa-solid fa-user-group"></i>
+                        <%= home.maxGuests || 4 %> guests
+                      </span>
+                      <span class="amenity-chip">
+                        <i class="fa-solid fa-bath"></i>
+                        <%= home.bathrooms || 1 %> baths
+                      </span>
+                    </div>
+
+                    <!-- Price and Cancellation -->
+                    <div class="card-price-row">
+                      <div>
+                        <span class="card-price-text">$<%= home.price %></span>
+                        <span class="card-price-period"> night</span>
+                      </div>
+                      <span class="card-perk-badge">
+                        <i class="fa-solid fa-circle-check"></i> Free cancellation
+                      </span>
+                    </div>
+
+                    <!-- Card Action Buttons -->
+                    <div class="card-action-btns">
+                      <a href="/reserve/<%= home._id %>" class="btn-card-reserve">
+                        <i class="fa-solid fa-calendar-check text-xs"></i>
+                        <span>Reserve</span>
+                      </a>
+                      <a href="/home/<%= home._id %>" class="btn-card-details">
+                        <i class="fa-solid fa-eye text-xs"></i>
+                        <span>View Details</span>
+                      </a>
+                    </div>
+                  </div>
+
+                </div>
+                <% }) %>
+            </div>
+
+            <% } %>
+
+      </main>
+
+      <!-- Global Footer -->
+      <footer class="airbnb-global-footer">
+        <div class="airbnb-footer-container">
+          <div class="footer-left-col">
+            <a href="/" class="footer-brand-logo">
+              <i class="fa-brands fa-airbnb"></i>
+              <span>airbnb</span>
+            </a>
+            <div class="footer-copyright-links">
+              <span>© 2026 Airbnb, Inc.</span>
+              <span>·</span>
+              <a href="#">Vacation Rentals & City Flats</a>
+            </div>
+          </div>
+          <div class="footer-right-col">
+            <span class="footer-locale-btn"><i class="fa-solid fa-globe"></i> English (US)</span>
+            <span class="footer-locale-btn">$ USD</span>
+            <% if (!isLoggedIn || (user && user.userType==='host' )) { %>
+              <a href="/host/addHome" class="hover:text-rose-500 transition-colors">Airbnb your home</a>
+              <% } %>
+          </div>
+        </div>
+      </footer>
+
+      <!-- Interactive Client Filtering & Sorting Script -->
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          const grid = document.getElementById('homesGrid');
+          if (!grid) return;
+
+          const cards = Array.from(grid.querySelectorAll('.home-card-item'));
+          const filterBtns = document.querySelectorAll('.quick-filter-btn');
+          const sortSelect = document.getElementById('sortSelector');
+          const countDisplay = document.getElementById('listingCountDisplay');
+          const noMatchesBox = document.getElementById('noClientMatches');
+          const resetBtn = document.getElementById('resetClientFilterBtn');
+          const searchInput = document.getElementById('exploreSearchInput');
+
+          let currentFilter = 'all';
+          let currentSort = 'recommended';
+          let clientSearchText = '';
+
+          function applyFiltersAndSort() {
+            let visibleCount = 0;
+
+            // 1. Filter cards
+            cards.forEach(card => {
+              const price = parseFloat(card.dataset.price) || 0;
+              const rating = parseFloat(card.dataset.rating) || 0;
+              const beds = parseInt(card.dataset.bedrooms, 10) || 0;
+              const searchData = card.dataset.search || '';
+
+              let matchesQuickFilter = true;
+              if (currentFilter === 'top-rated') {
+                matchesQuickFilter = rating >= 4.90;
+              } else if (currentFilter === 'under-200') {
+                matchesQuickFilter = price < 200;
+              } else if (currentFilter === 'multi-bed') {
+                matchesQuickFilter = beds >= 2;
+              }
+
+              let matchesSearch = true;
+              if (clientSearchText.trim() !== '') {
+                matchesSearch = searchData.includes(clientSearchText.trim().toLowerCase());
+              }
+
+              if (matchesQuickFilter && matchesSearch) {
+                card.style.display = 'flex';
+                visibleCount++;
+              } else {
+                card.style.display = 'none';
+              }
+            });
+
+            // 2. Sort visible cards
+            const sortedCards = [...cards];
+            if (currentSort === 'price-asc') {
+              sortedCards.sort((a, b) => (parseFloat(a.dataset.price) || 0) - (parseFloat(b.dataset.price) || 0));
+            } else if (currentSort === 'price-desc') {
+              sortedCards.sort((a, b) => (parseFloat(b.dataset.price) || 0) - (parseFloat(a.dataset.price) || 0));
+            } else if (currentSort === 'rating-desc') {
+              sortedCards.sort((a, b) => (parseFloat(b.dataset.rating) || 0) - (parseFloat(a.dataset.rating) || 0));
+            }
+
+            sortedCards.forEach(card => grid.appendChild(card));
+
+            // 3. Update counter and empty states
+            if (countDisplay) {
+              countDisplay.textContent = visibleCount;
+            }
+
+            if (noMatchesBox) {
+              if (visibleCount === 0 && cards.length > 0) {
+                noMatchesBox.classList.add('visible');
+                grid.style.display = 'none';
+              } else {
+                noMatchesBox.classList.remove('visible');
+                grid.style.display = 'grid';
+              }
+            }
+          }
+
+          // Quick filter buttons click
+          filterBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+              filterBtns.forEach(b => b.classList.remove('active'));
+              this.classList.add('active');
+              currentFilter = this.dataset.filter;
+              applyFiltersAndSort();
+            });
+          });
+
+          // Sort dropdown change
+          if (sortSelect) {
+            sortSelect.addEventListener('change', function () {
+              currentSort = this.value;
+              applyFiltersAndSort();
+            });
+          }
+
+          // Client instant search as user types
+          if (searchInput) {
+            searchInput.addEventListener('input', function () {
+              clientSearchText = this.value;
+              applyFiltersAndSort();
+            });
+          }
+
+          // Reset button
+          if (resetBtn) {
+            resetBtn.addEventListener('click', function () {
+              filterBtns.forEach(b => b.classList.remove('active'));
+              const allBtn = document.querySelector('.quick-filter-btn[data-filter="all"]');
+              if (allBtn) allBtn.classList.add('active');
+              currentFilter = 'all';
+              if (searchInput) {
+                searchInput.value = '';
+                clientSearchText = '';
+              }
+              applyFiltersAndSort();
+            });
+          }
+        });
+      </script>
+  </body>
+
+  </html>

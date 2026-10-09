@@ -1,0 +1,144 @@
+<%- include('../partials/head') %>
+  </head>
+
+  <body style="display: flex; flex-direction: column; min-height: 100vh;">
+    <!-- Ambient Atmosphere -->
+    <div class="ambient-glow-1"></div>
+    <div class="ambient-glow-2"></div>
+    <div class="bg-grid-pattern"></div>
+
+    <!-- Airbnb Sticky Navigation -->
+    <%- include('../partials/nav') %>
+
+      <main class="airbnb-main-container">
+
+        <!-- Header -->
+        <div class="section-header-bar">
+          <div>
+            <h1 class="text-3xl font-bold text-gray-900 tracking-tight flex items-center gap-3">
+              <i class="fa-solid fa-heart text-rose-500"></i>
+              Your Saved Wishlists
+            </h1>
+            <p class="text-xs text-gray-500 mt-1">
+              Handpicked apartments, vacation flats, and villas saved for your next journey
+            </p>
+          </div>
+
+          <span class="section-count-badge">
+            <%= registerHomes.length %> Saved Stays
+          </span>
+        </div>
+
+        <!-- Empty State -->
+        <% if (!registerHomes || registerHomes.length===0) { %>
+          <div class="airbnb-empty-state">
+            <div class="empty-state-icon">
+              <i class="fa-solid fa-heart-crack"></i>
+            </div>
+            <h3 class="empty-state-title">Your wishlist is empty</h3>
+            <p class="empty-state-desc">
+              As you search, tap the heart icon on any rental flat or home to save your favorite stays here.
+            </p>
+            <a href="/home-list" class="btn-card-reserve inline-block" style="padding: 12px 28px; font-size: 0.9rem;">
+              <i class="fa-solid fa-compass mr-2"></i> Explore Homes & Flats
+            </a>
+          </div>
+          <% } else { %>
+
+            <!-- Grid of Saved Homes -->
+            <div class="airbnb-homes-grid">
+              <% registerHomes.forEach((home)=> { %>
+                <div class="airbnb-card">
+
+                  <div class="card-media-wrapper">
+                    <% const cPhoto=home.photoUrl || (home.photos && home.photos[0]) || '' ; %>
+                      <% if (cPhoto) { %>
+                        <img src="<%= cPhoto %>" alt="<%= home.houseName %>" class="card-media-img" loading="lazy" />
+                        <% } else { %>
+                          <div class="card-media-empty">
+                            <div class="preview-empty-icon-wrap"><i class="fa-solid fa-house"></i></div>
+                            <span class="preview-empty-title">
+                              <%= home.houseName %>
+                            </span>
+                          </div>
+                          <% } %>
+
+                            <div class="card-badge-guest-fav">
+                              <i class="fa-solid fa-award text-amber-500"></i> Guest favourite
+                            </div>
+
+                            <!-- Remove from Wishlist Heart Button -->
+                            <form action="/favourites/delete/<%= home._id %>" method="POST" style="margin: 0;">
+                              <button type="submit" class="btn-card-favourite is-fav" title="Remove from wishlist">
+                                <i class="fa-solid fa-heart" style="color: #FF385C;"></i>
+                              </button>
+                            </form>
+                  </div>
+
+                  <div class="card-details-wrapper">
+                    <div class="card-header-row">
+                      <h3 class="card-location-title" title="<%= home.location %>">
+                        <%= home.location %>
+                      </h3>
+                      <div class="card-rating-badge">
+                        <i class="fa-solid fa-star"></i>
+                        <span>
+                          <%= home.rating ? home.rating.toFixed(2) : '4.90' %>
+                        </span>
+                      </div>
+                    </div>
+
+                    <p class="card-property-desc">
+                      <%= home.houseName %>
+                    </p>
+
+                    <div class="card-price-row">
+                      <div>
+                        <span class="card-price-text">$<%= home.price %></span>
+                        <span class="card-price-period"> night</span>
+                      </div>
+                      <span class="text-[11px] text-gray-500">Free cancellation</span>
+                    </div>
+
+                    <div class="card-action-btns">
+                      <a href="/home/<%= home._id %>" class="btn-card-reserve">
+                        Reserve
+                      </a>
+                      <a href="/home/<%= home._id %>" class="btn-card-details">
+                        View Details
+                      </a>
+                    </div>
+                  </div>
+
+                </div>
+                <% }) %>
+            </div>
+
+            <% } %>
+
+      </main>
+
+      <footer class="airbnb-global-footer">
+        <div class="airbnb-footer-container">
+          <div class="footer-left-col">
+            <a href="/" class="footer-brand-logo">
+              <i class="fa-brands fa-airbnb"></i>
+              <span>airbnb</span>
+            </a>
+            <div class="footer-copyright-links">
+              <span>© 2026 Airbnb, Inc.</span>
+              <span>·</span>
+              <a href="#">Wishlists</a>
+            </div>
+          </div>
+          <div class="footer-right-col">
+            <span class="footer-locale-btn"><i class="fa-solid fa-globe"></i> English (US)</span>
+            <% if (!isLoggedIn || (user && user.userType==='host' )) { %>
+              <a href="/host/addHome" class="hover:text-rose-500 transition-colors">Airbnb your home</a>
+              <% } %>
+          </div>
+        </div>
+      </footer>
+  </body>
+
+  </html>

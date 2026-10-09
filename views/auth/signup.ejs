@@ -1,0 +1,190 @@
+<%- include('../partials/head') %>
+  </head>
+
+  <body>
+    <!-- Ambient Atmosphere -->
+    <div class="ambient-glow-1"></div>
+    <div class="ambient-glow-2"></div>
+    <div class="bg-grid-pattern"></div>
+
+    <!-- Airbnb Sticky Navigation -->
+    <%- include('../partials/nav') %>
+
+      <div class="auth-wrapper">
+        <div class="auth-card" style="max-width: 520px;">
+
+          <!-- Brand Logo -->
+          <div class="flex items-center justify-center gap-2 mb-6">
+            <div
+              class="w-10 h-10 rounded-xl bg-gradient-to-r from-rose-500 to-pink-600 flex items-center justify-center text-white text-xl shadow-md shadow-rose-500/20">
+              <i class="fa-brands fa-airbnb"></i>
+            </div>
+            <span class="text-2xl font-extrabold text-gray-900 tracking-tight">airbnb</span>
+          </div>
+
+          <!-- Header -->
+          <div class="auth-header">
+            <h1 class="auth-title">Create your account</h1>
+            <p class="auth-subtitle">Join Airbnb to book dream vacations or host your rental flat</p>
+          </div>
+
+          <!-- Errors -->
+          <%- include('../partials/errors') %>
+
+            <!-- Form -->
+            <form action="/signup" method="POST" class="flex flex-col gap-4">
+
+              <!-- First & Last Name -->
+              <div class="grid grid-cols-2 gap-3" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div class="form-group">
+                  <label class="form-label" for="firstName">First name</label>
+                  <div class="input-with-icon-wrapper">
+                    <span class="input-icon">
+                      <i class="fa-solid fa-user"></i>
+                    </span>
+                    <input type="text" id="firstName" name="firstName"
+                      value="<%= typeof oldInput !== 'undefined' && oldInput.firstName ? oldInput.firstName : '' %>"
+                      placeholder="Jane" required class="form-control" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="lastName">Last name</label>
+                  <div class="input-with-icon-wrapper">
+                    <span class="input-icon">
+                      <i class="fa-solid fa-user"></i>
+                    </span>
+                    <input type="text" id="lastName" name="lastName"
+                      value="<%= typeof oldInput !== 'undefined' && oldInput.lastName ? oldInput.lastName : '' %>"
+                      placeholder="Doe" required class="form-control" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Email -->
+              <div class="form-group">
+                <label class="form-label" for="email">Email address</label>
+                <div class="input-with-icon-wrapper">
+                  <span class="input-icon">
+                    <i class="fa-regular fa-envelope"></i>
+                  </span>
+                  <input type="email" id="email" name="email"
+                    value="<%= typeof oldInput !== 'undefined' && oldInput.email ? oldInput.email : '' %>"
+                    placeholder="you@example.com" required class="form-control" />
+                </div>
+              </div>
+
+              <!-- Password -->
+              <div class="form-group">
+                <label class="form-label" for="password">Password (min 8 chars)</label>
+                <div class="input-with-icon-wrapper">
+                  <span class="input-icon">
+                    <i class="fa-solid fa-lock"></i>
+                  </span>
+                  <input type="password" id="password" name="password"
+                    placeholder="At least 8 chars, 1 uppercase & 1 number" required class="form-control" />
+                </div>
+              </div>
+
+              <!-- Confirm Password -->
+              <div class="form-group">
+                <label class="form-label" for="confirmPassword">Confirm password</label>
+                <div class="input-with-icon-wrapper">
+                  <span class="input-icon">
+                    <i class="fa-solid fa-lock"></i>
+                  </span>
+                  <input type="password" id="confirmPassword" name="confirmPassword"
+                    placeholder="Re-enter your password" required class="form-control" />
+                </div>
+              </div>
+
+              <!-- User Role Choice -->
+              <div class="form-group">
+                <label class="form-label">I want to primarily</label>
+                <div class="user-type-selector">
+                  <label class="user-type-card-label" id="guestCard">
+                    <input type="radio" name="userType" value="guest" style="display: none;" <%=(typeof
+                      oldInput==='undefined' || oldInput.userType==='guest' ) ? 'checked' : '' %>
+                    onchange="selectRole('guest')"
+                    />
+                    <i class="fa-solid fa-compass text-rose-500 text-xl"
+                      style="font-size: 1.25rem; color: #FF385C;"></i>
+                    <span class="text-xs font-bold text-gray-900"
+                      style="font-size: 13px; font-weight: 700; color: #222222;">Book as Guest</span>
+                    <span class="text-[10px] text-gray-500" style="font-size: 11px; color: #717171;">Find vacation
+                      stays</span>
+                  </label>
+
+                  <label class="user-type-card-label" id="hostCard">
+                    <input type="radio" name="userType" value="host" style="display: none;" <%=(typeof oldInput
+                      !=='undefined' && oldInput.userType==='host' ) ? 'checked' : '' %>
+                    onchange="selectRole('host')"
+                    />
+                    <i class="fa-solid fa-house-chimney text-purple-600 text-xl"
+                      style="font-size: 1.25rem; color: #7C3AED;"></i>
+                    <span class="text-xs font-bold text-gray-900"
+                      style="font-size: 13px; font-weight: 700; color: #222222;">Host my Place</span>
+                    <span class="text-[10px] text-gray-500" style="font-size: 11px; color: #717171;">Post flats &
+                      houses</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Terms & Conditions -->
+              <div class="flex items-start gap-2.5 my-1"
+                style="display: flex; align-items: flex-start; gap: 10px; margin: 4px 0;">
+                <input type="checkbox" id="terms" name="terms" required
+                  class="mt-1 w-4 h-4 rounded text-rose-500 accent-rose-500" style="margin-top: 2px;" />
+                <label for="terms" class="text-xs text-gray-600 leading-snug"
+                  style="font-size: 12px; color: #717171; line-height: 1.4;">
+                  I agree to the <a href="#" class="text-rose-600 hover:underline" style="color: #FF385C;">Airbnb Terms
+                    of Service</a>,
+                  <a href="#" class="text-rose-600 hover:underline" style="color: #FF385C;">Payments Terms</a>, and
+                  <a href="#" class="text-rose-600 hover:underline" style="color: #FF385C;">Privacy Policy</a>.
+                </label>
+              </div>
+
+              <!-- Submit Button -->
+              <button type="submit" class="btn-book-now text-sm py-3 mt-2">
+                <span>Create Account</span>
+                <i class="fa-solid fa-arrow-right text-xs"></i>
+              </button>
+
+            </form>
+
+            <!-- Footer Switcher -->
+            <p class="text-center text-xs text-gray-600 mt-6"
+              style="text-align: center; font-size: 12px; color: #717171; margin-top: 20px;">
+              Already have an account?
+              <a href="/login" class="text-rose-600 font-bold hover:underline ml-1"
+                style="color: #FF385C; font-weight: 700; text-decoration: none;">Log in</a>
+            </p>
+
+        </div>
+      </div>
+
+      <script>
+        function selectRole(role) {
+          const guestCard = document.getElementById('guestCard');
+          const hostCard = document.getElementById('hostCard');
+          if (role === 'guest') {
+            guestCard.classList.add('selected');
+            hostCard.classList.remove('selected');
+          } else {
+            hostCard.classList.add('selected');
+            guestCard.classList.remove('selected');
+          }
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+          const isHost = document.querySelector('input[name="userType"][value="host"]').checked;
+          selectRole(isHost ? 'host' : 'guest');
+        });
+      </script>
+
+      <footer class="border-t border-gray-200 bg-gray-50 mt-auto py-8 text-xs text-gray-600 text-center"
+        style="margin-top: auto !important;">
+        <span>© 2026 Airbnb, Inc. · Sign up</span>
+      </footer>
+  </body>
+
+  </html>

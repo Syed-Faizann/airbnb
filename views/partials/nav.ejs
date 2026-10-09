@@ -1,0 +1,265 @@
+<header class="airbnb-nav-header" style="position: sticky; top: 0; z-index: 1000;">
+  <div class="airbnb-nav-container">
+
+    <!-- Logo -->
+    <a href="/" class="airbnb-logo-link">
+      <div class="airbnb-logo-icon">
+        <i class="fa-brands fa-airbnb"></i>
+      </div>
+      <div class="airbnb-logo-text">
+        airbnb
+        <span class="airbnb-logo-tag">Stays</span>
+      </div>
+    </a>
+
+    <!-- Airbnb Iconic Search Pill (Center) -->
+    <a href="/#explore-stays" class="airbnb-search-pill" aria-label="Search stays">
+      <!-- Desktop & Tablet Search Segment View -->
+      <div class="search-pill-desktop">
+        <span class="search-pill-segment">Anywhere</span>
+        <span class="search-pill-divider"></span>
+        <span class="search-pill-segment">Any week</span>
+        <span class="search-pill-divider hide-tablet"></span>
+        <span class="search-pill-segment hide-tablet" style="color: var(--text-secondary); font-weight: 400;">Add
+          guests</span>
+      </div>
+
+      <!-- Mobile Search Compact View -->
+      <div class="search-pill-mobile">
+        <div class="search-pill-mobile-icon">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        <div class="search-pill-mobile-text">
+          <span class="search-pill-mobile-title">Where to?</span>
+          <span class="search-pill-mobile-sub">Anywhere · Any week · Add guests</span>
+        </div>
+      </div>
+
+      <button type="button" class="search-pill-btn" aria-label="Search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </a>
+
+    <!-- Right Navigation Actions -->
+    <div class="airbnb-nav-actions">
+
+      <% if (isLoggedIn && user && user.userType==='host' ) { %>
+        <!-- Host Quick Links -->
+        <a href="/host/host-home-list"
+          class="btn-host-switch <%= (typeof currentPage !== 'undefined' && currentPage === 'host-home') ? 'font-bold' : '' %>">
+          <i class="fa-solid fa-chart-line text-xs mr-1 text-gray-600"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="/host/addHome" class="btn-host-switch btn-host-accent">
+          <i class="fa-solid fa-plus text-xs mr-1"></i>
+          <span>Post Home</span>
+        </a>
+        <% } else if (!isLoggedIn) { %>
+          <!-- Become a Host CTA only for guests who are NOT logged in yet -->
+          <a href="/host/addHome" class="btn-host-switch">
+            <span>Airbnb your home</span>
+          </a>
+          <% } %>
+
+            <!-- Guest Links if Logged In as Guest -->
+            <% if (isLoggedIn && user && user.userType==='guest' ) { %>
+              <a href="/favourite-list" class="btn-host-switch" title="Wishlists">
+                <i class="fa-solid fa-heart text-xs mr-1"
+                  style="color: <%= (typeof currentPage !== 'undefined' && currentPage === 'favourite') ? '#FF385C' : '#717171' %>;"></i>
+                <span>Wishlists</span>
+              </a>
+              <a href="/bookings" class="btn-host-switch" title="Trips">
+                <i class="fa-solid fa-suitcase text-xs mr-1"
+                  style="color: <%= (typeof currentPage !== 'undefined' && currentPage === 'bookings') ? '#FF385C' : '#717171' %>;"></i>
+                <span>Trips</span>
+              </a>
+              <% } %>
+
+                <!-- User Menu Dropdown Pill Wrapper -->
+                <div class="airbnb-user-menu-wrapper">
+                  <button id="userMenuToggleBtn" type="button" class="airbnb-user-pill"
+                    aria-label="User navigation menu">
+                    <i class="fa-solid fa-bars" style="font-size: 0.85rem; color: #222222;"></i>
+                    <div class="user-avatar-badge <%= isLoggedIn && user && user.userType === 'host' ? 'host' : '' %>">
+                      <% if (isLoggedIn && user && user.firstName) { %>
+                        <%= user.firstName.charAt(0).toUpperCase() %>
+                          <% } else { %>
+                            <i class="fa-solid fa-user" style="font-size: 0.75rem;"></i>
+                            <% } %>
+                    </div>
+                  </button>
+
+                  <!-- Dropdown Menu (Clean White Airbnb Card) -->
+                  <div id="userMenuDropdown" class="airbnb-dropdown-menu hidden" style="z-index: 10000;">
+
+                    <% if (isLoggedIn && user) { %>
+                      <div class="dropdown-user-header">
+                        <p class="dropdown-user-sub">Signed in as</p>
+                        <p class="dropdown-user-name">
+                          <%= user.firstName %>
+                            <%= user.lastName || '' %>
+                        </p>
+                        <span
+                          class="dropdown-user-badge <%= user.userType === 'host' ? 'bg-purple-100 text-purple-700' : 'bg-rose-100 text-rose-700' %>">
+                          <%= user.userType %> account
+                        </span>
+                      </div>
+
+                      <a href="/home-list" class="dropdown-menu-item">
+                        <span class="dropdown-menu-item-icon"><i class="fa-solid fa-compass"></i></span>
+                        <span>Explore all stays</span>
+                      </a>
+
+                      <a href="/favourite-list" class="dropdown-menu-item">
+                        <span class="dropdown-menu-item-icon"><i class="fa-solid fa-heart"
+                            style="color: #FF385C;"></i></span>
+                        <span>My Wishlists</span>
+                      </a>
+                      <a href="/bookings" class="dropdown-menu-item">
+                        <span class="dropdown-menu-item-icon"><i class="fa-solid fa-suitcase"
+                            style="color: #0284C7;"></i></span>
+                        <span>My Bookings / Trips</span>
+                      </a>
+
+                      <% if (user.userType==='host' ) { %>
+                        <a href="/host/host-home-list" class="dropdown-menu-item">
+                          <span class="dropdown-menu-item-icon"><i class="fa-solid fa-house-chimney"
+                              style="color: #D97706;"></i></span>
+                          <span>Host Dashboard</span>
+                        </a>
+                        <a href="/host/addHome" class="dropdown-menu-item">
+                          <span class="dropdown-menu-item-icon"><i class="fa-solid fa-plus"
+                              style="color: #E11D48;"></i></span>
+                          <span>Post New Listing</span>
+                        </a>
+                        <% } %>
+
+                          <div class="dropdown-menu-divider"></div>
+
+                          <form action="/logout" method="POST" style="margin: 0; width: 100%;">
+                            <button type="submit" class="dropdown-menu-item logout-action">
+                              <span class="dropdown-menu-item-icon"><i
+                                  class="fa-solid fa-arrow-right-from-bracket"></i></span>
+                              <span>Log out</span>
+                            </button>
+                          </form>
+
+                          <% } else { %>
+                            <a href="/signup" class="dropdown-menu-item highlight-bold">
+                              <span class="dropdown-menu-item-icon"><i class="fa-solid fa-user-plus"></i></span>
+                              <span>Sign up</span>
+                            </a>
+                            <a href="/login" class="dropdown-menu-item">
+                              <span class="dropdown-menu-item-icon"><i
+                                  class="fa-solid fa-arrow-right-to-bracket text-rose-500"></i></span>
+                              <span>Log in</span>
+                            </a>
+
+                            <div class="dropdown-menu-divider"></div>
+
+                            <a href="/host/addHome" class="dropdown-menu-item">
+                              <span class="dropdown-menu-item-icon"><i class="fa-solid fa-house"></i></span>
+                              <span>Airbnb your home</span>
+                            </a>
+                            <a href="/home-list" class="dropdown-menu-item">
+                              <span class="dropdown-menu-item-icon"><i class="fa-solid fa-circle-question"></i></span>
+                              <span>Help Center</span>
+                            </a>
+                            <% } %>
+
+                  </div>
+                </div>
+
+    </div>
+
+  </div>
+</header>
+
+<!-- Mobile Bottom Navigation Bar (Visible on mobile <= 768px) -->
+<nav class="airbnb-mobile-bottom-bar" aria-label="Mobile navigation">
+  <a href="/home-list"
+    class="mobile-bottom-tab <%= (typeof currentPage !== 'undefined' && (currentPage === 'index' || currentPage === 'home' || currentPage === 'home-list')) ? 'active' : '' %>">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span>Explore</span>
+  </a>
+
+  <% if (isLoggedIn && user && user.userType==='guest' ) { %>
+    <a href="/favourite-list"
+      class="mobile-bottom-tab <%= (typeof currentPage !== 'undefined' && currentPage === 'favourite') ? 'active' : '' %>">
+      <i class="fa-regular fa-heart"></i>
+      <span>Wishlists</span>
+    </a>
+    <a href="/bookings"
+      class="mobile-bottom-tab <%= (typeof currentPage !== 'undefined' && currentPage === 'bookings') ? 'active' : '' %>">
+      <i class="fa-solid fa-suitcase"></i>
+      <span>Trips</span>
+    </a>
+    <% } else if (isLoggedIn && user && user.userType==='host' ) { %>
+      <a href="/host/host-home-list"
+        class="mobile-bottom-tab <%= (typeof currentPage !== 'undefined' && (currentPage === 'host-home' || currentPage === 'host-homes')) ? 'active' : '' %>">
+        <i class="fa-solid fa-chart-line"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="/host/addHome"
+        class="mobile-bottom-tab <%= (typeof currentPage !== 'undefined' && currentPage === 'addHome') ? 'active' : '' %>">
+        <i class="fa-solid fa-plus-circle"></i>
+        <span>Post Home</span>
+      </a>
+      <% } else { %>
+        <a href="/login"
+          class="mobile-bottom-tab <%= (typeof currentPage !== 'undefined' && currentPage === 'login') ? 'active' : '' %>">
+          <i class="fa-regular fa-heart"></i>
+          <span>Wishlists</span>
+        </a>
+        <a href="/host/addHome" class="mobile-bottom-tab">
+          <i class="fa-solid fa-house"></i>
+          <span>Host</span>
+        </a>
+        <% } %>
+
+          <!-- Mobile Profile Tab that toggles the user menu dropdown -->
+          <button type="button" id="mobileProfileTab"
+            class="mobile-bottom-tab <%= (typeof currentPage !== 'undefined' && (currentPage === 'login' || currentPage === 'signup')) ? 'active' : '' %>"
+            aria-label="User Profile">
+            <i class="fa-regular fa-circle-user"></i>
+            <span>
+              <%= (isLoggedIn && user) ? 'Profile' : 'Log in' %>
+            </span>
+          </button>
+</nav>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const pill = document.getElementById('userMenuToggleBtn');
+    const menu = document.getElementById('userMenuDropdown');
+    const mobileProfile = document.getElementById('mobileProfileTab');
+
+    function toggleMenu(e) {
+      if (e) {
+        e.stopPropagation();
+      }
+      if (menu) {
+        menu.classList.toggle('hidden');
+      }
+    }
+
+    if (pill && menu) {
+      pill.addEventListener('click', toggleMenu);
+    }
+
+    if (mobileProfile && menu) {
+      mobileProfile.addEventListener('click', toggleMenu);
+    }
+
+    document.addEventListener('click', function (e) {
+      if (!menu) return;
+      const clickedInsideMenu = menu.contains(e.target);
+      const clickedPill = pill && pill.contains(e.target);
+      const clickedMobileProfile = mobileProfile && mobileProfile.contains(e.target);
+
+      if (!clickedInsideMenu && !clickedPill && !clickedMobileProfile) {
+        menu.classList.add('hidden');
+      }
+    });
+  });
+</script>

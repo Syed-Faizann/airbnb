@@ -1,0 +1,1301 @@
+<%- include('../partials/head') %>
+  <style>
+    /* ==========================================================================
+     EXECUTIVE AIRBNB HOST MANAGEMENT DASHBOARD SYSTEM
+     ========================================================================== */
+    .host-dashboard-wrapper,
+    .airbnb-main-container {
+      max-width: 2520px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px 40px 80px;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 10;
+    }
+
+    @media (min-width: 1440px) {
+
+      .host-dashboard-wrapper,
+      .airbnb-main-container {
+        padding: 24px 80px 80px;
+      }
+    }
+
+    /* Host Header Hero */
+    .host-hero-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 24px;
+      padding: 30px 36px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+      margin-bottom: 28px;
+      position: relative;
+      overflow: hidden;
+      text-align: left;
+    }
+
+    .host-hero-banner::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 280px;
+      height: 100%;
+      background: radial-gradient(circle at top right, rgba(244, 63, 94, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .host-hero-left {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+      gap: 6px;
+      flex: 1 1 auto;
+      max-width: 68%;
+      z-index: 1;
+    }
+
+    .host-pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #E11D48;
+      background: #FFF1F2;
+      border: 1px solid #FECDD3;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      width: fit-content;
+      margin-bottom: 2px;
+    }
+
+    .host-hero-title {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #111827;
+      letter-spacing: -0.025em;
+      margin: 4px 0 2px;
+      line-height: 1.2;
+      text-align: left;
+    }
+
+    .host-hero-sub {
+      font-size: 0.92rem;
+      color: #6B7280;
+      margin: 0;
+      line-height: 1.5;
+      text-align: left;
+    }
+
+    .host-hero-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+      flex-shrink: 0;
+      width: auto !important;
+      z-index: 1;
+    }
+
+    .btn-host-action-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--airbnb-gradient, linear-gradient(90deg, #E61E4D 0%, #E31C5F 50%, #D70466 100%));
+      color: #FFFFFF;
+      font-size: 0.88rem;
+      font-weight: 700;
+      padding: 12px 22px;
+      border-radius: 9999px;
+      text-decoration: none;
+      box-shadow: 0 4px 14px rgba(230, 30, 77, 0.28);
+      transition: all 0.2s ease;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      width: auto !important;
+      max-width: fit-content;
+      flex-shrink: 0;
+    }
+
+    .btn-host-action-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(230, 30, 77, 0.38);
+      filter: brightness(1.05);
+      color: #FFFFFF;
+    }
+
+    .btn-host-action-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #F9FAFB;
+      color: #374151;
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 11px 20px;
+      border-radius: 9999px;
+      text-decoration: none;
+      border: 1px solid #D1D5DB;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      width: auto !important;
+      max-width: fit-content;
+      flex-shrink: 0;
+    }
+
+    .btn-host-action-secondary:hover {
+      background: #FFFFFF;
+      color: #111827;
+      border-color: #9CA3AF;
+    }
+
+    @media (max-width: 900px) {
+      .host-hero-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 24px 20px;
+        gap: 18px;
+      }
+
+      .host-hero-left {
+        max-width: 100%;
+        width: 100%;
+      }
+
+      .host-hero-title {
+        font-size: 1.55rem;
+      }
+
+      .host-hero-actions {
+        width: 100% !important;
+        flex-direction: row;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .host-hero-actions {
+        flex-direction: column;
+        width: 100% !important;
+      }
+
+      .btn-host-action-primary,
+      .btn-host-action-secondary {
+        width: 100% !important;
+        max-width: 100%;
+        text-align: center;
+      }
+    }
+
+    /* Section Headers */
+    .host-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+    }
+
+    .host-section-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .btn-add-listing {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #FFFFFF;
+      color: #111827;
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 9px 18px;
+      border-radius: 9999px;
+      border: 1.5px solid #E5E7EB;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      width: auto !important;
+      max-width: fit-content;
+      flex-shrink: 0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+
+    .btn-add-listing:hover {
+      background: #F9FAFB;
+      border-color: #D1D5DB;
+      color: #E11D48;
+    }
+
+    @media (max-width: 540px) {
+      .host-section-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .btn-add-listing {
+        width: 100% !important;
+        max-width: 100%;
+        justify-content: center;
+      }
+    }
+
+    /* Executive Metrics KPI Cards */
+    .metrics-grid-four {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+
+    @media (max-width: 1100px) {
+      .metrics-grid-four {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .metrics-grid-four {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .metric-card-box {
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 20px;
+      padding: 22px 24px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .metric-card-box:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+      border-color: #D1D5DB;
+    }
+
+    .metric-icon-wrap {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      flex-shrink: 0;
+    }
+
+    .metric-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .metric-num-val {
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: #111827;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    .metric-label-txt {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #6B7280;
+    }
+
+    .metric-sub-note {
+      font-size: 0.72rem;
+      color: #10B981;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 2px;
+    }
+
+    /* Navigation Tabs */
+    .dashboard-tabs-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 2px solid #F3F4F6;
+      margin-bottom: 28px;
+      overflow-x: auto;
+    }
+
+    .tab-item-btn {
+      border: none;
+      background: transparent;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #6B7280;
+      padding: 12px 18px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .tab-item-btn:hover {
+      color: #111827;
+    }
+
+    .tab-item-btn.active {
+      color: #E11D48;
+      border-bottom-color: #E11D48;
+    }
+
+    .tab-count-pill {
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      background: #F3F4F6;
+      color: #4B5563;
+    }
+
+    .tab-item-btn.active .tab-count-pill {
+      background: #FFF1F2;
+      color: #E11D48;
+    }
+
+    /* Property Listing Grid */
+    .host-homes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 26px;
+      margin-bottom: 48px;
+    }
+
+    @media (max-width: 480px) {
+      .host-homes-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .host-property-card {
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .host-property-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+      border-color: #D1D5DB;
+    }
+
+    .property-thumb-container {
+      position: relative;
+      width: 100%;
+      height: 220px;
+      background: #F3F4F6;
+      overflow: hidden;
+    }
+
+    .property-thumb-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .host-property-card:hover .property-thumb-img {
+      transform: scale(1.03);
+    }
+
+    .thumb-badge-live {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: rgba(16, 185, 129, 0.95);
+      color: #FFFFFF;
+      font-size: 0.68rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .thumb-rating-pill {
+      position: absolute;
+      bottom: 14px;
+      right: 14px;
+      background: rgba(255, 255, 255, 0.95);
+      color: #111827;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .property-body-content {
+      padding: 20px 22px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .property-cat-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #9CA3AF;
+    }
+
+    .property-title-text {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #111827;
+      margin: 0;
+      line-height: 1.35;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .property-loc-text {
+      font-size: 0.85rem;
+      color: #6B7280;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .property-features-chips {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      color: #4B5563;
+      font-weight: 600;
+      flex-wrap: wrap;
+      padding: 10px 0;
+      border-top: 1px solid #F3F4F6;
+      border-bottom: 1px solid #F3F4F6;
+    }
+
+    .chip-feature {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #F9FAFB;
+      padding: 4px 8px;
+      border-radius: 6px;
+      border: 1px solid #E5E7EB;
+    }
+
+    .property-price-bar {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+
+    .property-price-main {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #111827;
+    }
+
+    .property-price-main span {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #6B7280;
+    }
+
+    /* Management Action Buttons */
+    .property-action-footer {
+      padding: 16px 22px;
+      background: #F9FAFB;
+      border-top: 1px solid #E5E7EB;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr auto;
+      gap: 8px;
+    }
+
+    .btn-property-subaction {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 8px 10px;
+      border-radius: 10px;
+      text-decoration: none;
+      border: 1px solid #D1D5DB;
+      background: #FFFFFF;
+      color: #374151;
+      transition: all 0.15s ease;
+      cursor: pointer;
+      box-sizing: border-box;
+    }
+
+    .btn-property-subaction:hover {
+      background: #F3F4F6;
+      color: #111827;
+      border-color: #9CA3AF;
+    }
+
+    .btn-property-subaction.reserve-link {
+      background: #FFF1F2;
+      border-color: #FECDD3;
+      color: #E11D48;
+    }
+
+    .btn-property-subaction.reserve-link:hover {
+      background: #FFE4E6;
+      border-color: #FDA4AF;
+    }
+
+    .btn-property-delete {
+      background: #FFFFFF;
+      border: 1px solid #FECDD3;
+      color: #E11D48;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-property-delete:hover {
+      background: #FFF1F2;
+      border-color: #E11D48;
+      color: #BE123C;
+    }
+
+    /* ==========================================================================
+     UPCOMING GUEST RESERVATIONS SECTION (NEW CENTRAL FEATURE)
+     ========================================================================== */
+    .reservations-section-card {
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 24px;
+      padding: 28px 32px;
+      box-shadow: 0 2px 14px rgba(0, 0, 0, 0.04);
+      margin-bottom: 48px;
+    }
+
+    @media (max-width: 768px) {
+      .reservations-section-card {
+        padding: 20px 16px;
+        border-radius: 20px;
+      }
+    }
+
+    .reservations-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 22px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid #F3F4F6;
+    }
+
+    .reservations-title-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .reservations-heading {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #111827;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: -0.02em;
+    }
+
+    .reservations-sub {
+      font-size: 0.85rem;
+      color: #6B7280;
+      margin: 0;
+      line-height: 1.45;
+    }
+
+    /* Bookings Table Wrap & Table */
+    .bookings-table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: 16px;
+      border: 1px solid #E5E7EB;
+      background: #FFFFFF;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+
+    .bookings-table-styled {
+      width: 100%;
+      min-width: 860px;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 0.88rem;
+    }
+
+    .bookings-table-styled th {
+      background: #F9FAFB;
+      color: #4B5563;
+      font-weight: 800;
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 14px 18px;
+      text-align: left;
+      border-bottom: 1px solid #E5E7EB;
+      white-space: nowrap;
+    }
+
+    .bookings-table-styled th:first-child {
+      border-top-left-radius: 14px;
+    }
+
+    .bookings-table-styled th:last-child {
+      border-top-right-radius: 14px;
+    }
+
+    .bookings-table-styled td {
+      padding: 16px 18px;
+      border-bottom: 1px solid #F3F4F6;
+      color: #374151;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+
+    .bookings-table-styled tr:last-child td {
+      border-bottom: none;
+    }
+
+    .bookings-table-styled tr:hover td {
+      background: #FDF4F5;
+    }
+
+    .guest-info-cell {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .guest-avatar-bubble {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #FFF1F2;
+      color: #E11D48;
+      font-weight: 800;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #FECDD3;
+      flex-shrink: 0;
+    }
+
+    .booking-date-range {
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .booking-status-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 9999px;
+    }
+
+    .booking-status-confirmed {
+      background: #ECFDF5;
+      color: #059669;
+      border: 1px solid #A7F3D0;
+    }
+
+    .booking-status-cancelled {
+      background: #FFF1F2;
+      color: #E11D48;
+      border: 1px solid #FECDD3;
+    }
+
+    /* Empty state */
+    .dashboard-empty-card {
+      text-align: center;
+      padding: 56px 24px;
+      background: #FFFFFF;
+      border: 1.5px dashed #D1D5DB;
+      border-radius: 24px;
+      margin: 20px 0;
+    }
+
+    .empty-icon-circle {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: #FFF1F2;
+      color: #E11D48;
+      font-size: 1.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+    }
+
+    .table-scroll-hint {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: #6B7280;
+      background: #F3F4F6;
+      border: 1px solid #E5E7EB;
+      padding: 5px 12px;
+      border-radius: 9999px;
+    }
+
+    @media (max-width: 900px) {
+      .table-scroll-hint {
+        display: inline-flex;
+      }
+    }
+  </style>
+  </head>
+
+  <body>
+    <!-- Ambient Atmosphere -->
+    <div class="ambient-glow-1"></div>
+    <div class="ambient-glow-2"></div>
+    <div class="bg-grid-pattern"></div>
+
+    <!-- Airbnb Navigation -->
+    <%- include('../partials/nav') %>
+
+      <main class="host-dashboard-wrapper">
+
+        <!-- Host Management Header Banner -->
+        <div class="host-hero-banner">
+          <div class="host-hero-left">
+            <div class="host-pill-badge">
+              <i class="fa-solid fa-crown"></i>
+              <span>Host Command Center &middot; Superhost Tier</span>
+            </div>
+            <h1 class="host-hero-title">
+              <%= (user && user.firstName) ? `${user.firstName}'s Host Management Dashboard`
+                : 'Your Property Management Hub' %>
+            </h1>
+            <p class="host-hero-sub">
+              Monitor your active vacation flats, review reservations, manage calendar availability, and track nightly
+              earnings.
+            </p>
+          </div>
+
+          <div class="host-hero-actions">
+            <a href="/host/addHome" class="btn-host-action-primary">
+              <i class="fa-solid fa-plus"></i> Post New Flat / Home
+            </a>
+            <a href="/home-list" class="btn-host-action-secondary">
+              <i class="fa-solid fa-compass"></i> View Guest Catalog
+            </a>
+          </div>
+        </div>
+
+        <!-- Executive Metrics KPI Cards -->
+        <div class="metrics-grid-four">
+
+          <!-- Card 1: Active Listings -->
+          <div class="metric-card-box">
+            <div class="metric-icon-wrap" style="background:#FFF1F2;color:#E11D48;">
+              <i class="fa-solid fa-house-circle-check"></i>
+            </div>
+            <div class="metric-info">
+              <div class="metric-num-val">
+                <%= (typeof analytics !=='undefined' && analytics.totalListings) ? analytics.totalListings :
+                  registerHomes.length %>
+              </div>
+              <div class="metric-label-txt">Active Listings</div>
+              <div class="metric-sub-note">
+                <i class="fa-solid fa-circle-check"></i> 100% Live & Available
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Upcoming Guest Reservations -->
+          <div class="metric-card-box">
+            <div class="metric-icon-wrap" style="background:#ECFDF5;color:#059669;">
+              <i class="fa-solid fa-calendar-check"></i>
+            </div>
+            <div class="metric-info">
+              <div class="metric-num-val">
+                <%= (typeof analytics !=='undefined' && typeof analytics.activeReservationsCount !=='undefined' ) ?
+                  analytics.activeReservationsCount : ((typeof hostBookings !=='undefined' ) ? hostBookings.filter(b=>
+                  b.status === 'Confirmed').length : 0) %>
+              </div>
+              <div class="metric-label-txt">Guest Stays Reserved</div>
+              <div class="metric-sub-note" style="color:#059669;">
+                <i class="fa-solid fa-lock"></i> Auto-blocked calendar
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Estimated Monthly Earnings -->
+          <div class="metric-card-box">
+            <div class="metric-icon-wrap" style="background:#FEF3C7;color:#D97706;">
+              <i class="fa-solid fa-chart-line"></i>
+            </div>
+            <div class="metric-info">
+              <div class="metric-num-val">
+                $<%= (typeof analytics !=='undefined' && analytics.estMonthlyRevenue> 0) ?
+                  analytics.estMonthlyRevenue.toLocaleString() : '4,850' %>
+              </div>
+              <div class="metric-label-txt">Projected Revenue</div>
+              <div class="metric-sub-note" style="color:#D97706;">
+                <i class="fa-solid fa-arrow-trend-up"></i> Direct Host Payouts
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: Host Rating & AirCover -->
+          <div class="metric-card-box">
+            <div class="metric-icon-wrap" style="background:#EDE9FE;color:#7C3AED;">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <div class="metric-info">
+              <div class="metric-num-val" style="color:#7C3AED;">
+                <%= (typeof analytics !=='undefined' && analytics.avgRating> 0) ? analytics.avgRating : '4.95' %> ★
+              </div>
+              <div class="metric-label-txt">Superhost Rating</div>
+              <div class="metric-sub-note" style="color:#7C3AED;">
+                <i class="fa-solid fa-shield-cat"></i> $3M AirCover Protection
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Dashboard Tabs Filter -->
+        <div class="dashboard-tabs-bar">
+          <a href="#listingsSection" class="tab-item-btn active">
+            <i class="fa-solid fa-house-chimney"></i>
+            <span>Your Properties</span>
+            <span class="tab-count-pill">
+              <%= registerHomes.length %>
+            </span>
+          </a>
+
+          <a href="#reservationsSection" class="tab-item-btn">
+            <i class="fa-regular fa-calendar-check"></i>
+            <span>Guest Stays & Reservations</span>
+            <span class="tab-count-pill">
+              <%= (typeof hostBookings !=='undefined' && hostBookings) ? hostBookings.length : 0 %>
+            </span>
+          </a>
+        </div>
+
+        <!-- SECTION 1: PROPERTIES LISTINGS -->
+        <section id="listingsSection" style="margin-bottom: 40px;">
+
+          <div class="host-section-header">
+            <div class="host-section-header-left">
+              <h2 style="font-size: 1.45rem; font-weight: 800; color: #111827; margin: 0 0 4px; letter-spacing: -0.02em;">
+                Published Property Listings
+              </h2>
+              <p style="font-size: 0.88rem; color: #6B7280; margin: 0;">
+                Review rates, inspect public pages, modify details, or check booked dates
+              </p>
+            </div>
+
+            <a href="/host/addHome" class="btn-add-listing">
+              <i class="fa-solid fa-plus text-rose-500"></i>
+              <span>Add Another Flat</span>
+            </a>
+          </div>
+
+          <% if (registerHomes.length===0) { %>
+            <div class="dashboard-empty-card">
+              <div class="empty-icon-circle">
+                <i class="fa-solid fa-house-chimney-window"></i>
+              </div>
+              <h3 style="font-size:1.3rem;font-weight:800;color:#111827;margin:0 0 8px;">
+                No properties published yet
+              </h3>
+              <p style="font-size:0.88rem;color:#6B7280;max-width:480px;margin:0 auto 24px;">
+                Get started by creating your first vacation flat or room. Share photos, set your nightly price, and
+                welcome travelers from across the world.
+              </p>
+              <a href="/host/addHome" class="btn-host-action-primary" style="display:inline-flex;">
+                <i class="fa-solid fa-plus mr-2"></i> Post Your First Rental Flat
+              </a>
+            </div>
+            <% } else { %>
+
+              <div class="host-homes-grid">
+                <% registerHomes.forEach((home, idx)=> { %>
+                  <div class="host-property-card">
+
+                    <div>
+                      <!-- Property Image -->
+                      <div class="property-thumb-container">
+                        <img
+                          src="<%= home.photoUrl || (home.photos && home.photos[0]) || 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80' %>"
+                          alt="<%= home.houseName %>" class="property-thumb-img" />
+
+                        <span class="thumb-badge-live">
+                          <i class="fa-solid fa-circle text-[6px]"></i> Live on Airbnb
+                        </span>
+
+                        <span class="thumb-rating-pill">
+                          <i class="fa-solid fa-star text-amber-500 text-xs"></i>
+                          <%= home.rating ? Number(home.rating).toFixed(2) : '4.95' %>
+                        </span>
+                      </div>
+
+                      <!-- Body Content -->
+                      <div class="property-body-content">
+                        <div class="property-cat-row">
+                          <span style="color:#E11D48;">
+                            <%= home.category || 'Rental Flat' %>
+                          </span>
+                          <span>Listing #<%= idx + 1 %></span>
+                        </div>
+
+                        <h3 class="property-title-text" title="<%= home.houseName %>">
+                          <%= home.houseName %>
+                        </h3>
+
+                        <p class="property-loc-text">
+                          <i class="fa-solid fa-location-dot text-rose-500"></i>
+                          <span>
+                            <%= home.location %>
+                          </span>
+                        </p>
+
+                        <div class="property-features-chips">
+                          <span class="chip-feature"><i class="fa-solid fa-bed text-gray-500"></i>
+                            <%= home.bedrooms || 2 %> Beds
+                          </span>
+                          <span class="chip-feature"><i class="fa-solid fa-bath text-gray-500"></i>
+                            <%= home.bathrooms || 1 %> Bath
+                          </span>
+                          <span class="chip-feature"><i class="fa-solid fa-users text-gray-500"></i> Up to <%=
+                              home.maxGuests || 4 %> Guests</span>
+                        </div>
+
+                        <div class="property-price-bar">
+                          <div class="property-price-main">
+                            $<%= home.price %> <span>/ night</span>
+                          </div>
+                          <span
+                            style="font-size:0.75rem;font-weight:700;color:#059669;display:flex;align-items:center;gap:4px;">
+                            <i class="fa-solid fa-calendar-check"></i> Calendar Sync Active
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Action Footer Suite -->
+                    <div class="property-action-footer">
+
+                      <!-- View Public Listing -->
+                      <a href="/home/<%= home._id %>" class="btn-property-subaction" title="View Public Page">
+                        <i class="fa-solid fa-eye"></i> View
+                      </a>
+
+                      <!-- Check Availability & Reserve Page -->
+                      <a href="/reserve/<%= home._id %>" class="btn-property-subaction reserve-link"
+                        title="Check Availability Calendar & Book">
+                        <i class="fa-regular fa-calendar-days"></i> Dates
+                      </a>
+
+                      <!-- Edit Listing -->
+                      <a href="/host/edit-home/<%= home._id %>?editing=true" class="btn-property-subaction"
+                        title="Edit Listing Details">
+                        <i class="fa-solid fa-pen"></i> Edit
+                      </a>
+
+                      <!-- Delete Listing Form -->
+                      <form action="/host/delete-home/<%= home._id %>" method="POST"
+                        onsubmit="return confirm('Are you sure you want to permanently delete this listing?');"
+                        style="margin:0;">
+                        <button type="submit" class="btn-property-delete" title="Delete Listing">
+                          <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                      </form>
+
+                    </div>
+
+                  </div>
+                  <% }) %>
+              </div>
+
+              <% } %>
+
+        </section>
+
+        <!-- SECTION 2: UPCOMING GUEST RESERVATIONS & BOOKED DATES -->
+        <section id="reservationsSection" class="reservations-section-card">
+
+          <div class="reservations-header-row">
+            <div class="reservations-title-left">
+              <h2 class="reservations-heading">
+                <i class="fa-solid fa-suitcase-rolling text-rose-500"></i>
+                Guest Reservations & Blocked Time Periods
+              </h2>
+              <p class="reservations-sub">
+                When guests reserve your houses for specific days, the dates are locked so no other user can book the
+                same period.
+              </p>
+            </div>
+
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+              <span class="table-scroll-hint">
+                <i class="fa-solid fa-arrows-left-right text-xs text-rose-500"></i>
+                <span>Swipe table to view all</span>
+              </span>
+              <span
+                style="font-size:0.82rem;font-weight:700;background:#ECFDF5;color:#059669;padding:6px 14px;border-radius:9999px;border:1px solid #A7F3D0;display:inline-flex;align-items:center;gap:6px;">
+                <i class="fa-solid fa-shield-halved"></i> Double-Booking Protection Enabled
+              </span>
+            </div>
+          </div>
+
+          <% if (typeof hostBookings !=='undefined' && hostBookings && hostBookings.length> 0) { %>
+
+            <div class="bookings-table-wrap">
+              <table class="bookings-table-styled">
+                <thead>
+                  <tr>
+                    <th>Guest</th>
+                    <th>Property</th>
+                    <th>Reserved Dates</th>
+                    <th>Nights</th>
+                    <th>Payout</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% hostBookings.forEach((b)=> {
+                    const sDate = new Date(b.checkIn).toLocaleDateString("en-US", { month: "short", day: "numeric",
+                    year: "numeric" });
+                    const eDate = new Date(b.checkOut).toLocaleDateString("en-US", { month: "short", day: "numeric",
+                    year: "numeric" });
+                    const nNights = b.nights || Math.max(1, Math.round((new Date(b.checkOut) - new Date(b.checkIn)) /
+                    (1000*60*60*24)));
+                    %>
+                    <tr>
+                      <td>
+                        <div class="guest-info-cell">
+                          <div class="guest-avatar-bubble">
+                            <%= (b.guestName || 'G' ).charAt(0).toUpperCase() %>
+                          </div>
+                          <div>
+                            <strong style="color:#111827;display:block;">
+                              <%= b.guestName || 'Guest Traveler' %>
+                            </strong>
+                            <span style="font-size:0.75rem;color:#6B7280;">
+                              <%= b.guestEmail || 'Verified traveler' %>
+                            </span>
+                          </div>
+                        </div>
+                      </td>
+
+                      <td>
+                        <% if (b.home) { %>
+                          <strong style="color:#111827;display:block;">
+                            <%= b.home.houseName %>
+                          </strong>
+                          <span style="font-size:0.75rem;color:#6B7280;">
+                            <%= b.home.location %>
+                          </span>
+                          <% } else { %>
+                            <span style="color:#9CA3AF;">Listing Removed</span>
+                            <% } %>
+                      </td>
+
+                      <td>
+                        <div class="booking-date-range">
+                          <i class="fa-regular fa-calendar text-rose-500 mr-1 text-xs"></i>
+                          <%= sDate %> &mdash; <%= eDate %>
+                        </div>
+                      </td>
+
+                      <td>
+                        <strong>
+                          <%= nNights %>
+                            <%= nNights===1 ? 'night' : 'nights' %>
+                        </strong>
+                        <div style="font-size:0.75rem;color:#6B7280;">
+                          <%= b.guests || 2 %> guests
+                        </div>
+                      </td>
+
+                      <td>
+                        <% if (b.status==='Cancelled' ) { %>
+                          <div style="color:#9CA3AF;text-decoration:line-through;font-size:0.82rem;">$<%= b.totalPrice ?
+                              b.totalPrice.toLocaleString() : 0 %>
+                          </div>
+                          <div style="font-size:0.75rem;font-weight:700;color:#E11D48;">$0 (Refunded)</div>
+                          <% } else { %>
+                            <strong style="color:#059669;font-size:0.95rem;">$<%= b.totalPrice ?
+                                b.totalPrice.toLocaleString() : (b.pricePerNight * nNights + 85) %></strong>
+                            <% } %>
+                      </td>
+
+                      <td>
+                        <% if (b.status==='Confirmed' ) { %>
+                          <span class="booking-status-tag booking-status-confirmed">
+                            <i class="fa-solid fa-circle-check text-[10px]"></i> Confirmed
+                          </span>
+                          <% } else { %>
+                            <span class="booking-status-tag booking-status-cancelled"
+                              style="background:#FFF1F2;color:#E11D48;border:1px solid #FECDD3;"
+                              title="Cancelled before check-in. Money refunded and dates unlocked.">
+                              <i class="fa-solid fa-ban text-[10px]"></i> Cancelled
+                            </span>
+                            <div style="font-size:0.7rem;color:#059669;font-weight:700;margin-top:3px;">
+                              <i class="fa-solid fa-unlock text-[8px]"></i> Dates Unlocked
+                            </div>
+                            <% } %>
+                      </td>
+
+                      <td>
+                        <% if (b.home) { %>
+                          <a href="/reserve/<%= b.home._id %>" class="btn-property-subaction"
+                            style="font-size:0.75rem;padding:6px 12px;" title="View Calendar">
+                            <i class="fa-regular fa-calendar-days"></i> Availability
+                          </a>
+                          <% } %>
+                      </td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+              </table>
+            </div>
+
+            <% } else { %>
+
+              <div class="dashboard-empty-card" style="padding:40px 20px;background:#F9FAFB;border-color:#E5E7EB;">
+                <div class="empty-icon-circle"
+                  style="background:#ECFDF5;color:#059669;width:56px;height:56px;font-size:1.4rem;">
+                  <i class="fa-regular fa-calendar-check"></i>
+                </div>
+                <h4 style="font-size:1.15rem;font-weight:700;color:#111827;margin:0 0 6px;">
+                  Calendar is Open & Ready for Bookings
+                </h4>
+                <p style="font-size:0.85rem;color:#6B7280;max-width:480px;margin:0 auto 16px;">
+                  As soon as travelers choose their dates and reserve your properties, their itineraries, blocked
+                  calendar dates, and host earnings will appear directly in this table.
+                </p>
+                <% if (registerHomes.length> 0) { %>
+                  <a href="/reserve/<%= registerHomes[0]._id %>" class="btn-host-action-secondary"
+                    style="font-size:0.8rem;padding:8px 16px;">
+                    <i class="fa-solid fa-calendar-days text-rose-500"></i> Test Reserve & Check Availability
+                  </a>
+                  <% } %>
+              </div>
+
+              <% } %>
+
+        </section>
+
+      </main>
+
+      <footer class="airbnb-global-footer">
+        <div class="airbnb-footer-container">
+          <div class="footer-left-col">
+            <a href="/" class="footer-brand-logo">
+              <i class="fa-brands fa-airbnb"></i>
+              <span>airbnb</span>
+            </a>
+            <div class="footer-copyright-links">
+              <span>&copy; 2026 Airbnb, Inc.</span>
+              <span>&middot;</span>
+              <a href="#">Executive Host Management Hub</a>
+            </div>
+          </div>
+          <div class="footer-right-col">
+            <span>Protected by AirCover for Hosts</span>
+          </div>
+        </div>
+      </footer>
+
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          const tabListings = document.querySelector('a[href="#listingsSection"]');
+          const tabReservations = document.querySelector('a[href="#reservationsSection"]');
+          
+          if (tabListings && tabReservations) {
+            tabListings.addEventListener('click', function () {
+              tabListings.classList.add('active');
+              tabReservations.classList.remove('active');
+            });
+            tabReservations.addEventListener('click', function () {
+              tabReservations.classList.add('active');
+              tabListings.classList.remove('active');
+            });
+          }
+        });
+      </script>
+  </body>
+
+  </html>

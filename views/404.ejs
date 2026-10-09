@@ -1,0 +1,58 @@
+<%- include('partials/head') %>
+  </head>
+
+  <body>
+    <!-- Ambient Atmosphere -->
+    <div class="ambient-glow-1"></div>
+    <div class="ambient-glow-2"></div>
+    <div class="bg-grid-pattern"></div>
+
+    <!-- Airbnb Sticky Navigation -->
+    <%- include('partials/nav', { isLoggedIn: typeof isLoggedIn !=='undefined' ? isLoggedIn : false, user: typeof user
+      !=='undefined' ? user : null, currentPage: '404' }) %>
+
+      <div class="airbnb-main-container flex items-center justify-center py-20 min-h-[70vh]">
+        <div class="text-center max-w-lg bg-white border border-gray-200 rounded-3xl p-10 shadow-xl">
+
+          <div
+            class="w-20 h-20 rounded-2xl bg-rose-50 text-rose-500 flex items-center justify-center text-3xl mx-auto mb-6 shadow-sm">
+            <i class="fa-solid fa-map-location-dot"></i>
+          </div>
+
+          <span
+            class="text-xs font-bold uppercase tracking-widest text-rose-600 bg-rose-50 px-3 py-1 rounded-full border border-rose-200">
+            Error 404
+          </span>
+
+          <h1 class="text-3xl font-extrabold text-gray-900 mt-4 mb-2">
+            We can't seem to find that stay
+          </h1>
+
+          <p class="text-sm text-gray-600 mb-8 leading-relaxed">
+            Here are some helpful links instead to get you back on your journey:
+          </p>
+
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <a href="/" class="btn-card-reserve w-full sm:w-auto px-6 py-3 text-sm">
+              <i class="fa-solid fa-house mr-1.5"></i> Back to Homepage
+            </a>
+            <a href="/home-list" class="btn-card-details w-full sm:w-auto px-6 py-3 text-sm">
+              <i class="fa-solid fa-compass mr-1.5"></i> Explore All Stays
+            </a>
+          </div>
+
+          <div class="mt-8 pt-6 border-t border-gray-100 text-xs text-gray-500">
+            Looking to list a rental flat? <a href="/host/addHome"
+              class="text-rose-600 font-semibold hover:underline">Airbnb your home</a>
+          </div>
+
+        </div>
+      </div>
+
+      <footer class="border-t border-gray-200 bg-gray-50 mt-auto py-8 text-xs text-gray-600 text-center"
+        style="margin-top: auto !important;">
+        <span>© 2026 Airbnb, Inc. · Error 404</span>
+      </footer>
+  </body>
+
+  </html>

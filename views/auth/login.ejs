@@ -1,0 +1,102 @@
+<%- include('../partials/head') %>
+  </head>
+
+  <body>
+    <!-- Ambient Atmosphere -->
+    <div class="ambient-glow-1"></div>
+    <div class="ambient-glow-2"></div>
+    <div class="bg-grid-pattern"></div>
+
+    <!-- Airbnb Sticky Navigation -->
+    <%- include('../partials/nav') %>
+
+      <div class="auth-wrapper">
+        <div class="auth-card">
+
+          <!-- Airbnb Logo & Brand -->
+          <div class="flex items-center justify-center gap-2 mb-6">
+            <div
+              class="w-10 h-10 rounded-xl bg-gradient-to-r from-rose-500 to-pink-600 flex items-center justify-center text-white text-xl shadow-md shadow-rose-500/20">
+              <i class="fa-brands fa-airbnb"></i>
+            </div>
+            <span class="text-2xl font-extrabold text-gray-900 tracking-tight">airbnb</span>
+          </div>
+
+          <!-- Header -->
+          <div class="auth-header">
+            <h1 class="auth-title">Welcome back</h1>
+            <p class="auth-subtitle">Log in to manage your bookings and host properties</p>
+          </div>
+
+          <!-- Errors -->
+          <%- include('../partials/errors') %>
+
+            <!-- Form -->
+            <form action="/login" method="POST" class="flex flex-col gap-4">
+
+              <div class="form-group">
+                <label class="form-label" for="email">Email address</label>
+                <div class="input-with-icon-wrapper">
+                  <span class="input-icon">
+                    <i class="fa-regular fa-envelope"></i>
+                  </span>
+                  <input type="email" id="email" name="email"
+                    value="<%= typeof oldInput !== 'undefined' && oldInput.email ? oldInput.email : '' %>"
+                    placeholder="you@example.com" required class="form-control" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="flex items-center justify-between"
+                  style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                  <label class="form-label" for="password" style="margin-bottom: 0;">Password</label>
+                  <a href="#" class="text-[11px] text-rose-500 hover:underline font-medium"
+                    style="font-size: 11px; color: #FF385C; text-decoration: none;">Forgot password?</a>
+                </div>
+                <div class="input-with-icon-wrapper">
+                  <span class="input-icon">
+                    <i class="fa-solid fa-lock"></i>
+                  </span>
+                  <input type="password" id="password" name="password" placeholder="••••••••" required
+                    class="form-control" />
+                </div>
+              </div>
+
+              <button type="submit" class="btn-book-now text-sm py-3 mt-2">
+                <span>Log in to airbnb</span>
+                <i class="fa-solid fa-arrow-right text-xs"></i>
+              </button>
+
+            </form>
+
+            <!-- Social Logins -->
+            <div class="auth-divider">or continue with</div>
+
+            <button type="button" class="social-auth-btn"
+              onclick="alert('Demo environment: please use standard email login.')">
+              <i class="fa-brands fa-google text-red-500"></i>
+              <span>Continue with Google</span>
+            </button>
+
+            <button type="button" class="social-auth-btn"
+              onclick="alert('Demo environment: please use standard email login.')">
+              <i class="fa-brands fa-apple text-gray-900"></i>
+              <span>Continue with Apple</span>
+            </button>
+
+            <!-- Footer Switcher -->
+            <p class="text-center text-xs text-gray-600 mt-6">
+              Don't have an Airbnb account?
+              <a href="/signup" class="text-rose-600 font-bold hover:underline ml-1">Sign up</a>
+            </p>
+
+        </div>
+      </div>
+
+      <footer class="border-t border-gray-200 bg-gray-50 mt-auto py-8 text-xs text-gray-600 text-center"
+        style="margin-top: auto !important;">
+        <span>© 2026 Airbnb, Inc. · Login</span>
+      </footer>
+  </body>
+
+  </html>

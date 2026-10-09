@@ -1,0 +1,721 @@
+<%- include('../partials/head') %>
+  <style>
+    /* ==========================================================================
+     AUTHENTIC AIRBNB TRIPS & ITINERARIES DESIGN SYSTEM
+     (Aligned Edge-to-Edge with Same Width & Padding as Home Page)
+     ========================================================================== */
+    .airbnb-main-container {
+      max-width: 1720px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 28px 40px 80px;
+      position: relative;
+      z-index: 10;
+      box-sizing: border-box;
+      flex: 1 0 auto;
+    }
+
+    @media (min-width: 1440px) {
+      .airbnb-main-container {
+        padding: 32px 60px 80px;
+      }
+    }
+
+    /* Section Header Aligned Left */
+    .section-header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #F3F4F6;
+    }
+
+    .trips-tag-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #E11D48;
+      background: #FFF1F2;
+      border: 1px solid #FECDD3;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      width: fit-content;
+      margin-bottom: 6px;
+    }
+
+    .btn-explore-stays {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #FFFFFF;
+      color: #374151;
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 10px 18px;
+      border-radius: 9999px;
+      border: 1px solid #D1D5DB;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+
+    .btn-explore-stays:hover {
+      background: #F9FAFB;
+      color: #111827;
+      border-color: #9CA3AF;
+    }
+
+    /* Success Notice */
+    .booking-success-banner {
+      margin-bottom: 28px;
+      padding: 16px 20px;
+      border-radius: 18px;
+      background: #ECFDF5;
+      border: 1px solid #A7F3D0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      box-shadow: 0 2px 10px rgba(16, 185, 129, 0.08);
+    }
+
+    .success-banner-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .success-icon-bubble {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: #D1FAE5;
+      color: #059669;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    /* Trips Grid Layout (Clean Airbnb Column Cards) */
+    .trips-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(330px, 390px));
+      gap: 28px;
+      width: 100%;
+    }
+
+    @media (max-width: 768px) {
+      .trips-cards-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .trips-cards-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Individual Trip Card (Vertical Column: Photo on Top, Details Below) */
+    .trip-reservation-card {
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .trip-reservation-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+      border-color: #D1D5DB;
+    }
+
+    /* Top Photo Section */
+    .trip-card-thumb-wrap {
+      width: 100%;
+      height: 230px;
+      position: relative;
+      overflow: hidden;
+      background: #F3F4F6;
+      flex-shrink: 0;
+    }
+
+    .trip-card-thumb-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transition: transform 0.35s ease;
+    }
+
+    .trip-reservation-card:hover .trip-card-thumb-img {
+      transform: scale(1.04);
+    }
+
+    .trip-badge-status {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: rgba(16, 185, 129, 0.95);
+      color: #FFFFFF;
+      font-size: 0.68rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .trip-badge-status.cancelled {
+      background: rgba(225, 29, 72, 0.95);
+    }
+
+    .trip-badge-cat {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      background: rgba(255, 255, 255, 0.95);
+      color: #111827;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 3px 9px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Card Body Section (Compact & Well-Balanced Column) */
+    .trip-card-content {
+      padding: 16px 18px 18px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .trip-meta-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.74rem;
+      color: #6B7280;
+      margin-bottom: 4px;
+    }
+
+    .trip-ref-code {
+      font-family: monospace;
+      font-weight: 700;
+      color: #4B5563;
+      background: #F3F4F6;
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-size: 0.72rem;
+    }
+
+    .trip-card-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #111827;
+      margin: 0 0 3px;
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .trip-card-loc {
+      font-size: 0.80rem;
+      color: #6B7280;
+      margin: 0 0 10px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* Dates & Itinerary Box */
+    .trip-itinerary-box {
+      background: #F9FAFB;
+      border: 1px solid #E5E7EB;
+      border-radius: 12px;
+      padding: 9px 12px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .trip-date-cell {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .trip-date-label {
+      font-size: 0.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #6B7280;
+    }
+
+    .trip-date-val {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #111827;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .trip-specs-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.76rem;
+      color: #4B5563;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    /* Footer & Action Buttons */
+    .trip-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-top: 12px;
+      border-top: 1px solid #F3F4F6;
+      margin-top: auto;
+    }
+
+    .trip-price-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .trip-price-label {
+      font-size: 0.65rem;
+      color: #6B7280;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .trip-price-val {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #111827;
+    }
+
+    .trip-actions-cluster {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .btn-trip-view {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 6px 11px;
+      border-radius: 9999px;
+      background: #FFFFFF;
+      color: #111827;
+      border: 1px solid #D1D5DB;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .btn-trip-view:hover {
+      background: #F3F4F6;
+      border-color: #9CA3AF;
+    }
+
+    .btn-trip-reserve {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 6px 11px;
+      border-radius: 9999px;
+      background: #FFF1F2;
+      color: #E11D48;
+      border: 1px solid #FECDD3;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .btn-trip-reserve:hover {
+      background: #FFE4E6;
+      border-color: #FDA4AF;
+    }
+
+
+
+    .btn-trip-cancel {
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: #9CA3AF;
+      background: transparent;
+      border: none;
+      padding: 7px 10px;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-trip-cancel:hover {
+      color: #E11D48;
+      background: #FFF1F2;
+    }
+
+    /* Empty State */
+    .trips-empty-box {
+      text-align: center;
+      padding: 64px 24px;
+      background: #FFFFFF;
+      border: 1.5px dashed #D1D5DB;
+      border-radius: 24px;
+      max-width: 600px;
+      margin: 40px auto;
+    }
+
+    .trips-empty-icon {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      background: #FFF1F2;
+      color: #E11D48;
+      font-size: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+
+    .trips-empty-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #111827;
+      margin: 0 0 8px;
+    }
+
+    .trips-empty-desc {
+      font-size: 0.9rem;
+      color: #6B7280;
+      margin: 0 auto 24px;
+      line-height: 1.5;
+    }
+
+    /* Footer Container Matching Edge-to-Edge */
+    .airbnb-footer-container {
+      max-width: 2520px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      box-sizing: border-box;
+    }
+
+    @media (min-width: 1440px) {
+      .airbnb-footer-container {
+        padding: 0 80px;
+      }
+    }
+  </style>
+  </head>
+
+  <body style="display: flex; flex-direction: column; min-height: 100vh;">
+    <!-- Ambient Atmosphere -->
+    <div class="ambient-glow-1"></div>
+    <div class="ambient-glow-2"></div>
+    <div class="bg-grid-pattern"></div>
+
+    <!-- Airbnb Sticky Navigation -->
+    <%- include('../partials/nav') %>
+
+      <!-- Main Container: Aligned with Home Page Width & Left Edge -->
+      <main class="airbnb-main-container">
+
+        <!-- Header Bar: Identical Left Alignment as Home Page -->
+        <div class="section-header-bar flex-wrap gap-4">
+          <div>
+            <div class="trips-tag-pill">
+              <i class="fa-solid fa-suitcase-rolling"></i>
+              <span>Travel Itineraries & Reservations</span>
+            </div>
+            <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight flex items-center gap-3">
+              <i class="fa-solid fa-suitcase text-rose-500"></i>
+              Your Trips & Stays
+            </h1>
+            <p class="text-xs text-gray-500 mt-1">
+              Review upcoming check-in details, view property addresses, and manage your reservation schedule.
+            </p>
+          </div>
+
+          <a href="/home-list" class="btn-explore-stays">
+            <i class="fa-solid fa-compass text-rose-500"></i> Explore More Homes
+          </a>
+        </div>
+
+        <!-- Just Booked Success Alert -->
+        <% if (typeof justBooked !=='undefined' && justBooked) { %>
+          <div class="booking-success-banner">
+            <div class="success-banner-left">
+              <div class="success-icon-bubble">
+                <i class="fa-solid fa-check"></i>
+              </div>
+              <div>
+                <h4 style="font-size:0.95rem;font-weight:800;color:#065F46;margin:0 0 2px;">
+                  Reservation Confirmed & Calendar Locked!
+                </h4>
+                <p style="font-size:0.82rem;color:#047857;margin:0;">
+                  Your stay is officially secured. Other travelers cannot book these dates.
+                </p>
+              </div>
+            </div>
+            <span
+              style="font-size:0.75rem;font-weight:800;background:#D1FAE5;color:#065F46;padding:4px 12px;border-radius:9999px;">
+              Active Itinerary
+            </span>
+          </div>
+          <% } %>
+
+            <!-- Just Cancelled Refund Alert -->
+            <% if (typeof justCancelled !=='undefined' && justCancelled) { %>
+              <div
+                style="margin-bottom:28px;padding:16px 20px;border-radius:18px;background:#FFF1F2;border:1.5px solid #FECDD3;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;box-shadow:0 2px 10px rgba(225,29,72,0.08);">
+                <div style="display:flex;align-items:center;gap:14px;">
+                  <div
+                    style="width:44px;height:44px;border-radius:12px;background:#FFE4E6;color:#E11D48;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;">
+                    <i class="fa-solid fa-arrow-rotate-left"></i>
+                  </div>
+                  <div>
+                    <h4 style="font-size:0.98rem;font-weight:800;color:#9F1239;margin:0 0 2px;">
+                      Reservation Cancelled & <%= (typeof refunded !=='undefined' && refunded) ? '100% Refund Issued!'
+                        : 'Calendar Dates Unlocked!' %>
+                    </h4>
+                    <p style="font-size:0.84rem;color:#BE123C;margin:0;">
+                      <% if (typeof refunded !=='undefined' && refunded) { %>
+                        Full refund of <strong>$<%= refundAmount %></strong> has been returned to your original payment
+                        method. The property calendar has been unlocked and is now 100% available for other travelers.
+                        <% } else { %>
+                          Your reservation has been cancelled. The property calendar dates have been unlocked and are
+                          now available for other guests.
+                          <% } %>
+                    </p>
+                  </div>
+                </div>
+                <span
+                  style="font-size:0.75rem;font-weight:800;background:#FFE4E6;color:#9F1239;padding:5px 14px;border-radius:9999px;">
+                  <%= (typeof refunded !=='undefined' && refunded) ? 'Refund Returned' : 'Cancelled' %>
+                </span>
+              </div>
+              <% } %>
+
+                <!-- Bookings List -->
+                <% if (!bookings || bookings.length===0) { %>
+
+                  <div class="trips-empty-box">
+                    <div class="trips-empty-icon">
+                      <i class="fa-solid fa-plane-departure"></i>
+                    </div>
+                    <h3 class="trips-empty-title">No trips booked... yet!</h3>
+                    <p class="trips-empty-desc">
+                      Time to dust off your bags and start planning your next great getaway. Search vacation flats,
+                      beachfront villas, and cozy cabins worldwide.
+                    </p>
+                    <a href="/home-list" class="btn-card-reserve"
+                      style="display:inline-flex;align-items:center;gap:8px;padding:13px 28px;text-decoration:none;">
+                      <i class="fa-solid fa-magnifying-glass"></i> Start Exploring Stays
+                    </a>
+                  </div>
+
+                  <% } else { %>
+
+                    <!-- Cards Grid: Left Aligned, Same Margins as Home Page -->
+                    <div class="trips-cards-grid">
+                      <% bookings.forEach((booking)=> { %>
+                        <% if (booking.home) { %>
+                          <div class="trip-reservation-card">
+
+                            <!-- Left: Fixed Aspect Thumbnail (Not stretched) -->
+                            <div class="trip-card-thumb-wrap">
+                              <img
+                                src="<%= booking.home.photoUrl || (booking.home.photos && booking.home.photos[0]) || 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80' %>"
+                                alt="<%= booking.home.houseName %>" class="trip-card-thumb-img" />
+
+                              <span class="trip-badge-status <%= booking.status === 'Cancelled' ? 'cancelled' : '' %>">
+                                <i
+                                  class="fa-solid <%= booking.status === 'Cancelled' ? 'fa-circle-xmark' : 'fa-circle-check' %> text-[7px]"></i>
+                                <%= booking.status || 'Confirmed' %>
+                              </span>
+
+                              <span class="trip-badge-cat">
+                                <%= booking.home.category || 'Rental Flat' %>
+                              </span>
+                            </div>
+
+                            <!-- Right: Content & Itinerary Details -->
+                            <div class="trip-card-content">
+
+                              <div>
+                                <div class="trip-meta-top">
+                                  <span class="trip-ref-code">Ref #<%= booking._id.toString().slice(-6).toUpperCase() %>
+                                  </span>
+                                  <span><i class="fa-solid fa-star text-amber-500 text-xs"></i>
+                                    <%= booking.home.rating ? Number(booking.home.rating).toFixed(2) : '4.95' %>
+                                  </span>
+                                </div>
+
+                                <h3 class="trip-card-title" title="<%= booking.home.houseName %>">
+                                  <%= booking.home.houseName %>
+                                </h3>
+
+                                <p class="trip-card-loc">
+                                  <i class="fa-solid fa-location-dot text-rose-500"></i>
+                                  <span>
+                                    <%= booking.home.location %>
+                                  </span>
+                                </p>
+
+                                <!-- Clean 2-Column Itinerary Box -->
+                                <div class="trip-itinerary-box">
+                                  <div class="trip-date-cell">
+                                    <span class="trip-date-label">Check-in</span>
+                                    <span class="trip-date-val">
+                                      <%= booking.checkIn || 'Oct 14, 2026' %>
+                                    </span>
+                                  </div>
+                                  <div class="trip-date-cell">
+                                    <span class="trip-date-label">Checkout</span>
+                                    <span class="trip-date-val">
+                                      <%= booking.checkOut || 'Oct 17, 2026' %>
+                                    </span>
+                                  </div>
+                                </div>
+
+                                <div class="trip-specs-row">
+                                  <span><i class="fa-solid fa-moon text-rose-500 mr-1"></i> Stay Itinerary</span>
+                                  <span>&bull;</span>
+                                  <span><i class="fa-solid fa-user-group text-gray-500 mr-1"></i>
+                                    <%= booking.guests || 2 %> guests
+                                  </span>
+                                </div>
+                              </div>
+
+                              <!-- Footer & Actions -->
+                              <div class="trip-card-footer">
+                                <div class="trip-price-wrap">
+                                  <% if (booking.status==='Cancelled' ) { %>
+                                    <span class="trip-price-label">Refund Processed</span>
+                                    <div style="display:flex;align-items:baseline;gap:6px;">
+                                      <span style="font-size:0.9rem;color:#9CA3AF;text-decoration:line-through;">$<%=
+                                          booking.totalPrice ? Number(booking.totalPrice).toLocaleString() : 0 %></span>
+                                      <span style="font-size:1.15rem;font-weight:800;color:#059669;">$<%=
+                                          booking.refundAmount || booking.totalPrice || 0 %> Refunded</span>
+                                    </div>
+                                    <% } else { %>
+                                      <span class="trip-price-label">Total Paid</span>
+                                      <span class="trip-price-val">$<%= booking.totalPrice ?
+                                          Number(booking.totalPrice).toLocaleString() : ((booking.home.price * 3) + 85)
+                                          %></span>
+                                      <% } %>
+                                </div>
+
+                                <div class="trip-actions-cluster">
+                                  <a href="/home/<%= booking.home._id %>" class="btn-trip-view"
+                                    title="View Property Listing">
+                                    <i class="fa-solid fa-eye"></i> View
+                                  </a>
+
+                                  <a href="/reserve/<%= booking.home._id %>" class="btn-trip-reserve"
+                                    title="Check Availability Calendar">
+                                    <i class="fa-regular fa-calendar-days"></i> Dates
+                                  </a>
+
+                                  <% if (booking.status==='Cancelled' ) { %>
+                                    <a href="/reserve/<%= booking.home._id %>" class="btn-trip-reserve"
+                                      style="background:#ECFDF5;border-color:#A7F3D0;color:#059669;"
+                                      title="Rebook These Dates">
+                                      <i class="fa-solid fa-arrow-rotate-right text-xs"></i> Rebook
+                                    </a>
+                                    <% } else { %>
+                                      <form action="/bookings/cancel/<%= booking._id %>" method="POST"
+                                        onsubmit="return confirm('Cancel this stay? If cancelled before arrival date, 100% of your money ($<%= booking.totalPrice %>) will be refunded and the dates will be made available to other travelers.');"
+                                        style="margin:0;">
+                                        <button type="submit" class="btn-trip-cancel"
+                                          title="Cancel Reservation & Get Refund">
+                                          Cancel
+                                        </button>
+                                      </form>
+                                      <% } %>
+                                </div>
+                              </div>
+
+                            </div>
+
+                          </div>
+                          <% } %>
+                            <% }) %>
+                    </div>
+
+                    <% } %>
+
+      </main>
+
+      <!-- Global Footer -->
+      <footer class="airbnb-global-footer">
+        <div class="airbnb-footer-container">
+          <div class="footer-left-col">
+            <a href="/" class="footer-brand-logo">
+              <i class="fa-brands fa-airbnb"></i>
+              <span>airbnb</span>
+            </a>
+            <div class="footer-copyright-links">
+              <span>&copy; 2026 Airbnb, Inc.</span>
+              <span>&middot;</span>
+              <a href="#">Your Trips & Bookings</a>
+            </div>
+          </div>
+          <div class="footer-right-col">
+            <span class="footer-locale-btn"><i class="fa-solid fa-globe"></i> English (US)</span>
+            <span class="footer-locale-btn">$ USD</span>
+            <% if (!isLoggedIn || (user && user.userType==='host' )) { %>
+              <a href="/host/addHome" class="hover:text-rose-500 transition-colors">Airbnb your home</a>
+              <% } %>
+          </div>
+        </div>
+      </footer>
+  </body>
+
+  </html>

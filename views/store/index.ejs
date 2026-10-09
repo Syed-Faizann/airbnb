@@ -1,0 +1,564 @@
+<%- include('../partials/head') %>
+  </head>
+
+  <body style="display: flex; flex-direction: column; min-height: 100vh; background-color: #FFFFFF;">
+
+    <!-- Airbnb Sticky Navigation -->
+    <%- include('../partials/nav') %>
+
+      <!-- Iconic Airbnb Categories Carousel Bar -->
+      <div class="airbnb-categories-wrapper">
+        <div class="airbnb-categories-container">
+          <% const categories=[ { id: "All" , name: "All Homes" , icon: "fa-solid fa-border-all" }, { id: "City Flats" ,
+            name: "City Flats" , icon: "fa-solid fa-city" }, { id: "Beachfront" , name: "Beachfront" ,
+            icon: "fa-solid fa-umbrella-beach" }, { id: "Amazing Pools" , name: "Amazing Pools" ,
+            icon: "fa-solid fa-water-ladder" }, { id: "Cabins" , name: "Cabins" , icon: "fa-solid fa-campground" }, {
+            id: "Mansions" , name: "Mansions" , icon: "fa-solid fa-landmark-dome" }, { id: "Luxe" , name: "Luxe" ,
+            icon: "fa-solid fa-gem" }, { id: "Mountain Views" , name: "Mountain Views" , icon: "fa-solid fa-mountain" },
+            { id: "Countryside" , name: "Countryside" , icon: "fa-solid fa-tree" } ]; %>
+
+            <% categories.forEach(cat=> { %>
+              <a href="/?category=<%= encodeURIComponent(cat.id) %><% if (searchQuery) { %>&search=<%= encodeURIComponent(searchQuery) %><% } %>"
+                class="category-chip <%= activeCategory === cat.id ? 'active' : '' %>">
+                <i class="<%= cat.icon %> category-chip-icon"></i>
+                <span>
+                  <%= cat.name %>
+                </span>
+              </a>
+              <% }) %>
+        </div>
+      </div>
+
+      <!-- Hero & Search Section -->
+      <section class="airbnb-hero-section">
+        <div class="airbnb-hero-card">
+          <h1 class="airbnb-hero-title">
+            Find your next stay with <span>airbnb</span>
+          </h1>
+          <p class="airbnb-hero-subtitle">
+            Discover handpicked flats, designer lofts, and luxury ocean villas across 190+ countries.
+          </p>
+
+          <!-- Interactive Search Widget (Airbnb Luxury Pill with Dividers) -->
+          <form action="/" method="GET" class="hero-search-widget">
+            <!-- Field 1: Destination -->
+            <div class="search-field-group" id="destinationFieldGroup">
+              <label class="search-field-label">
+                <span class="field-label-badge destination"><i class="fa-solid fa-location-dot"></i></span>
+                <span>Destination</span>
+              </label>
+              <input type="text" name="search" id="heroDestinationInput" value="<%= searchQuery || '' %>"
+                placeholder="Where are you going?" class="search-field-input" autocomplete="off" />
+            </div>
+
+            <div class="search-field-divider"></div>
+
+            <!-- Field 2: Property Style with Adjacent Arrow & Floating Menu -->
+            <div class="search-field-group" id="categoryGroup" onclick="toggleCategoryDropdown(event)">
+              <label class="search-field-label">
+                <span class="field-label-badge property"><i class="fa-solid fa-house"></i></span>
+                <span>Property Style</span>
+              </label>
+              <% const categoryLabels={ 'All' : 'Any property type' , 'City Flats' : 'City Flat / Studio' , 'Beachfront'
+                : 'Beachfront Villa' , 'Amazing Pools' : 'Amazing Pools' , 'Cabins' : 'Mountain Cabin' , 'Mansions'
+                : 'Mansions' , 'Luxe' : 'Luxe Homes' , 'Mountain Views' : 'Mountain Views' , 'Countryside'
+                : 'Countryside' }; const currentCatLabel=categoryLabels[activeCategory] || 'Any property type' ; %>
+                <div class="search-dropdown-wrapper" id="categoryDropdownWrapper">
+                  <button type="button" class="search-dropdown-trigger" id="categoryDropdownTrigger">
+                    <span id="selectedCategoryLabel">
+                      <%= currentCatLabel %>
+                    </span>
+                    <i class="fa-solid fa-chevron-down search-dropdown-arrow" id="categoryDropdownArrow"></i>
+                  </button>
+                  <input type="hidden" name="category" id="searchCategoryInput" value="<%= activeCategory || 'All' %>">
+
+                  <!-- Luxury Floating Dropdown Menu -->
+                  <div class="search-dropdown-menu" id="categoryDropdownMenu">
+                    <div
+                      class="search-dropdown-item <%= (!activeCategory || activeCategory === 'All') ? 'active' : '' %>"
+                      data-value="All" onclick="selectSearchCategory('All', 'Any property type')">
+                      <div class="search-item-left">
+                        <i class="fa-solid fa-border-all"></i>
+                        <span>Any property type</span>
+                      </div>
+                      <i class="fa-solid fa-check check-icon"></i>
+                    </div>
+                    <div class="search-dropdown-item <%= activeCategory === 'City Flats' ? 'active' : '' %>"
+                      data-value="City Flats" onclick="selectSearchCategory('City Flats', 'City Flat / Studio')">
+                      <div class="search-item-left">
+                        <i class="fa-solid fa-city"></i>
+                        <span>City Flat / Studio</span>
+                      </div>
+                      <i class="fa-solid fa-check check-icon"></i>
+                    </div>
+                    <div class="search-dropdown-item <%= activeCategory === 'Beachfront' ? 'active' : '' %>"
+                      data-value="Beachfront" onclick="selectSearchCategory('Beachfront', 'Beachfront Villa')">
+                      <div class="search-item-left">
+                        <i class="fa-solid fa-umbrella-beach"></i>
+                        <span>Beachfront Villa</span>
+                      </div>
+                      <i class="fa-solid fa-check check-icon"></i>
+                    </div>
+                    <div class="search-dropdown-item <%= activeCategory === 'Amazing Pools' ? 'active' : '' %>"
+                      data-value="Amazing Pools" onclick="selectSearchCategory('Amazing Pools', 'Amazing Pools')">
+                      <div class="search-item-left">
+                        <i class="fa-solid fa-water-ladder"></i>
+                        <span>Amazing Pools</span>
+                      </div>
+                      <i class="fa-solid fa-check check-icon"></i>
+                    </div>
+                    <div class="search-dropdown-item <%= activeCategory === 'Cabins' ? 'active' : '' %>"
+                      data-value="Cabins" onclick="selectSearchCategory('Cabins', 'Mountain Cabin')">
+                      <div class="search-item-left">
+                        <i class="fa-solid fa-campground"></i>
+                        <span>Mountain Cabin</span>
+                      </div>
+                      <i class="fa-solid fa-check check-icon"></i>
+                    </div>
+                    <div class="search-dropdown-item <%= activeCategory === 'Mansions' ? 'active' : '' %>"
+                      data-value="Mansions" onclick="selectSearchCategory('Mansions', 'Mansions')">
+                      <div class="search-item-left">
+                        <i class="fa-solid fa-landmark-dome"></i>
+                        <span>Mansions</span>
+                      </div>
+                      <i class="fa-solid fa-check check-icon"></i>
+                    </div>
+                    <div class="search-dropdown-item <%= activeCategory === 'Luxe' ? 'active' : '' %>" data-value="Luxe"
+                      onclick="selectSearchCategory('Luxe', 'Luxe Homes')">
+                      <div class="search-item-left">
+                        <i class="fa-solid fa-gem"></i>
+                        <span>Luxe Homes</span>
+                      </div>
+                      <i class="fa-solid fa-check check-icon"></i>
+                    </div>
+                    <div class="search-dropdown-item <%= activeCategory === 'Mountain Views' ? 'active' : '' %>"
+                      data-value="Mountain Views" onclick="selectSearchCategory('Mountain Views', 'Mountain Views')">
+                      <div class="search-item-left">
+                        <i class="fa-solid fa-mountain"></i>
+                        <span>Mountain Views</span>
+                      </div>
+                      <i class="fa-solid fa-check check-icon"></i>
+                    </div>
+                    <div class="search-dropdown-item <%= activeCategory === 'Countryside' ? 'active' : '' %>"
+                      data-value="Countryside" onclick="selectSearchCategory('Countryside', 'Countryside')">
+                      <div class="search-item-left">
+                        <i class="fa-solid fa-tree"></i>
+                        <span>Countryside</span>
+                      </div>
+                      <i class="fa-solid fa-check check-icon"></i>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <div class="search-field-divider"></div>
+
+            <!-- Field 3: Max Price with Adjacent Arrow & Presets Dropdown -->
+            <div class="search-field-group" id="priceGroup" onclick="togglePriceDropdown(event)">
+              <label class="search-field-label">
+                <span class="field-label-badge price"><i class="fa-solid fa-dollar-sign"></i></span>
+                <span>Max Budget / Night</span>
+              </label>
+              <div class="search-dropdown-wrapper" id="priceDropdownWrapper">
+                <div class="search-dropdown-trigger" id="priceDropdownTrigger">
+                  <div class="price-input-row">
+                    <input type="number" name="maxPrice" id="searchMaxPriceInput" value="<%= maxPrice || '' %>"
+                      placeholder="No limit" class="search-field-input" min="0" onclick="event.stopPropagation();" />
+                  </div>
+                  <i class="fa-solid fa-chevron-down search-dropdown-arrow" id="priceDropdownArrow"></i>
+                </div>
+
+                <!-- Price Presets Floating Dropdown Menu -->
+                <div class="search-dropdown-menu" id="priceDropdownMenu">
+                  <div class="search-dropdown-item <%= (!maxPrice) ? 'active' : '' %>" data-price=""
+                    onclick="selectSearchPrice('', 'No limit')">
+                    <div class="search-item-left">
+                      <i class="fa-solid fa-infinity"></i>
+                      <span>No limit (Any price)</span>
+                    </div>
+                    <i class="fa-solid fa-check check-icon"></i>
+                  </div>
+                  <div class="search-dropdown-item <%= maxPrice == '50' ? 'active' : '' %>" data-price="50"
+                    onclick="selectSearchPrice('50', '50')">
+                    <div class="search-item-left">
+                      <i class="fa-solid fa-tag"></i>
+                      <span>Under $50 / night</span>
+                    </div>
+                    <i class="fa-solid fa-check check-icon"></i>
+                  </div>
+                  <div class="search-dropdown-item <%= maxPrice == '100' ? 'active' : '' %>" data-price="100"
+                    onclick="selectSearchPrice('100', '100')">
+                    <div class="search-item-left">
+                      <i class="fa-solid fa-tag"></i>
+                      <span>Under $100 / night</span>
+                    </div>
+                    <i class="fa-solid fa-check check-icon"></i>
+                  </div>
+                  <div class="search-dropdown-item <%= maxPrice == '200' ? 'active' : '' %>" data-price="200"
+                    onclick="selectSearchPrice('200', '200')">
+                    <div class="search-item-left">
+                      <i class="fa-solid fa-tags"></i>
+                      <span>Under $200 / night</span>
+                    </div>
+                    <i class="fa-solid fa-check check-icon"></i>
+                  </div>
+                  <div class="search-dropdown-item <%= maxPrice == '350' ? 'active' : '' %>" data-price="350"
+                    onclick="selectSearchPrice('350', '350')">
+                    <div class="search-item-left">
+                      <i class="fa-solid fa-gem"></i>
+                      <span>Under $350 / night</span>
+                    </div>
+                    <i class="fa-solid fa-check check-icon"></i>
+                  </div>
+                  <div class="search-dropdown-item <%= maxPrice == '500' ? 'active' : '' %>" data-price="500"
+                    onclick="selectSearchPrice('500', '500')">
+                    <div class="search-item-left">
+                      <i class="fa-solid fa-crown"></i>
+                      <span>Under $500 / night</span>
+                    </div>
+                    <i class="fa-solid fa-check check-icon"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="hero-search-submit">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <span>Search Stays</span>
+            </button>
+          </form>
+
+          <!-- Quick Trending Destinations Strip -->
+          <div class="hero-quick-destinations">
+            <span class="quick-dest-title">
+              <i class="fa-solid fa-compass text-rose-500 mr-1.5"></i> Trending:
+            </span>
+            <button type="button" class="quick-dest-chip" onclick="quickFillDestination('Paris')">🇫🇷 Paris</button>
+            <button type="button" class="quick-dest-chip" onclick="quickFillDestination('Dubai')">🇦🇪 Dubai</button>
+            <button type="button" class="quick-dest-chip" onclick="quickFillDestination('Tulum')">🌴 Tulum</button>
+            <button type="button" class="quick-dest-chip" onclick="quickFillDestination('Tokyo')">🇯🇵 Tokyo</button>
+            <button type="button" class="quick-dest-chip" onclick="quickFillDestination('London')">🇬🇧 London</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Main Listings Showcase -->
+      <main id="explore-stays" class="airbnb-main-container">
+
+        <!-- Section Header & Filter Stats -->
+        <div class="section-header-bar">
+          <div>
+            <h2 class="section-heading-title">
+              <% if (activeCategory && activeCategory !=='All' ) { %>
+                <%= activeCategory %>
+                  <% } else if (searchQuery) { %>
+                    Stays matching "<%= searchQuery %>"
+                      <% } else { %>
+                        Explore Popular Homes & Flats
+                        <% } %>
+            </h2>
+            <p class="text-xs text-gray-500 mt-1">Verified vacation stays, direct from verified hosts</p>
+          </div>
+
+          <div class="section-header-actions">
+            <span class="section-count-badge">
+              <i class="fa-solid fa-house-chimney text-rose-500 mr-1"></i>
+              <%= registerHomes.length %> Stays Available
+            </span>
+
+            <% if (isLoggedIn && user && user.userType==='host' ) { %>
+              <a href="/host/addHome" class="btn-host-switch text-xs bg-rose-50 text-rose-600 border-rose-200">
+                <i class="fa-solid fa-plus"></i> Post New Home
+              </a>
+              <% } %>
+          </div>
+        </div>
+
+        <!-- Empty State -->
+        <% if (registerHomes.length===0) { %>
+          <div class="airbnb-empty-state">
+            <div class="empty-state-icon">
+              <i class="fa-solid fa-house-circle-exclamation"></i>
+            </div>
+            <h3 class="empty-state-title">No listings found</h3>
+            <p class="empty-state-desc">
+              <% if (searchQuery || activeCategory !=='All' ) { %>
+                We couldn't find any stays matching your current filters. Try resetting the search or category filters.
+                <% } else { %>
+                  There are no homes posted yet. Become the first host to share your space!
+                  <% } %>
+            </p>
+            <div class="flex items-center justify-center gap-4 flex-wrap">
+              <a href="/host/addHome" class="btn-card-reserve" style="padding: 12px 24px; font-size: 0.9rem;">
+                <i class="fa-solid fa-plus mr-2"></i> Post your Flat / Home
+              </a>
+              <% if (searchQuery || activeCategory !=='All' ) { %>
+                <a href="/" class="btn-card-details" style="padding: 12px 24px; font-size: 0.9rem;">
+                  <i class="fa-solid fa-arrow-rotate-left mr-2"></i> Reset All Filters
+                </a>
+                <% } %>
+            </div>
+          </div>
+          <% } else { %>
+
+            <!-- Airbnb Listings Grid -->
+            <div class="airbnb-homes-grid">
+              <% registerHomes.forEach((home, index)=> { %>
+                <div class="airbnb-card">
+
+                  <!-- Photo Media Box -->
+                  <div class="card-media-wrapper">
+                    <% const cPhoto=home.photoUrl || (home.photos && home.photos[0]) || '' ; %>
+                      <% if (cPhoto) { %>
+                        <img src="<%= cPhoto %>" alt="<%= home.houseName %>" class="card-media-img" loading="lazy" />
+                        <% } else { %>
+                          <div class="card-media-empty">
+                            <div class="preview-empty-icon-wrap"><i class="fa-solid fa-house"></i></div>
+                            <span class="preview-empty-title">
+                              <%= home.houseName %>
+                            </span>
+                          </div>
+                          <% } %>
+
+                            <!-- Guest Favorite Pill Badge -->
+                            <div class="card-badge-guest-fav">
+                              <i class="fa-solid fa-award text-amber-500"></i> Guest favourite
+                            </div>
+
+                            <!-- Category Tag -->
+                            <div class="card-badge-category">
+                              <%= home.category || 'Rental Flat' %>
+                            </div>
+
+                            <!-- Wishlist Heart Button -->
+                            <%- include('../partials/favourite', { home }) %>
+                  </div>
+
+                  <!-- Card Details -->
+                  <div class="card-details-wrapper">
+
+                    <!-- Location & Rating -->
+                    <div class="card-header-row">
+                      <h3 class="card-location-title" title="<%= home.location %>">
+                        <%= home.location %>
+                      </h3>
+                      <div class="card-rating-badge">
+                        <i class="fa-solid fa-star"></i>
+                        <span>
+                          <%= home.rating ? home.rating.toFixed(2) : '4.90' %>
+                        </span>
+                      </div>
+                    </div>
+
+                    <!-- Property Name / Title -->
+                    <p class="card-property-desc">
+                      <%= home.houseName %>
+                    </p>
+
+                    <!-- Capacity snippet -->
+                    <p class="text-xs text-gray-500">
+                      <%= home.bedrooms || 2 %> beds · Hosted by <%= home.hostName || 'Superhost' %>
+                    </p>
+
+                    <!-- Price & Reservation -->
+                    <div class="card-price-row">
+                      <div>
+                        <span class="card-price-text">$<%= home.price %></span>
+                        <span class="card-price-period"> night</span>
+                      </div>
+                      <span class="text-[11px] text-gray-500">Free cancellation</span>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="card-action-btns">
+                      <a href="/home/<%= home._id %>" class="btn-card-reserve">
+                        Reserve
+                      </a>
+                      <a href="/home/<%= home._id %>" class="btn-card-details">
+                        View Details
+                      </a>
+                    </div>
+
+                  </div>
+
+                </div>
+                <% }) %>
+            </div>
+
+            <% } %>
+      </main>
+
+      <!-- Global Footer -->
+      <footer class="airbnb-global-footer">
+        <div class="airbnb-footer-container">
+          <div class="footer-left-col">
+            <a href="/" class="footer-brand-logo">
+              <i class="fa-brands fa-airbnb"></i>
+              <span>airbnb</span>
+            </a>
+            <div class="footer-copyright-links">
+              <span>© 2026 Airbnb, Inc.</span>
+              <span>·</span>
+              <a href="#">Privacy</a>
+              <span>·</span>
+              <a href="#">Terms</a>
+              <span>·</span>
+              <a href="#">Sitemap</a>
+            </div>
+          </div>
+          <div class="footer-right-col">
+            <span class="footer-locale-btn"><i class="fa-solid fa-globe"></i> English (US)</span>
+            <span class="footer-locale-btn">$ USD</span>
+            <% if (!isLoggedIn || (user && user.userType==='host' )) { %>
+              <a href="/host/addHome" class="hover:text-rose-500 transition-colors">Become a Host</a>
+              <% } %>
+          </div>
+        </div>
+      </footer>
+
+      <!-- Interactive Search Dropdown Script -->
+      <script>
+        function toggleCategoryDropdown(e) {
+          if (e) {
+            if (e.target && e.target.closest && e.target.closest('#categoryDropdownMenu')) return;
+            e.preventDefault();
+            e.stopPropagation();
+          }
+          // Close price dropdown first
+          closePriceDropdown();
+
+          const group = document.getElementById('categoryGroup');
+          const wrapper = document.getElementById('categoryDropdownWrapper');
+          const menu = document.getElementById('categoryDropdownMenu');
+          if (wrapper && menu && group) {
+            const isNowOpen = !menu.classList.contains('open');
+            wrapper.classList.toggle('open');
+            menu.classList.toggle('open');
+            if (isNowOpen) {
+              group.classList.add('is-open');
+              group.style.zIndex = '100';
+            } else {
+              group.classList.remove('is-open');
+              group.style.zIndex = '';
+            }
+          }
+        }
+
+        function closeCategoryDropdown() {
+          const group = document.getElementById('categoryGroup');
+          const wrapper = document.getElementById('categoryDropdownWrapper');
+          const menu = document.getElementById('categoryDropdownMenu');
+          if (wrapper) wrapper.classList.remove('open');
+          if (menu) menu.classList.remove('open');
+          if (group) {
+            group.classList.remove('is-open');
+            group.style.zIndex = '';
+          }
+        }
+
+        function selectSearchCategory(catId, catLabel) {
+          const input = document.getElementById('searchCategoryInput');
+          const label = document.getElementById('selectedCategoryLabel');
+          if (input) input.value = catId;
+          if (label) label.innerText = catLabel;
+
+          // Update active highlight in category menu
+          const items = document.querySelectorAll('#categoryDropdownMenu .search-dropdown-item');
+          items.forEach(item => {
+            if (item.getAttribute('data-value') === catId) {
+              item.classList.add('active');
+            } else {
+              item.classList.remove('active');
+            }
+          });
+
+          closeCategoryDropdown();
+        }
+
+        function togglePriceDropdown(e) {
+          if (e) {
+            if (e.target && e.target.closest && e.target.closest('#priceDropdownMenu')) return;
+            e.preventDefault();
+            e.stopPropagation();
+          }
+          // Close category dropdown first
+          closeCategoryDropdown();
+
+          const group = document.getElementById('priceGroup');
+          const wrapper = document.getElementById('priceDropdownWrapper');
+          const menu = document.getElementById('priceDropdownMenu');
+          if (wrapper && menu && group) {
+            const isNowOpen = !menu.classList.contains('open');
+            wrapper.classList.toggle('open');
+            menu.classList.toggle('open');
+            if (isNowOpen) {
+              group.classList.add('is-open');
+              group.style.zIndex = '100';
+            } else {
+              group.classList.remove('is-open');
+              group.style.zIndex = '';
+            }
+          }
+        }
+
+        function closePriceDropdown() {
+          const group = document.getElementById('priceGroup');
+          const wrapper = document.getElementById('priceDropdownWrapper');
+          const menu = document.getElementById('priceDropdownMenu');
+          if (wrapper) wrapper.classList.remove('open');
+          if (menu) menu.classList.remove('open');
+          if (group) {
+            group.classList.remove('is-open');
+            group.style.zIndex = '';
+          }
+        }
+
+        function selectSearchPrice(priceVal, priceLabel) {
+          const input = document.getElementById('searchMaxPriceInput');
+          if (input) input.value = priceVal;
+
+          // Update active highlight in price menu
+          const items = document.querySelectorAll('#priceDropdownMenu .search-dropdown-item');
+          items.forEach(item => {
+            if (item.getAttribute('data-price') === String(priceVal)) {
+              item.classList.add('active');
+            } else {
+              item.classList.remove('active');
+            }
+          });
+
+          closePriceDropdown();
+        }
+
+        // Close dropdowns on outside click
+        document.addEventListener('click', (e) => {
+          const catWrapper = document.getElementById('categoryDropdownWrapper');
+          const priceWrapper = document.getElementById('priceDropdownWrapper');
+
+          if (catWrapper && !catWrapper.contains(e.target)) {
+            closeCategoryDropdown();
+          }
+          if (priceWrapper && !priceWrapper.contains(e.target)) {
+            closePriceDropdown();
+          }
+        });
+
+        function quickFillDestination(cityName) {
+          const input = document.getElementById('heroDestinationInput');
+          const group = document.getElementById('destinationFieldGroup');
+          if (input) {
+            input.value = cityName;
+            input.focus();
+          }
+          if (group) {
+            group.classList.add('flash-highlight');
+            setTimeout(() => {
+              group.classList.remove('flash-highlight');
+            }, 600);
+          }
+        }
+      </script>
+
+  </body>
+
+  </html>
