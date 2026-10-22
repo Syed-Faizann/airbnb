@@ -481,10 +481,11 @@ exports.clearDemoData = async (req, res, next) => {
     const demoIds = demoHomes.map(h => h._id);
     if (demoIds.length > 0) {
       await Home.deleteMany({ _id: { $in: demoIds } });
+      await Booking.deleteMany({ home: { $in: demoIds } });
       await User.updateMany({}, {
         $pull: {
           favourites: { $in: demoIds },
-          "bookings.home": { $in: demoIds }
+          bookings: { home: { $in: demoIds } }
         }
       });
       console.log(`Cleared ${demoIds.length} demo listings!`);

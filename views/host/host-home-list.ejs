@@ -897,17 +897,17 @@
             </div>
           </div>
 
-          <!-- Card 3: Estimated Monthly Earnings -->
+          <!-- Card 3: Real Booked Earnings -->
           <div class="metric-card-box">
             <div class="metric-icon-wrap" style="background:#FEF3C7;color:#D97706;">
               <i class="fa-solid fa-chart-line"></i>
             </div>
             <div class="metric-info">
               <div class="metric-num-val">
-                $<%= (typeof analytics !=='undefined' && analytics.estMonthlyRevenue> 0) ?
-                  analytics.estMonthlyRevenue.toLocaleString() : '4,850' %>
+                $<%= (typeof analytics !=='undefined' && typeof analytics.totalRevenue !== 'undefined') ?
+                  Number(analytics.totalRevenue).toLocaleString() : ((typeof analytics !== 'undefined' && typeof analytics.estMonthlyRevenue !== 'undefined') ? Number(analytics.estMonthlyRevenue).toLocaleString() : '0') %>
               </div>
-              <div class="metric-label-txt">Projected Revenue</div>
+              <div class="metric-label-txt">Booked Revenue</div>
               <div class="metric-sub-note" style="color:#D97706;">
                 <i class="fa-solid fa-arrow-trend-up"></i> Direct Host Payouts
               </div>

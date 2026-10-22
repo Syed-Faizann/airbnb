@@ -197,17 +197,15 @@ exports.getHostHomes = async (req, res, next) => {
     // Host analytics
     const totalListings = registerHomes.length;
     let avgRating = 0;
-    let estMonthlyRevenue = 0;
     const confirmedBookings = hostBookings.filter(b => b.status === "Confirmed");
     const activeReservationsCount = confirmedBookings.length;
+
+    // Real booked revenue from confirmed guest bookings (starts at $0, increases as guests book)
+    const totalRevenue = confirmedBookings.reduce((acc, b) => acc + (b.totalPrice || 0), 0);
 
     if (totalListings > 0) {
       const sumRating = registerHomes.reduce((acc, h) => acc + (h.rating || 0), 0);
       avgRating = (sumRating / totalListings).toFixed(2);
-      
-      const realBookedRevenue = confirmedBookings.reduce((acc, b) => acc + (b.totalPrice || 0), 0);
-      const sumPrice = registerHomes.reduce((acc, h) => acc + (h.price || 0), 0);
-      estMonthlyRevenue = realBookedRevenue > 0 ? realBookedRevenue : Math.round(sumPrice * 18);
     }
 
     res.render("host/host-home-list", {
@@ -221,7 +219,8 @@ exports.getHostHomes = async (req, res, next) => {
         totalListings,
         avgRating,
         activeReservationsCount,
-        estMonthlyRevenue
+        totalRevenue,
+        estMonthlyRevenue: totalRevenue
       }
     });
   } catch (err) {

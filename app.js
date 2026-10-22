@@ -116,11 +116,13 @@ mongoose.connect(DB_PATH).then(async () => {
     const demoHomes = await Home.find(demoFilter);
     if (demoHomes.length > 0) {
       const demoIds = demoHomes.map(h => h._id);
+      const Booking = require("./models/booking");
       await Home.deleteMany({ _id: { $in: demoIds } });
+      await Booking.deleteMany({ home: { $in: demoIds } });
       await User.updateMany({}, {
         $pull: {
           favourites: { $in: demoIds },
-          "bookings.home": { $in: demoIds }
+          bookings: { home: { $in: demoIds } }
         }
       });
       console.log(`[Auto-Clean] Successfully removed ${demoIds.length} demo listings from database!`);
